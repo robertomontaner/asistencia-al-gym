@@ -118,6 +118,13 @@ tbody tr:last-child td{border-bottom:none}tbody tr:hover td{background:var(--s2)
 .dsg{font-size:11px;color:#aa8040;font-style:italic}
 .dse{position:absolute;bottom:42px;right:48px;width:64px;height:64px;border-radius:50%;background:#fff8ee;border:2px solid #ff2d7866;box-shadow:0 0 0 4px #ff2d7820;display:flex;align-items:center;justify-content:center;font-size:26px}
 .dbtns{display:flex;gap:10px;flex-wrap:wrap}
+.des-box{background:var(--ybg);border:2px solid var(--yellow-dim,#7a6500);border-radius:10px;padding:20px;margin-bottom:20px}
+.des-title{font-family:'Righteous',sans-serif;font-size:16px;color:var(--yellow);margin-bottom:12px;letter-spacing:1px}
+.des-opts{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px}
+.des-opt{padding:10px 20px;background:var(--s2);border:2px solid var(--border);border-radius:8px;cursor:pointer;font-family:'Nunito',sans-serif;font-weight:700;font-size:14px;color:var(--t2);transition:border-color .15s,color .15s}
+.des-opt:hover{border-color:var(--border2);color:var(--text)}
+.des-opt.sel{border-color:var(--pink);color:var(--pink);background:var(--pkbg)}
+.des-declared{background:var(--pkbg);border:1px solid var(--pkd);border-radius:8px;padding:12px 16px;font-family:'DM Mono',monospace;font-size:12px;color:var(--pink);letter-spacing:1px;margin-bottom:20px}
 .rt{font-family:'Righteous',sans-serif;font-size:13px;letter-spacing:3px;color:var(--pink);text-transform:uppercase;margin:32px 0 12px;padding-bottom:8px;border-bottom:1px solid var(--pkd)}
 .ra{background:var(--s1);border:1px solid var(--border);border-radius:8px;padding:14px 18px;margin-bottom:10px}
 .ran{font-family:'DM Mono',monospace;font-size:12px;color:var(--text);margin-bottom:8px}
@@ -222,6 +229,7 @@ tbody tr:last-child td{border-bottom:none}tbody tr:hover td{background:var(--s2)
   </div>
   <div class="st"><span>&#x1F3C6;</span> Ranking</div>
   <div class="hr" id="hrank"></div>
+  <div id="hall-desempate" style="display:none"></div>
   <div class="st"><span>&#x1F4DC;</span> Diploma oficial de la verguenza</div>
   <div class="ds">
     <div id="diploma">
@@ -253,28 +261,112 @@ tbody tr:last-child td{border-bottom:none}tbody tr:hover td{background:var(--s2)
   </div>
 </div>
 <div id="tab-reglamento" class="tab">
-  <div style="text-align:center;padding:28px 0 24px;border-bottom:1px solid var(--border);margin-bottom:28px">
-    <div style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:4px;color:var(--mu);margin-bottom:8px">DOCUMENTO OFICIAL v2.0</div>
-    <div style="font-family:'Righteous',sans-serif;font-size:36px">Reglamento del Tribunal</div>
-    <div style="font-size:14px;color:var(--mu);margin-top:6px;font-style:italic">Premio Perra del Gimnasio - porque alguien tiene que serlo</div>
+
+  <!-- Header -->
+  <div style="text-align:center;padding:28px 0 24px;border-bottom:1px solid var(--border);margin-bottom:28px;position:relative">
+    <div style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:4px;color:var(--mu);margin-bottom:8px">DOCUMENTO OFICIAL · v2.1 · VIGENTE</div>
+    <div style="font-family:'Righteous',sans-serif;font-size:clamp(28px,6vw,42px)">Reglamento del Tribunal</div>
+    <div style="font-size:14px;color:var(--mu);margin-top:6px;font-style:italic">Premio "Perra del Gimnasio" — porque alguien tiene que serlo</div>
+    <button onclick="document.getElementById('pdf-modal').style.display='flex'" style="margin-top:14px;background:none;border:1px solid var(--border2);color:var(--t2);font-family:'DM Mono',monospace;font-size:11px;letter-spacing:2px;padding:6px 16px;border-radius:20px;cursor:pointer;transition:border-color .15s,color .15s" onmouseover="this.style.borderColor='var(--pink)';this.style.color='var(--pink)'" onmouseout="this.style.borderColor='var(--border2)';this.style.color='var(--t2)'">&#x1F4C4; Ver PDF oficial</button>
   </div>
-  <p style="font-size:15px;color:var(--t2);line-height:1.8;margin-bottom:28px">El miembro con mas <strong style="color:var(--pink)">Puntos de Perra (PP)</strong> al mes recibe el titulo de <strong style="color:var(--pink)">"Perra del Gimnasio del Mes"</strong> junto con su diploma y la verguenza publica reglamentaria.</p>
-  <div class="rt">Titulo I -- Puntuacion</div>
-  <div class="ra"><div class="ran">Art. 1 -- Principio basico</div><ul class="rl"><li>Asistir al gym no suma ni resta puntos.</li><li>Faltar suma <strong style="color:var(--pink)">+1 PP</strong>.</li></ul></div>
-  <div class="ra"><div class="ran">Art. 2 -- Sabado Salvador</div><ul class="rl"><li>Ir el sabado resta <strong style="color:var(--green)">-1 PP</strong>, solo si ya hay falta previa. Sin saldo positivo acumulable.</li></ul></div>
-  <div class="ra"><div class="ran">Art. 3 -- Vagueo en el gym</div><ul class="rl"><li>Presentarse sin entrenar de verdad (minimo 30 min) suma <strong style="color:var(--orange)">+1 PP</strong>.</li></ul></div>
-  <div class="ra"><div class="ran">Art. 4 -- Engano al Jurado</div><ul class="rl"><li>Falsear registros suma <strong style="color:var(--purple)">+2 PP</strong> inmediatamente. Infraccion maxima.</li></ul></div>
-  <div class="rt">Titulo II -- Justificaciones</div>
-  <div class="ra"><div class="ran">Art. 5 -- Limite horario</div><ul class="rl"><li>Entrenar despues de las 21:30 no evita el PP.</li></ul></div>
-  <div class="ra"><div class="ran">Art. 6 -- Trabajadores y estudiantes</div><ul class="rl"><li>Pueden hacer entrenamiento reducido para evitar el PP.</li></ul></div>
-  <div class="ra"><div class="ran">Art. 7 -- Viaje largo</div><ul class="rl"><li>Solo para miembros sin empleo ni estudios. Requiere prueba: billete, captura o foto en destino lejano.</li></ul></div>
-  <div class="ra"><div class="ran">Art. 8 -- Enfermedad o lesion</div><ul class="rl"><li>Justificada con informe medico o foto de medicacion. Rechazado: "me dolia la cabeza", "no tenia ganas".</li></ul></div>
-  <div class="rt">Titulo III -- El Diploma</div>
-  <div class="ra"><div class="ran">Art. 9 -- Otorgamiento</div><ul class="rl"><li>Mas PP = Perra del Mes. Desempate: menos sabados, luego votacion, luego titulo compartido.</li></ul></div>
-  <div style="margin-top:36px;padding:20px;border:1px solid var(--border);border-radius:8px;text-align:center;color:var(--mu);font-style:italic;font-size:14px;line-height:1.8">
-    Prevalecen siempre la honestidad, la constancia y las ganas de dejar de ser una perra.
+
+  <!-- PREÁMBULO -->
+  <div style="background:linear-gradient(135deg,var(--pkbg),var(--s1));border:1px solid var(--pkd);border-radius:10px;padding:24px 28px;margin-bottom:32px;position:relative;overflow:hidden">
+    <div style="position:absolute;top:-10px;right:16px;font-family:'Righteous',sans-serif;font-size:80px;color:rgba(255,45,120,.06);user-select:none;pointer-events:none">PREAMB.</div>
+    <div style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:4px;color:var(--pkd);margin-bottom:12px;text-transform:uppercase">Preámbulo — El origen del Tribunal</div>
+    <p style="font-size:14px;color:var(--t2);line-height:1.9;margin-bottom:12px">
+      El <strong style="color:var(--text)">Tribunal del Hierro</strong> nació de las cenizas de la corrupción. Durante demasiado tiempo, la justicia del grupo fue doblegada por la <strong style="color:var(--pink)">indulgencia yamsiana</strong>: excusas aceptadas sin prueba, faltas ignoradas con condescendencia, trampas elevadas a estrategia y el equilibrio sagrado del grupo roto sistemáticamente por quien más lo predicaba.
+    </p>
+    <p style="font-size:14px;color:var(--t2);line-height:1.9;margin-bottom:12px">
+      La corrupción tenía nombre. Las normas se doblaban, las fotos se reciclaban, los "ya fui ayer" se aceptaban y los sábados se contaban cuando convenía. El caos era norma, la perrería era recompensada y la constancia castigada con el silencio cómplice.
+    </p>
+    <p style="font-size:14px;color:var(--t2);line-height:1.9">
+      Ante tanta perrería institucionalizada, el grupo se alzó. Nació el Tribunal del Hierro: <strong style="color:var(--text)">imparcial, implacable y sin memoria selectiva</strong>. Aquí la ley es clara, el registro es permanente y la vergüenza, pública. Nadie está por encima del reglamento. <em style="color:var(--pink)">Nadie.</em>
+    </p>
+  </div>
+
+  <!-- TÍTULO I -->
+  <div class="rt">Título I — Del sistema de puntuación</div>
+  <div class="ra"><div class="ran">Art. 1 — Principio básico</div><ul class="rl">
+    <li>Asistir al gimnasio entre semana <strong>no suma ni resta</strong> puntos.</li>
+    <li>Faltar a un entrenamiento programado suma <strong style="color:var(--pink)">+1 PP</strong>.</li>
+  </ul></div>
+  <div class="ra"><div class="ran">Art. 2 — Recuperación mediante sábado salvador</div><ul class="rl">
+    <li>Acudir al gimnasio un <strong>sábado</strong> permite restar <strong style="color:var(--green)">−1 PP</strong>.</li>
+    <li>Solo puede recuperarse una falta ya existente. Con 0 PP el sábado no genera saldo positivo.</li>
+    <li>No se pueden acumular sábados salvadores para meses futuros.</li>
+  </ul></div>
+  <div class="ra"><div class="ran">Art. 3 — Sustitución por carrera entre semana</div><ul class="rl">
+    <li>Salir a correr de <strong>lunes a viernes</strong> evita sumar el PP del día correspondiente.</li>
+    <li>La carrera deberá realizarse <strong>antes de las 21:30</strong>.</li>
+    <li>Correr sábado o domingo <strong>no resta PP</strong>.</li>
+  </ul></div>
+
+  <!-- TÍTULO II -->
+  <div class="rt">Título II — De los horarios y justificaciones</div>
+  <div class="ra"><div class="ran">Art. 4 — Límite horario</div><ul class="rl">
+    <li>Todo entrenamiento válido debe comenzar <strong>antes de las 21:30</strong>.</li>
+    <li>Entrenar después contará como intento honorable, pero no evitará el PP.</li>
+  </ul></div>
+  <div class="ra"><div class="ran">Art. 5 — Régimen especial para trabajadores y estudiantes</div><ul class="rl">
+    <li>Podrán realizar entrenamiento reducido para evitar el PP.</li>
+    <li>Debe implicar actividad física real. Pasearse entre máquinas mirando el móvil no cuenta.</li>
+  </ul></div>
+  <div class="ra"><div class="ran">Art. 6 — Justificación por viaje (solo para desempleados y no estudiantes)</div><ul class="rl">
+    <li>Únicamente válido para miembros sin empleo ni estudios.</li>
+    <li>Pruebas válidas: billete de transporte, captura del trayecto, o foto en destino suficientemente lejano.</li>
+    <li>No se considera destino lejano el supermercado, casa de un amigo ni el pueblo de la abuela a 20 km.</li>
+  </ul></div>
+
+  <!-- TÍTULO III -->
+  <div class="rt">Título III — De las situaciones especiales</div>
+  <div class="ra"><div class="ran">Art. 7 — Enfermedad y lesión</div><ul class="rl">
+    <li>Lesiones o enfermedades justificadas impiden sumar PP durante el periodo.</li>
+    <li>Pruebas válidas: informe médico, foto de medicación, o prueba razonable aceptada por el grupo.</li>
+    <li>Rechazados automáticamente: <em>"me dolía un poco la cabeza"</em>, <em>"no tenía ganas"</em>, <em>"hacía frío"</em>.</li>
+  </ul></div>
+
+  <!-- TÍTULO IV -->
+  <div class="rt">Título IV — Del diploma</div>
+  <div class="ra"><div class="ran">Art. 8 — Otorgamiento</div><ul class="rl">
+    <li>El miembro con más PP al finalizar el mes recibe el diploma de <strong style="color:var(--pink)">"Perra del Gimnasio del Mes"</strong>.</li>
+    <li><strong>Desempate 1:</strong> gana quien haya acudido más sábados al gimnasio durante el mes.</li>
+    <li><strong>Desempate 2:</strong> decide votación grupal del Tribunal (requiere contraseña).</li>
+    <li><strong>Desempate 3:</strong> ambos comparten el título de manera solidaria y humillante.</li>
+  </ul></div>
+
+  <!-- TÍTULO V -->
+  <div class="rt">Título V — Enmiendas y disposiciones especiales</div>
+  <div class="ra"><div class="ran">Art. 9 — Intento de engaño al Jurado</div><ul class="rl">
+    <li>Cualquier intento de engaño, manipulación de pruebas, reutilización de fotos antiguas, capturas falsas o declaración fraudulenta: <strong style="color:var(--purple)">+2 PP</strong> inmediatos.</li>
+    <li>La sanción se suma de forma independiente a la falta original si la hubiera.</li>
+    <li>El engaño no será considerado estrategia, sino <em>perrería agravada</em>.</li>
+  </ul></div>
+  <div class="ra"><div class="ran">Art. 10 — Entrenamiento mínimo válido</div><ul class="rl">
+    <li>No se considera entrenamiento válido acudir sin realizar actividad física real.</li>
+    <li>Duración mínima: <strong>30 minutos</strong>. Todo lo inferior es como no haber ido.</li>
+  </ul></div>
+
+  <!-- DISPOSICIÓN FINAL -->
+  <div style="margin-top:36px;padding:20px 24px;border:1px solid var(--border);border-radius:8px;text-align:center;color:var(--mu);font-style:italic;font-size:14px;line-height:2">
+    La interpretación última corresponde al grupo y al espíritu del hierro,<br>
+    prevaleciendo siempre <em>la honestidad</em>, <em>la constancia</em>,<br>
+    y <em>las ganas de dejar de ser una perra del gimnasio</em>.
+  </div>
+
+</div>
+
+<!-- PDF MODAL -->
+<div id="pdf-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:99998;align-items:center;justify-content:center;padding:20px" onclick="if(event.target===this)this.style.display='none'">
+  <div style="background:var(--s1);border:1px solid var(--border);border-radius:12px;width:100%;max-width:800px;max-height:90vh;display:flex;flex-direction:column;overflow:hidden">
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 20px;border-bottom:1px solid var(--border)">
+      <span style="font-family:'Righteous',sans-serif;font-size:16px;color:var(--text)">&#x1F4C4; Reglamento Oficial — PDF</span>
+      <button onclick="document.getElementById('pdf-modal').style.display='none'" style="background:none;border:none;color:var(--mu);font-size:22px;cursor:pointer;line-height:1;padding:2px 6px" onmouseover="this.style.color='var(--text)'" onmouseout="this.style.color='var(--mu)'">&times;</button>
+    </div>
+    <iframe src="reglamento_perra_gimnasio.pdf" style="flex:1;border:none;min-height:70vh"></iframe>
   </div>
 </div>
+
 </main>
 <div id="toast"></div>
 <script>
@@ -296,7 +388,7 @@ const TL={falta:'Falta',recuperacion:'Sabado Salvador',vagueo:'Vagueo en el gym'
 const TC={falta:'cf',recuperacion:'cr',vagueo:'cv',engano:'ce'};
 const TE={falta:'&#x1F480;',recuperacion:'&#x1F4C5;',vagueo:'&#x1F6CB;',engano:'&#x1F925;'};
 const getPP=(p,m)=>S.movs.filter(x=>x.persona===p&&x.mes===m).reduce((a,x)=>a+x.puntos,0);
-const getRes=m=>S.members.map(p=>{const xs=S.movs.filter(x=>x.persona===p&&x.mes===m);return{persona:p,faltas:xs.filter(x=>x.tipo==='falta').length,sabs:xs.filter(x=>x.tipo==='recuperacion').length,pp:xs.reduce((a,x)=>a+x.puntos,0)};}).sort((a,b)=>b.pp-a.pp);
+const getRes=m=>{const dw=S.movs.find(x=>x.tipo==='desempate'&&x.mes===m)?.persona;return S.members.map(p=>{const xs=S.movs.filter(x=>x.persona===p&&x.mes===m&&x.tipo!=='desempate');return{persona:p,faltas:xs.filter(x=>x.tipo==='falta').length,sabs:xs.filter(x=>x.tipo==='recuperacion').length,pp:xs.reduce((a,x)=>a+x.puntos,0),desempate:p===dw};}).sort((a,b)=>{if(b.pp!==a.pp)return b.pp-a.pp;if(a.sabs!==b.sabs)return b.sabs-a.sabs;if(a.desempate&&!b.desempate)return -1;if(!a.desempate&&b.desempate)return 1;return 0;});};
 const lmsg=t=>{const e=document.getElementById('lmsg');if(e)e.textContent=t;};
 function hideL(){const e=document.getElementById('loader');if(!e)return;e.classList.add('fo');setTimeout(()=>e.classList.add('gn'),420);}
 function errL(msg){lmsg(msg);const sp=document.getElementById('lspin'),bt=document.getElementById('lbtns'),lk=document.getElementById('llink');if(sp)sp.style.display='none';if(bt)bt.style.display='flex';if(lk)lk.href='https://sheets.googleapis.com/v4/spreadsheets/'+SID+'/values/Miembros!A2:A?key='+_k;}
@@ -326,7 +418,65 @@ function closeMes(){const mes=document.getElementById('fmes')?.value||curM();if(
 const DT=['Por acumulacion meritoria de ausencias injustificadas, desgana cronica y resistencia sistematica al hierro, el Tribunal otorga este galardon con todos los honores y la verguenza publica reglamentaria.','Tras ardua deliberacion, el Tribunal certifica que nadie ha demostrado mayor habilidad para encontrar excusas y perfeccionar el arte de la vagueria.','La constancia en la inconsistencia y la maestria en el arte de fallar han hecho merecedora a esta persona del titulo mas infame del mes.'];
 function hallPrev(){const[y,m]=hallMes.split('-').map(Number);const d=new Date(y,m-2);hallMes=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0');renderH();}
 function hallNext(){const[y,m]=hallMes.split('-').map(Number);const d=new Date(y,m);hallMes=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0');renderH();}
-function renderH(){if(!hallMes)hallMes=curM();const mes=hallMes,r=getRes(mes);const nb=document.getElementById('hall-next-btn');if(nb)nb.style.visibility=mes>=curM()?'hidden':'visible';const lbl=document.getElementById('hall-mes-label');if(lbl)lbl.textContent=fmtM(mes);document.getElementById('hrank').innerHTML=r.map((x,i)=>'<div class="rr'+(i===0?' p1':'')+'"><div class="rnum">'+(i===0&&x.pp>0?'&#x1F480;':i+1)+'</div><div><div class="rname">'+x.persona+'</div><div class="rinfo">'+x.faltas+' falta'+(x.faltas!==1?'s':'')+' · '+x.sabs+' sabado'+(x.sabs!==1?'s':'')+'</div></div><div class="rpw" style="margin-left:auto"><div class="rpn">'+x.pp+'</div><div class="rpl">PP</div></div><div class="pbdg">PERRA DEL MES</div></div>').join('');const w=r[0],nw=!w||w.pp===0;document.getElementById('dnom').textContent=nw?'-- Nadie todavia --':w.persona;document.getElementById('dmes').textContent='del mes de '+fmtM(mes);document.getElementById('dpp').textContent=nw?'0':w.pp;document.getElementById('dfal').textContent=nw?'0':w.faltas;document.getElementById('dsab').textContent=nw?'0':w.sabs;document.getElementById('dfecha').textContent='Emitido el '+new Date().toLocaleDateString('es-ES',{day:'numeric',month:'long',year:'numeric'});document.getElementById('dtxt').textContent=nw?'El Tribunal constata que nadie ha fallado todavia. Se suspende el diploma por falta de meritos deshonrosos.':DT[w.pp%DT.length];}
+function renderH(){
+  if(!hallMes)hallMes=curM();
+  const mes=hallMes,r=getRes(mes);
+  const nb=document.getElementById('hall-next-btn');if(nb)nb.style.visibility=mes>=curM()?'hidden':'visible';
+  const lbl=document.getElementById('hall-mes-label');if(lbl)lbl.textContent=fmtM(mes);
+  document.getElementById('hrank').innerHTML=r.map((x,i)=>{
+    const tied=i===0&&r[1]&&x.pp>0&&r[1].pp===x.pp;
+    const badge=x.desempate?' <span style="font-size:10px;background:var(--yellow);color:#000;padding:2px 8px;border-radius:10px;letter-spacing:1px;margin-left:6px">VOTACION</span>':'';
+    return'<div class="rr'+(i===0?' p1':'')+'"><div class="rnum">'+(i===0&&x.pp>0?'&#x1F480;':i+1)+'</div><div><div class="rname">'+x.persona+badge+'</div><div class="rinfo">'+x.faltas+' falta'+(x.faltas!==1?'s':'')+' · '+x.sabs+' sabado'+(x.sabs!==1?'s':'')+(tied?' · &#x26A0;&#xFE0F; EMPATE':'')+'</div></div><div class="rpw" style="margin-left:auto"><div class="rpn">'+x.pp+'</div><div class="rpl">PP</div></div><div class="pbdg">PERRA DEL MES</div></div>';
+  }).join('');
+  // Desempate UI
+  const desEl=document.getElementById('hall-desempate');
+  const w=r[0],nw=!w||w.pp===0;
+  const dw=S.movs.find(x=>x.tipo==='desempate'&&x.mes===mes);
+  // Check if there's a tie that needs resolution (same PP and same sabs)
+  const tiedGroup=r.filter(x=>x.pp>0&&x.pp===r[0]?.pp&&x.sabs===r[0]?.sabs);
+  if(dw){
+    desEl.style.display='block';
+    desEl.innerHTML='<div class="des-declared">&#x2705; Desempate del Tribunal declarado: <strong>'+dw.persona+'</strong> es la Perra del Mes de '+fmtM(mes)+'. Registrado por '+dw.admin+'.</div>';
+  } else if(!nw&&tiedGroup.length>1){
+    const samePP=tiedGroup.every(x=>x.sabs===tiedGroup[0].sabs);
+    desEl.style.display='block';
+    desEl.innerHTML='<div class="des-box"><div class="des-title">&#x26A0;&#xFE0F; Empate '+(samePP?'total':'resuelto por sábados — votación requerida')+'</div>'
+      +'<p style="font-size:13px;color:var(--t2);margin-bottom:12px">'+tiedGroup.map(x=>x.persona+' ('+x.pp+' PP, '+x.sabs+' sáb.)').join(' vs ')+'<br><span style="font-size:12px;color:var(--mu)">Art. 9 — El Tribunal decide por votación</span></p>'
+      +'<div class="des-opts">'+tiedGroup.map(x=>'<div class="des-opt" data-p="'+x.persona+'" onclick="desSel(this)">'+x.persona+'</div>').join('')+'</div>'
+      +'<div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">'
+      +'<input type="text" id="des-pass" placeholder="Contraseña del Tribunal" style="background:var(--s2);border:1px solid var(--border);color:var(--text);font-family:DM Mono,monospace;font-size:13px;padding:8px 12px;border-radius:5px;outline:none;width:220px" onkeydown="if(event.key===\'Enter\')hacerDesempate(\''+mes+'\')">'
+      +'<button class="btn bp bs" onclick="hacerDesempate(\''+mes+'\')">&#x1F528; Declarar Perra</button>'
+      +'</div><div id="des-err" style="margin-top:8px;font-family:DM Mono,monospace;font-size:11px;color:var(--pink);display:none"></div>'
+      +'</div>';
+  } else {
+    desEl.style.display='none';
+  }
+  // Diploma
+  const w2=r[0],nw2=!w2||w2.pp===0;
+  document.getElementById('dnom').textContent=nw2?'-- Nadie todavia --':w2.persona;
+  document.getElementById('dmes').textContent='del mes de '+fmtM(mes);
+  document.getElementById('dpp').textContent=nw2?'0':w2.pp;
+  document.getElementById('dfal').textContent=nw2?'0':w2.faltas;
+  document.getElementById('dsab').textContent=nw2?'0':w2.sabs;
+  document.getElementById('dfecha').textContent='Emitido el '+new Date().toLocaleDateString('es-ES',{day:'numeric',month:'long',year:'numeric'});
+  document.getElementById('dtxt').textContent=nw2?'El Tribunal constata que nadie ha fallado todavia. Se suspende el diploma por falta de meritos deshonrosos.':DT[w2.pp%DT.length];
+}
+let desSelP='';
+function desSel(el){document.querySelectorAll('.des-opt').forEach(x=>x.classList.remove('sel'));el.classList.add('sel');desSelP=el.dataset.p;}
+function hacerDesempate(mes){
+  const errEl=document.getElementById('des-err');
+  if(!desSelP){if(errEl){errEl.textContent='Selecciona quién es la perra.';errEl.style.display='block';}return;}
+  const pass=document.getElementById('des-pass')?.value.trim();
+  if(pass!==PWD){if(errEl){errEl.textContent='Contraseña incorrecta.';errEl.style.display='block';}return;}
+  // Find who's submitting (default to first admin)
+  const admin=S.admins[0]||'Tribunal';
+  const mov={id:uid(),fecha:mes+'-01',persona:desSelP,tipo:'desempate',puntos:0,notas:'Declarado/a Perra del Mes de '+fmtM(mes)+' por votacion del Tribunal',admin,mes,creado_en:new Date().toISOString(),synced:false};
+  S.movs.push(mov);ls();
+  fetch(SURL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'write',mov})}).catch(()=>{});
+  toast('&#x2696;&#xFE0F; '+desSelP+' declarado/a Perra por votacion');
+  desSelP='';
+  renderH();
+}
 async function dlPNG(){toast('Generando...');try{const c=await html2canvas(document.getElementById('diploma'),{scale:2,backgroundColor:'#fffdf5',useCORS:true});const a=document.createElement('a');a.download='diploma-perra.png';a.href=c.toDataURL('image/png');a.click();toast('Descargado');}catch(e){toast('Error',false);}}
 async function cpImg(){toast('Copiando...');try{const c=await html2canvas(document.getElementById('diploma'),{scale:2,backgroundColor:'#fffdf5',useCORS:true});c.toBlob(async b=>{try{await navigator.clipboard.write([new ClipboardItem({'image/png':b})]);toast('Copiado');}catch(e){toast('Usa Chrome para copiar',false);}});}catch(e){toast('Error',false);}}
 (function(){ll();document.getElementById('mpill').textContent=fmtM(curM()).toUpperCase();document.getElementById('ff').value=tod();const fm=document.getElementById('fmes');if(fm)fm.value=curM();initT();loadS();})();
