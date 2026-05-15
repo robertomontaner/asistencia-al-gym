@@ -193,10 +193,10 @@ tbody tr:last-child td{border-bottom:none}tbody tr:hover td{background:var(--s2)
   <div class="st" style="margin-top:24px"><span>&#x1F50D;</span> Filtros</div>
   <div class="card">
     <div class="fb">
-      <div class="fv"><label>Mes</label><input type="month" id="fmes"></div>
-      <div class="fv"><label>Persona</label><select id="fper"><option value="">Todos</option></select></div>
-      <div class="fv"><label>Tipo</label><select id="ftip"><option value="">Todos</option><option value="falta">Falta</option><option value="recuperacion">Sabado Salvador</option><option value="vagueo">Vagueo</option><option value="engano">Engano</option></select></div>
-      <div class="fv"><label>Admin</label><select id="fadm"><option value="">Todos</option></select></div>
+      <div class="fv"><label>Mes</label><input type="month" id="fmes" onchange="renderT();renderMS()"></div>
+      <div class="fv"><label>Persona</label><select id="fper" onchange="renderT();renderMS()"><option value="">Todos</option></select></div>
+      <div class="fv"><label>Tipo</label><select id="ftip" onchange="renderT();renderMS()"><option value="">Todos</option><option value="falta">Falta</option><option value="recuperacion">Sabado Salvador</option><option value="vagueo">Vagueo</option><option value="engano">Engano</option></select></div>
+      <div class="fv"><label>Admin</label><select id="fadm" onchange="renderT();renderMS()"><option value="">Todos</option></select></div>
     </div>
     <button class="btn bg bs" onclick="clrF()">&#x2715; Limpiar</button>
   </div>
@@ -215,7 +215,12 @@ tbody tr:last-child td{border-bottom:none}tbody tr:hover td{background:var(--s2)
   </tr></thead><tbody id="tbody"></tbody></table></div>
 </div>
 <div id="tab-hall" class="tab">
-  <div class="st"><span>&#x1F3C6;</span> Ranking del mes</div>
+  <div style="display:flex;align-items:center;justify-content:center;gap:16px;margin-bottom:20px">
+    <button class="btn bg bs" onclick="hallPrev()">&#x2190; Anterior</button>
+    <div id="hall-mes-label" style="font-family:'Righteous',sans-serif;font-size:20px;min-width:160px;text-align:center"></div>
+    <button class="btn bg bs" id="hall-next-btn" onclick="hallNext()">Siguiente &#x2192;</button>
+  </div>
+  <div class="st"><span>&#x1F3C6;</span> Ranking</div>
   <div class="hr" id="hrank"></div>
   <div class="st"><span>&#x1F4DC;</span> Diploma oficial de la verguenza</div>
   <div class="ds">
@@ -279,6 +284,7 @@ const SURL='https://script.google.com/macros/s/AKfycbxYE6N3VHKgxqCQrcS5oG-qe5gyx
 const _k=atob('QUl6YVN5RHV0RVBXOTNxVEtWRENIV1J0Z2NtWkFuMnlTdlpBQjNn');
 const PWD='perramala';
 const S={movs:[],members:[],admins:[],sk:'fecha',sd:-1};
+let hallMes='';
 function ll(){try{const d=JSON.parse(localStorage.getItem('th3')||'{}');if(d.movs)S.movs=d.movs;}catch(e){}}
 function ls(){localStorage.setItem('th3',JSON.stringify({movs:S.movs}));}
 const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2);
@@ -298,7 +304,7 @@ function retry(){const sp=document.getElementById('lspin'),bt=document.getElemen
 function skip(){fillSels();renderQ();hideL();toast('Modo local');}
 async function fetchR(sh,rng){const url='https://sheets.googleapis.com/v4/spreadsheets/'+SID+'/values/'+encodeURIComponent(sh+'!'+rng)+'?key='+_k;const c=new AbortController(),t=setTimeout(()=>c.abort(),8000);try{const r=await fetch(url,{signal:c.signal});clearTimeout(t);if(!r.ok){const e=await r.json().catch(()=>({}));throw new Error((e.error&&e.error.message)||'HTTP '+r.status);}return(await r.json()).values||[];}catch(e){clearTimeout(t);throw e.name==='AbortError'?new Error('Timeout 8s'):e;}}
 async function loadS(){try{lmsg('Cargando miembros...');const[mr,ar,vr]=await Promise.all([fetchR('Miembros','A2:A'),fetchR('Admins','A2:A'),fetchR('Movimientos','A2:I')]);S.members=mr.flat().map(v=>String(v).trim()).filter(Boolean);S.admins=ar.flat().map(v=>String(v).trim()).filter(Boolean);lmsg('Cargando movimientos...');const sm=vr.map(r=>({id:String(r[0]||''),fecha:String(r[1]||''),persona:String(r[2]||''),tipo:String(r[3]||''),puntos:Number(r[4]||0),notas:String(r[5]||''),admin:String(r[6]||''),mes:String(r[7]||''),creado_en:String(r[8]||''),synced:true})).filter(x=>x.id);const ids=new Set(sm.map(x=>x.id));S.movs=[...sm,...S.movs.filter(x=>!x.synced&&!ids.has(x.id))];ls();lmsg('Todo cargado');fillSels();renderQ();setTimeout(hideL,300);}catch(e){console.error(e);errL('Error: '+e.message);}}
-function goTab(n,b){document.querySelectorAll('.tab').forEach(t=>t.classList.remove('on'));document.querySelectorAll('.nb').forEach(x=>x.classList.remove('on'));document.getElementById('tab-'+n).classList.add('on');if(b)b.classList.add('on');if(n==='registro'){fillSels();renderQ();}if(n==='movimientos'){fillFS();renderT();renderMS();}if(n==='hall')renderH();}
+function goTab(n,b){document.querySelectorAll('.tab').forEach(t=>t.classList.remove('on'));document.querySelectorAll('.nb').forEach(x=>x.classList.remove('on'));document.getElementById('tab-'+n).classList.add('on');if(b)b.classList.add('on');if(n==='registro'){fillSels();renderQ();}if(n==='movimientos'){fillFS();renderT();renderMS();}if(n==='hall'){hallMes=curM();renderH();}}
 function fillSels(){const s=(id,a,ph)=>{const e=document.getElementById(id);if(!e)return;e.innerHTML='<option value="">'+ph+'</option>'+a.map(v=>'<option>'+v+'</option>').join('');};s('fp',S.members,'-- quien ha fallado? --');s('fa',S.admins,'-- quien apunta esto? --');}
 function fillFS(){const s=(id,a)=>{const e=document.getElementById(id);if(!e)return;const c=e.value;e.innerHTML='<option value="">Todos</option>'+a.map(v=>'<option'+(v===c?' selected':'')+'>'+v+'</option>').join('');};s('fper',S.members);s('fadm',S.admins);}
 let cT='falta';
@@ -318,7 +324,9 @@ function clrF(){['fmes','fper','ftip','fadm'].forEach(id=>{const e=document.getE
 function expCSV(){const mv=getF();if(!mv.length)return toast('Nada que exportar',false);const rows=mv.map(m=>[m.fecha,m.persona,TL[m.tipo]||m.tipo,m.puntos,'"'+(m.notas||'').replace(/"/g,'""')+'"',m.admin,m.creado_en?new Date(m.creado_en).toLocaleDateString('es-ES'):''].join(','));const b=new Blob(['\ufeffFecha,Persona,Tipo,Puntos,Notas,Admin,Registrado\n'+rows.join('\n')],{type:'text/csv;charset=utf-8;'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='tribunal-'+curM()+'.csv';a.click();toast('CSV exportado');}
 function closeMes(){const mes=document.getElementById('fmes')?.value||curM();if(!confirm('Cerrar '+fmtM(mes)+' del registro local?'))return;S.movs=S.movs.filter(m=>m.mes!==mes);ls();renderT();renderMS();renderQ();toast('Mes cerrado');}
 const DT=['Por acumulacion meritoria de ausencias injustificadas, desgana cronica y resistencia sistematica al hierro, el Tribunal otorga este galardon con todos los honores y la verguenza publica reglamentaria.','Tras ardua deliberacion, el Tribunal certifica que nadie ha demostrado mayor habilidad para encontrar excusas y perfeccionar el arte de la vagueria.','La constancia en la inconsistencia y la maestria en el arte de fallar han hecho merecedora a esta persona del titulo mas infame del mes.'];
-function renderH(){const mes=curM(),r=getRes(mes);document.getElementById('hrank').innerHTML=r.map((x,i)=>'<div class="rr'+(i===0?' p1':'')+'"><div class="rnum">'+(i===0&&x.pp>0?'&#x1F480;':i+1)+'</div><div><div class="rname">'+x.persona+'</div><div class="rinfo">'+x.faltas+' falta'+(x.faltas!==1?'s':'')+' · '+x.sabs+' sabado'+(x.sabs!==1?'s':'')+'</div></div><div class="rpw" style="margin-left:auto"><div class="rpn">'+x.pp+'</div><div class="rpl">PP</div></div><div class="pbdg">PERRA DEL MES</div></div>').join('');const w=r[0],nw=!w||w.pp===0;document.getElementById('dnom').textContent=nw?'-- Nadie todavia --':w.persona;document.getElementById('dmes').textContent='del mes de '+fmtM(mes);document.getElementById('dpp').textContent=nw?'0':w.pp;document.getElementById('dfal').textContent=nw?'0':w.faltas;document.getElementById('dsab').textContent=nw?'0':w.sabs;document.getElementById('dfecha').textContent='Emitido el '+new Date().toLocaleDateString('es-ES',{day:'numeric',month:'long',year:'numeric'});document.getElementById('dtxt').textContent=nw?'El Tribunal constata que nadie ha fallado todavia. Se suspende el diploma por falta de meritos deshonrosos.':DT[w.pp%DT.length];}
+function hallPrev(){const[y,m]=hallMes.split('-').map(Number);const d=new Date(y,m-2);hallMes=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0');renderH();}
+function hallNext(){const[y,m]=hallMes.split('-').map(Number);const d=new Date(y,m);hallMes=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0');renderH();}
+function renderH(){if(!hallMes)hallMes=curM();const mes=hallMes,r=getRes(mes);const nb=document.getElementById('hall-next-btn');if(nb)nb.style.visibility=mes>=curM()?'hidden':'visible';const lbl=document.getElementById('hall-mes-label');if(lbl)lbl.textContent=fmtM(mes);document.getElementById('hrank').innerHTML=r.map((x,i)=>'<div class="rr'+(i===0?' p1':'')+'"><div class="rnum">'+(i===0&&x.pp>0?'&#x1F480;':i+1)+'</div><div><div class="rname">'+x.persona+'</div><div class="rinfo">'+x.faltas+' falta'+(x.faltas!==1?'s':'')+' · '+x.sabs+' sabado'+(x.sabs!==1?'s':'')+'</div></div><div class="rpw" style="margin-left:auto"><div class="rpn">'+x.pp+'</div><div class="rpl">PP</div></div><div class="pbdg">PERRA DEL MES</div></div>').join('');const w=r[0],nw=!w||w.pp===0;document.getElementById('dnom').textContent=nw?'-- Nadie todavia --':w.persona;document.getElementById('dmes').textContent='del mes de '+fmtM(mes);document.getElementById('dpp').textContent=nw?'0':w.pp;document.getElementById('dfal').textContent=nw?'0':w.faltas;document.getElementById('dsab').textContent=nw?'0':w.sabs;document.getElementById('dfecha').textContent='Emitido el '+new Date().toLocaleDateString('es-ES',{day:'numeric',month:'long',year:'numeric'});document.getElementById('dtxt').textContent=nw?'El Tribunal constata que nadie ha fallado todavia. Se suspende el diploma por falta de meritos deshonrosos.':DT[w.pp%DT.length];}
 async function dlPNG(){toast('Generando...');try{const c=await html2canvas(document.getElementById('diploma'),{scale:2,backgroundColor:'#fffdf5',useCORS:true});const a=document.createElement('a');a.download='diploma-perra.png';a.href=c.toDataURL('image/png');a.click();toast('Descargado');}catch(e){toast('Error',false);}}
 async function cpImg(){toast('Copiando...');try{const c=await html2canvas(document.getElementById('diploma'),{scale:2,backgroundColor:'#fffdf5',useCORS:true});c.toBlob(async b=>{try{await navigator.clipboard.write([new ClipboardItem({'image/png':b})]);toast('Copiado');}catch(e){toast('Usa Chrome para copiar',false);}});}catch(e){toast('Error',false);}}
 (function(){ll();document.getElementById('mpill').textContent=fmtM(curM()).toUpperCase();document.getElementById('ff').value=tod();const fm=document.getElementById('fmes');if(fm)fm.value=curM();initT();loadS();})();
