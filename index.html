@@ -116,7 +116,7 @@ tbody tr:last-child td{border-bottom:none}tbody tr:hover td{background:var(--s2)
 .dfr{display:flex;width:100%;justify-content:space-between;align-items:flex-end;margin-top:auto;padding-top:16px;border-top:1px solid #e0c880}
 .dfe{font-family:'DM Mono',monospace;font-size:10px;color:#aa8040;letter-spacing:1px}
 .dsg{font-size:11px;color:#aa8040;font-style:italic}
-.dse{position:absolute;bottom:42px;right:48px;width:64px;height:64px;border-radius:50%;background:#fff8ee;border:2px solid #ff2d7866;box-shadow:0 0 0 4px #ff2d7820;display:flex;align-items:center;justify-content:center;font-size:26px}
+.dse{position:absolute;bottom:20px;right:20px;width:64px;height:64px;border-radius:50%;background:#fff8ee;border:2px solid #ff2d7866;box-shadow:0 0 0 4px #ff2d7820;display:flex;align-items:center;justify-content:center;font-size:26px}
 .dbtns{display:flex;gap:10px;flex-wrap:wrap}
 .des-box{background:var(--ybg);border:2px solid var(--yellow-dim,#7a6500);border-radius:10px;padding:20px;margin-bottom:20px}
 .des-title{font-family:'Righteous',sans-serif;font-size:16px;color:var(--yellow);margin-bottom:12px;letter-spacing:1px}
@@ -134,7 +134,7 @@ tbody tr:last-child td{border-bottom:none}tbody tr:hover td{background:var(--s2)
 #toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(10px);padding:10px 22px;background:var(--s2);border:1px solid var(--pkd);color:var(--pink);font-family:'DM Mono',monospace;font-size:12px;letter-spacing:1px;border-radius:20px;opacity:0;transition:opacity .25s,transform .25s;pointer-events:none;z-index:9999;white-space:nowrap}
 #toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
 #toast.ok{border-color:var(--gdim);color:var(--green)}
-@media(max-width:580px){.p1 .pbdg{display:none}.rpn{font-size:34px}#diploma{padding:32px 20px}.dname{font-size:36px}.dsr{gap:20px}.dfr{flex-direction:column;gap:4px;align-items:center}.dse{bottom:28px;right:20px;width:50px;height:50px;font-size:20px}}
+@media(max-width:580px){.p1 .pbdg{display:none}.rpn{font-size:34px}#diploma{padding:32px 20px}.dname{font-size:36px}.dsr{gap:20px}.dfr{flex-direction:column;gap:4px;align-items:center}.dse{bottom:12px;right:12px;width:50px;height:50px;font-size:20px}}
 </style>
 </head>
 <body>
@@ -460,11 +460,11 @@ function renderH(){
   document.getElementById('dpp').textContent=nw2?'0':w2.pp;
   document.getElementById('dfal').textContent=nw2?'0':w2.faltas;
   document.getElementById('dsab').textContent=nw2?'0':w2.sabs;
-  document.getElementById('dfecha').textContent='Emitido el '+new Date().toLocaleDateString('es-ES',{day:'numeric',month:'long',year:'numeric'});
+  document.getElementById('dfecha').textContent=(mes<curM()?'Resolución retroactiva · ':'Emitido el ')+new Date().toLocaleDateString('es-ES',{day:'numeric',month:'long',year:'numeric'});
   document.getElementById('dtxt').textContent=nw2
     ?'El Tribunal constata que nadie ha fallado todavía. Se suspende el diploma por falta de méritos deshonrosos.'
     :hasTie
-      ?'El Tribunal ha detectado un empate irresuelto entre '+tiedGroup.map(x=>x.persona).join(' y ')+'. Este diploma permanece en suspenso hasta que el Tribunal emita su veredicto mediante votación oficial.'
+      ?(mes<curM()?'El Tribunal registra un empate irresuelto de '+fmtM(mes)+' entre '+tiedGroup.map(x=>x.persona).join(' y ')+'. El veredicto puede emitirse retroactivamente desde el Hall de la Fama.':'El Tribunal ha detectado un empate irresuelto entre '+tiedGroup.map(x=>x.persona).join(' y ')+'. Este diploma permanece en suspenso hasta que el Tribunal emita su veredicto.')
       :DT[w2.pp%DT.length];
 }
 let desSelP='';
