@@ -6,7 +6,7 @@
 <meta name="robots" content="noindex, nofollow, noarchive">
 <title>Tribunal del Hierro</title>
 <link href="https://fonts.googleapis.com/css2?family=Righteous&family=DM+Mono:wght@400;500&family=Nunito:wght@400;700;900&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"><\/script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <style>
 :root{--bg:#0e0e0e;--s1:#181818;--s2:#222;--border:#333;--border2:#444;--pink:#ff2d78;--pkbg:#200010;--pkd:#7a1240;--yellow:#ffd60a;--ybg:#1a1500;--ydim:#7a6500;--green:#00e676;--gbg:#001a0d;--gdim:#005a25;--orange:#ff9100;--obg:#1a0a00;--purple:#cc44ff;--pbg:#1a0028;--pdim:#6a1a8a;--text:#f0f0f0;--t2:#aaa;--mu:#555;--r:8px}
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
@@ -320,6 +320,6 @@ function renderH(){const mes=curM(),r=getRes(mes);document.getElementById('hrank
 async function dlPNG(){toast('Generando...');try{const c=await html2canvas(document.getElementById('diploma'),{scale:2,backgroundColor:'#fffdf5',useCORS:true});const a=document.createElement('a');a.download='diploma-perra.png';a.href=c.toDataURL('image/png');a.click();toast('Descargado');}catch(e){toast('Error',false);}}
 async function cpImg(){toast('Copiando...');try{const c=await html2canvas(document.getElementById('diploma'),{scale:2,backgroundColor:'#fffdf5',useCORS:true});c.toBlob(async b=>{try{await navigator.clipboard.write([new ClipboardItem({'image/png':b})]);toast('Copiado');}catch(e){toast('Usa Chrome para copiar',false);}});}catch(e){toast('Error',false);}}
 (function(){ll();document.getElementById('mpill').textContent=fmtM(curM()).toUpperCase();document.getElementById('ff').value=tod();const fm=document.getElementById('fmes');if(fm)fm.value=curM();initT();loadS();})();
-<\/script>
+</script>
 </body>
 </html>
