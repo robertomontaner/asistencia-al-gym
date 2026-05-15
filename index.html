@@ -446,8 +446,8 @@ function renderH(){
       +'<p style="font-size:13px;color:var(--t2);margin-bottom:12px">'+tiedGroup.map(x=>x.persona+' ('+x.pp+' PP, '+x.sabs+' sáb.)').join(' vs ')+'<br><span style="font-size:12px;color:var(--mu)">Art. 9 — El Tribunal decide por votación</span></p>'
       +'<div class="des-opts">'+tiedGroup.map(x=>'<div class="des-opt" data-p="'+x.persona+'" onclick="desSel(this)">'+x.persona+'</div>').join('')+'</div>'
       +'<div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">'
-      +'<input type="text" id="des-pass" placeholder="Contraseña del Tribunal" style="background:var(--s2);border:1px solid var(--border);color:var(--text);font-family:DM Mono,monospace;font-size:13px;padding:8px 12px;border-radius:5px;outline:none;width:220px" onkeydown="if(event.key==='Enter')hacerDesempate(''+mes+'')">'
-      +'<button class="btn bp bs" onclick="hacerDesempate(''+mes+'')">&#x1F528; Declarar Perra</button>'
+      +'<input type="text" id="des-pass" placeholder="Contrasena del Tribunal" style="background:var(--s2);border:1px solid var(--border);color:var(--text);font-family:DM Mono,monospace;font-size:13px;padding:8px 12px;border-radius:5px;outline:none;width:220px" onkeydown="if(event.key===String.fromCharCode(13))hacerDesempate()">'
+      +'<button class="btn bp bs" onclick="hacerDesempate()">&#x1F528; Declarar Perra</button>'
       +'</div><div id="des-err" style="margin-top:8px;font-family:DM Mono,monospace;font-size:11px;color:var(--pink);display:none"></div>'
       +'</div>';
   } else {
@@ -469,7 +469,7 @@ function renderH(){
 }
 let desSelP='';
 function desSel(el){document.querySelectorAll('.des-opt').forEach(x=>x.classList.remove('sel'));el.classList.add('sel');desSelP=el.dataset.p;}
-function hacerDesempate(mes){
+function hacerDesempate(){const mes=hallMes;
   const errEl=document.getElementById('des-err');
   if(!desSelP){if(errEl){errEl.textContent='Selecciona quién es la perra.';errEl.style.display='block';}return;}
   const pass=document.getElementById('des-pass')?.value.trim();
