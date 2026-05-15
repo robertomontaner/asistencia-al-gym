@@ -88,7 +88,7 @@ tbody tr:last-child td{border-bottom:none}tbody tr:hover td{background:var(--s2)
 .em{text-align:center;padding:48px;color:var(--mu);font-family:'DM Mono',monospace;font-size:12px;letter-spacing:2px}
 .hr{display:flex;flex-direction:column;gap:10px;margin-bottom:32px}
 .rr{display:flex;align-items:center;gap:14px;background:var(--s1);border:1px solid var(--border);border-radius:10px;padding:14px 18px;position:relative;overflow:hidden}
-.rr.p1{border-color:var(--pkd);background:linear-gradient(90deg,var(--pkbg),var(--s1) 60%)}
+.rr.p1{border-color:var(--pkd);background:linear-gradient(90deg,var(--pkbg),var(--s1) 60%)}.rr.tie{border-color:var(--ydim)!important;background:linear-gradient(90deg,var(--ybg),var(--s1) 60%)!important}.rr.tie .rnum,.rr.tie .rname,.rr.tie .rpn{color:var(--yellow)!important}
 .rnum{font-family:'Righteous',sans-serif;font-size:28px;width:40px;text-align:center;color:var(--border2);flex-shrink:0}
 .p1 .rnum{color:var(--pink)}.rname{font-family:'Righteous',sans-serif;font-size:22px;flex:1}
 .p1 .rname{color:var(--pink)}.rinfo{font-family:'DM Mono',monospace;font-size:10px;color:var(--mu);margin-top:2px;letter-spacing:1px}
@@ -423,43 +423,49 @@ function renderH(){
   const mes=hallMes,r=getRes(mes);
   const nb=document.getElementById('hall-next-btn');if(nb)nb.style.visibility=mes>=curM()?'hidden':'visible';
   const lbl=document.getElementById('hall-mes-label');if(lbl)lbl.textContent=fmtM(mes);
-  document.getElementById('hrank').innerHTML=r.map((x,i)=>{
-    const tied=i===0&&r[1]&&x.pp>0&&r[1].pp===x.pp;
-    const badge=x.desempate?' <span style="font-size:10px;background:var(--yellow);color:#000;padding:2px 8px;border-radius:10px;letter-spacing:1px;margin-left:6px">VOTACION</span>':'';
-    return'<div class="rr'+(i===0?' p1':'')+'"><div class="rnum">'+(i===0&&x.pp>0?'&#x1F480;':i+1)+'</div><div><div class="rname">'+x.persona+badge+'</div><div class="rinfo">'+x.faltas+' falta'+(x.faltas!==1?'s':'')+' · '+x.sabs+' sabado'+(x.sabs!==1?'s':'')+(tied?' · &#x26A0;&#xFE0F; EMPATE':'')+'</div></div><div class="rpw" style="margin-left:auto"><div class="rpn">'+x.pp+'</div><div class="rpl">PP</div></div><div class="pbdg">PERRA DEL MES</div></div>';
-  }).join('');
-  // Desempate UI
-  const desEl=document.getElementById('hall-desempate');
-  const w=r[0],nw=!w||w.pp===0;
   const dw=S.movs.find(x=>x.tipo==='desempate'&&x.mes===mes);
-  // Check if there's a tie that needs resolution (same PP and same sabs)
-  const tiedGroup=r.filter(x=>x.pp>0&&x.pp===r[0]?.pp&&x.sabs===r[0]?.sabs);
+  const nw=!r[0]||r[0].pp===0;
+  const tiedGroup=(!nw&&!dw)?r.filter(x=>x.pp===r[0].pp&&x.sabs===r[0].sabs):[];
+  const hasTie=tiedGroup.length>1;
+  document.getElementById('hrank').innerHTML=r.map((x,i)=>{
+    const isWinner=!hasTie&&i===0&&!nw;
+    const isTied=hasTie&&tiedGroup.some(t=>t.persona===x.persona);
+    const cls=isWinner?' p1':isTied?' p1 tie':'';
+    const numEl=isWinner?'&#x1F480;':(isTied?'&#x26A0;&#xFE0F;':i+1);
+    const badge=x.desempate?'<span style="font-size:10px;background:var(--yellow);color:#000;padding:2px 8px;border-radius:10px;letter-spacing:1px;margin-left:6px">VOTACION</span>':'';
+    const tieTag=isTied?'<span style="font-size:10px;background:var(--ybg);border:1px solid var(--ydim);color:var(--yellow);padding:2px 8px;border-radius:10px;letter-spacing:1px;margin-left:6px">EMPATE</span>':'';
+    return'<div class="rr'+cls+'"><div class="rnum">'+numEl+'</div><div><div class="rname">'+x.persona+badge+tieTag+'</div><div class="rinfo">'+x.faltas+' falta'+(x.faltas!==1?'s':'')+' · '+x.sabs+' sábado'+(x.sabs!==1?'s':'')+'</div></div><div class="rpw" style="margin-left:auto"><div class="rpn">'+x.pp+'</div><div class="rpl">PP</div></div>'+(isWinner?'<div class="pbdg">PERRA DEL MES</div>':'')+'</div>';
+  }).join('');
+  const desEl=document.getElementById('hall-desempate');
   if(dw){
     desEl.style.display='block';
-    desEl.innerHTML='<div class="des-declared">&#x2705; Desempate del Tribunal declarado: <strong>'+dw.persona+'</strong> es la Perra del Mes de '+fmtM(mes)+'. Registrado por '+dw.admin+'.</div>';
-  } else if(!nw&&tiedGroup.length>1){
-    const samePP=tiedGroup.every(x=>x.sabs===tiedGroup[0].sabs);
+    desEl.innerHTML='<div class="des-declared">&#x2705; Desempate declarado: <strong>'+dw.persona+'</strong> es la Perra del Mes de '+fmtM(mes)+'. Registrado por '+dw.admin+'.</div>';
+  } else if(hasTie){
     desEl.style.display='block';
-    desEl.innerHTML='<div class="des-box"><div class="des-title">&#x26A0;&#xFE0F; Empate '+(samePP?'total':'resuelto por sábados — votación requerida')+'</div>'
+    desEl.innerHTML='<div class="des-box"><div class="des-title">&#x26A0;&#xFE0F; Empate — votación requerida</div>'
       +'<p style="font-size:13px;color:var(--t2);margin-bottom:12px">'+tiedGroup.map(x=>x.persona+' ('+x.pp+' PP, '+x.sabs+' sáb.)').join(' vs ')+'<br><span style="font-size:12px;color:var(--mu)">Art. 9 — El Tribunal decide por votación</span></p>'
       +'<div class="des-opts">'+tiedGroup.map(x=>'<div class="des-opt" data-p="'+x.persona+'" onclick="desSel(this)">'+x.persona+'</div>').join('')+'</div>'
       +'<div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">'
-      +'<input type="text" id="des-pass" placeholder="Contraseña del Tribunal" style="background:var(--s2);border:1px solid var(--border);color:var(--text);font-family:DM Mono,monospace;font-size:13px;padding:8px 12px;border-radius:5px;outline:none;width:220px" onkeydown="if(event.key===\'Enter\')hacerDesempate(\''+mes+'\')">'
-      +'<button class="btn bp bs" onclick="hacerDesempate(\''+mes+'\')">&#x1F528; Declarar Perra</button>'
+      +'<input type="text" id="des-pass" placeholder="Contraseña del Tribunal" style="background:var(--s2);border:1px solid var(--border);color:var(--text);font-family:DM Mono,monospace;font-size:13px;padding:8px 12px;border-radius:5px;outline:none;width:220px" onkeydown="if(event.key==='Enter')hacerDesempate(''+mes+'')">'
+      +'<button class="btn bp bs" onclick="hacerDesempate(''+mes+'')">&#x1F528; Declarar Perra</button>'
       +'</div><div id="des-err" style="margin-top:8px;font-family:DM Mono,monospace;font-size:11px;color:var(--pink);display:none"></div>'
       +'</div>';
   } else {
     desEl.style.display='none';
   }
-  // Diploma
-  const w2=r[0],nw2=!w2||w2.pp===0;
-  document.getElementById('dnom').textContent=nw2?'-- Nadie todavia --':w2.persona;
+  const w2=dw?r.find(x=>x.persona===dw.persona)||r[0]:r[0];
+  const nw2=!w2||w2.pp===0;
+  document.getElementById('dnom').textContent=nw2?'— Nadie todavía —':hasTie?tiedGroup.map(x=>x.persona).join(' / '):w2.persona;
   document.getElementById('dmes').textContent='del mes de '+fmtM(mes);
   document.getElementById('dpp').textContent=nw2?'0':w2.pp;
   document.getElementById('dfal').textContent=nw2?'0':w2.faltas;
   document.getElementById('dsab').textContent=nw2?'0':w2.sabs;
   document.getElementById('dfecha').textContent='Emitido el '+new Date().toLocaleDateString('es-ES',{day:'numeric',month:'long',year:'numeric'});
-  document.getElementById('dtxt').textContent=nw2?'El Tribunal constata que nadie ha fallado todavia. Se suspende el diploma por falta de meritos deshonrosos.':DT[w2.pp%DT.length];
+  document.getElementById('dtxt').textContent=nw2
+    ?'El Tribunal constata que nadie ha fallado todavía. Se suspende el diploma por falta de méritos deshonrosos.'
+    :hasTie
+      ?'El Tribunal ha detectado un empate irresuelto entre '+tiedGroup.map(x=>x.persona).join(' y ')+'. Este diploma permanece en suspenso hasta que el Tribunal emita su veredicto mediante votación oficial.'
+      :DT[w2.pp%DT.length];
 }
 let desSelP='';
 function desSel(el){document.querySelectorAll('.des-opt').forEach(x=>x.classList.remove('sel'));el.classList.add('sel');desSelP=el.dataset.p;}
