@@ -67,7 +67,7 @@ main{max-width:960px;margin:0 auto;padding:28px 16px 80px}
 .ce{background:var(--pbg);color:var(--purple);border:1px solid var(--pdim)}
 .qg{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px}
 .qc{background:var(--s1);border:1px solid var(--border);border-radius:10px;padding:16px;position:relative;overflow:hidden}
-.qc.pk{border-color:var(--pink);background:var(--pkbg)}
+.qc.pk{border-color:var(--pink);background:var(--pkbg)}.qc.qc-tie{border-color:var(--ydim);background:var(--ybg)}.qc.qc-tie .qp{color:var(--yellow)}
 .qrk{position:absolute;top:10px;right:12px;font-family:'DM Mono',monospace;font-size:10px;color:var(--mu)}
 .qn{font-family:'Righteous',sans-serif;font-size:20px;margin-bottom:6px}
 .qp{font-family:'Righteous',sans-serif;font-size:40px;line-height:1;color:var(--t2)}
@@ -234,7 +234,7 @@ tbody tr:last-child td{border-bottom:none}tbody tr:hover td{background:var(--s2)
   <div class="ds">
     <div id="diploma">
       <div class="dbd"></div><div class="dbd2"></div><div class="dwm">PERRA</div>
-      <div class="dtb">Institucion Oficial del Hierro - Est. 2025</div>
+      <div class="dtb">Institucion Oficial del Hierro - Est. 2026</div>
       <div class="dbr">&#x1F415; Tribunal del Hierro &#x1F415;</div>
       <div class="ddiv"></div>
       <div class="dhy">Por la presente, el Tribunal certifica que</div>
@@ -312,10 +312,11 @@ tbody tr:last-child td{border-bottom:none}tbody tr:hover td{background:var(--s2)
     <li>Podrán realizar entrenamiento reducido para evitar el PP.</li>
     <li>Debe implicar actividad física real. Pasearse entre máquinas mirando el móvil no cuenta.</li>
   </ul></div>
-  <div class="ra"><div class="ran">Art. 6 — Justificación por viaje (solo para desempleados y no estudiantes)</div><ul class="rl">
-    <li>Únicamente válido para miembros sin empleo ni estudios.</li>
-    <li>Pruebas válidas: billete de transporte, captura del trayecto, o foto en destino suficientemente lejano.</li>
-    <li>No se considera destino lejano el supermercado, casa de un amigo ni el pueblo de la abuela a 20 km.</li>
+  <div class="ra"><div class="ran">Art. 6 — Justificación por desplazamiento</div><ul class="rl">
+    <li><strong>Trabajadores:</strong> si el desplazamiento por trabajo te ha llevado fuera de Valencia, la ausencia queda automáticamente perdonada. Si estás en Valencia, no hay excusa.</li>
+    <li><strong>Sin empleo ni estudios:</strong> deberás demostrar que no estabas en la ciudad en el momento del entrenamiento. El destino debe estar a <strong>más de 30 km de Valencia</strong>. Barx, Rotova, Gandía y similares <em>no cuentan</em>.</li>
+    <li>Pruebas válidas: billete de transporte, captura del trayecto o foto acreditativa en destino lejano.</li>
+    <li>No acreditar la ausencia válida = <strong style="color:var(--pink)">falta por PERRA</strong>, sin más deliberación.</li>
   </ul></div>
 
   <!-- TÍTULO III -->
@@ -339,8 +340,9 @@ tbody tr:last-child td{border-bottom:none}tbody tr:hover td{background:var(--s2)
   <div class="rt">Título V — Enmiendas y disposiciones especiales</div>
   <div class="ra"><div class="ran">Art. 9 — Intento de engaño al Jurado</div><ul class="rl">
     <li>Cualquier intento de engaño, manipulación de pruebas, reutilización de fotos antiguas, capturas falsas o declaración fraudulenta: <strong style="color:var(--purple)">+2 PP</strong> inmediatos.</li>
+    <li>Intentar obtener tratos de favor mediante lamentos, presión emocional, lloriqueos o súplicas ante el Tribunal será igualmente considerado intento de engaño y sancionado con <strong style="color:var(--purple)">+2 PP</strong>.</li>
     <li>La sanción se suma de forma independiente a la falta original si la hubiera.</li>
-    <li>El engaño no será considerado estrategia, sino <em>perrería agravada</em>.</li>
+    <li>El engaño no será considerado estrategia, sino <em>perrería agravada</em>. Llorar tampoco.</li>
   </ul></div>
   <div class="ra"><div class="ran">Art. 10 — Entrenamiento mínimo válido</div><ul class="rl">
     <li>No se considera entrenamiento válido acudir sin realizar actividad física real.</li>
@@ -407,7 +409,21 @@ function showE(m){const e=document.getElementById('ferr');e.innerHTML='<b>Atenci
 function doSave(){document.getElementById('ferr').classList.remove('on');const fecha=document.getElementById('ff').value,persona=document.getElementById('fp').value,admin=document.getElementById('fa').value,notas=document.getElementById('fn').value.trim(),pass=document.getElementById('fpass').value.trim(),tipo=cT;if(!fecha)return showE('Selecciona una fecha.');if(!persona)return showE('Quien es el culpable?');if(!admin)return showE('Quien esta apuntando esto?');if(!pass)return showE('El Tribunal exige la contrasena.');if(pass!==PWD)return showE('Contrasena incorrecta.');const mes=fecha.slice(0,7);const puntos=tipo==='falta'?1:tipo==='recuperacion'?-1:tipo==='vagueo'?1:tipo==='engano'?2:0;if(tipo==='recuperacion'&&getPP(persona,mes)<=0)return showE(persona+' tiene 0 PP. No puede recuperar mas.');const mov={id:uid(),fecha,persona,tipo,puntos,notas,admin,mes,creado_en:new Date().toISOString(),synced:false};S.movs.push(mov);ls();fetch(SURL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'write',mov})}).catch(()=>{});toast(TL[tipo]+' para '+persona);clearF();renderQ();}
 let _tt;
 function toast(m,ok=true){const t=document.getElementById('toast');t.textContent=m;t.className='on'+(ok?' ok':'');clearTimeout(_tt);_tt=setTimeout(()=>t.classList.remove('on'),3000);}
-function renderQ(){const r=getRes(curM()),e=document.getElementById('qsum');if(!e)return;e.innerHTML=r.map((x,i)=>'<div class="qc'+(i===0&&x.pp>0?' pk':'')+'"><div class="qrk">#'+(i+1)+'</div><div class="qn">'+(i===0&&x.pp>0?'&#x1F480; ':'')+x.persona+'</div><div class="qp">'+x.pp+'</div><div class="ql">PP este mes</div><div class="qs"><span class="qi">&#x1F480; '+x.faltas+' faltas</span><span class="qi">&#x1F4C5; '+x.sabs+' sab.</span></div></div>').join('');}
+function renderQ(){
+  const r=getRes(curM()),e=document.getElementById('qsum');if(!e)return;
+  const dw=S.movs.find(x=>x.tipo==='desempate'&&x.mes===curM());
+  const nw=!r[0]||r[0].pp===0;
+  const tiedGroup=(!nw&&!dw)?r.filter(x=>x.pp===r[0].pp&&x.sabs===r[0].sabs):[];
+  const hasTie=tiedGroup.length>1;
+  e.innerHTML=r.map((x,i)=>{
+    const isWinner=!hasTie&&i===0&&!nw;
+    const isTied=hasTie&&tiedGroup.some(t=>t.persona===x.persona);
+    const cls=isWinner?' pk':isTied?' qc-tie':'';
+    const icon=isWinner?'&#x1F480; ':isTied?'&#x26A0;&#xFE0F; ':'';
+    const tieTag=isTied?'<span style="font-size:9px;background:var(--ybg);border:1px solid var(--ydim);color:var(--yellow);padding:1px 6px;border-radius:8px;letter-spacing:1px;margin-left:4px">EMPATE</span>':'';
+    return'<div class="qc'+cls+'"><div class="qrk">#'+(i+1)+'</div><div class="qn">'+icon+x.persona+tieTag+'</div><div class="qp">'+x.pp+'</div><div class="ql">PP este mes</div><div class="qs"><span class="qi">&#x1F480; '+x.faltas+' faltas</span><span class="qi">&#x1F4C5; '+x.sabs+' sab.</span></div></div>';
+  }).join('');
+}
 function getF(){const mes=(document.getElementById('fmes')?.value||'').trim(),per=(document.getElementById('fper')?.value||'').trim(),tip=(document.getElementById('ftip')?.value||'').trim(),adm=(document.getElementById('fadm')?.value||'').trim();return[...S.movs].filter(m=>(!mes||m.mes===mes)&&(!per||m.persona.trim()===per)&&(!tip||m.tipo.trim()===tip)&&(!adm||m.admin.trim()===adm)).sort((a,b)=>{const va=a[S.sk]||'',vb=b[S.sk]||'';return va<vb?S.sd:va>vb?-S.sd:0;});}
 function srt(k){S.sd=S.sk===k?-S.sd:-1;S.sk=k;renderT();}
 function renderT(){const mv=getF();document.getElementById('tcnt').textContent=mv.length+' movimiento'+(mv.length!==1?'s':'');const tb=document.getElementById('tbody');if(!tb)return;if(!mv.length){tb.innerHTML='<tr><td colspan="7"><div class="em">Sin movimientos</div></td></tr>';return;}tb.innerHTML=mv.map(m=>{const pp=m.puntos>0?'<span class="pb pos">+'+m.puntos+'</span>':m.puntos<0?'<span class="pb neg">'+m.puntos+'</span>':'<span class="pb z">0</span>';return'<tr><td style="white-space:nowrap">'+m.fecha+'</td><td style="font-weight:700">'+m.persona+'</td><td><span class="chip '+(TC[m.tipo]||'')+'">'+(TL[m.tipo]||m.tipo)+'</span></td><td style="text-align:center">'+pp+'</td><td style="max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--mu)" title="'+(m.notas||'')+'">'+(m.notas||'--')+'</td><td style="color:var(--mu)">'+m.admin+'</td><td style="color:var(--mu);white-space:nowrap">'+(m.creado_en?new Date(m.creado_en).toLocaleDateString('es-ES'):'--')+'</td></tr>';}).join('');}
