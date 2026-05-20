@@ -331,7 +331,7 @@ tbody tr:last-child td{border-bottom:none}tbody tr:hover td{background:var(--s2)
   <div class="rt">Título IV — Del diploma</div>
   <div class="ra"><div class="ran">Art. 8 — Otorgamiento</div><ul class="rl">
     <li>El miembro con más PP al finalizar el mes recibe el diploma de <strong style="color:var(--pink)">"Perra del Gimnasio del Mes"</strong>.</li>
-    <li><strong>Desempate 1:</strong> gana quien haya acudido más sábados al gimnasio durante el mes.</li>
+    <li><strong>Desempate 1:</strong> quien más sábados haya acudido queda <strong style="color:var(--green)">salvado</strong>; la perra es quien menos sábados tenga.</li>
     <li><strong>Desempate 2:</strong> decide votación grupal del Tribunal (requiere contraseña).</li>
     <li><strong>Desempate 3:</strong> ambos comparten el título de manera solidaria y humillante.</li>
   </ul></div>
@@ -390,7 +390,7 @@ const TL={falta:'Falta',recuperacion:'Sabado Salvador',vagueo:'Vagueo en el gym'
 const TC={falta:'cf',recuperacion:'cr',vagueo:'cv',engano:'ce'};
 const TE={falta:'&#x1F480;',recuperacion:'&#x1F4C5;',vagueo:'&#x1F6CB;',engano:'&#x1F925;'};
 const getPP=(p,m)=>S.movs.filter(x=>x.persona===p&&x.mes===m).reduce((a,x)=>a+x.puntos,0);
-const getRes=m=>{const dw=S.movs.find(x=>x.tipo==='desempate'&&x.mes===m)?.persona;return S.members.map(p=>{const xs=S.movs.filter(x=>x.persona===p&&x.mes===m&&x.tipo!=='desempate');return{persona:p,faltas:xs.filter(x=>x.tipo==='falta').length,sabs:xs.filter(x=>x.tipo==='recuperacion').length,pp:xs.reduce((a,x)=>a+x.puntos,0),desempate:p===dw};}).sort((a,b)=>{if(b.pp!==a.pp)return b.pp-a.pp;if(a.sabs!==b.sabs)return b.sabs-a.sabs;if(a.desempate&&!b.desempate)return -1;if(!a.desempate&&b.desempate)return 1;return 0;});};
+const getRes=m=>{const dw=S.movs.find(x=>x.tipo==='desempate'&&x.mes===m)?.persona;return S.members.map(p=>{const xs=S.movs.filter(x=>x.persona===p&&x.mes===m&&x.tipo!=='desempate');return{persona:p,faltas:xs.filter(x=>x.tipo==='falta').length,sabs:xs.filter(x=>x.tipo==='recuperacion').length,pp:xs.reduce((a,x)=>a+x.puntos,0),desempate:p===dw};}).sort((a,b)=>{if(b.pp!==a.pp)return b.pp-a.pp;if(a.sabs!==b.sabs)return a.sabs-b.sabs;if(a.desempate&&!b.desempate)return -1;if(!a.desempate&&b.desempate)return 1;return 0;});};
 const lmsg=t=>{const e=document.getElementById('lmsg');if(e)e.textContent=t;};
 function hideL(){const e=document.getElementById('loader');if(!e)return;e.classList.add('fo');setTimeout(()=>e.classList.add('gn'),420);}
 function errL(msg){lmsg(msg);const sp=document.getElementById('lspin'),bt=document.getElementById('lbtns'),lk=document.getElementById('llink');if(sp)sp.style.display='none';if(bt)bt.style.display='flex';if(lk)lk.href='https://sheets.googleapis.com/v4/spreadsheets/'+SID+'/values/Miembros!A2:A?key='+_k;}
