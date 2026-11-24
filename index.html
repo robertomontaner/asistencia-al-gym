@@ -149,9 +149,11 @@ tbody tr:last-child td{border-bottom:none}tbody tr:hover td{background:var(--s2)
 .rl li{font-size:14px;color:var(--t2);padding:5px 0 5px 18px;position:relative;line-height:1.6;border-top:1px solid var(--border)}
 .rl li:first-child{border-top:none}.rl li::before{content:'--';position:absolute;left:0;color:var(--mu)}
 .hon-list{display:flex;flex-direction:column;gap:8px;margin-top:4px}
-.hon-it{display:flex;align-items:center;gap:12px;background:#1c0406;border:1px solid #5a0a10;border-radius:8px;padding:12px 16px}
+.hon-it{display:flex;align-items:center;flex-wrap:wrap;gap:12px;background:#1c0406;border:1px solid #5a0a10;border-radius:8px;padding:12px 16px}
 .hon-it .hn{font-family:'Righteous',sans-serif;font-size:20px;color:#ff4d5a;flex:1}
 .hon-it .hi{font-family:'DM Mono',monospace;font-size:10px;color:var(--mu);letter-spacing:1px;margin-top:2px}
+.hon-rv summary{cursor:pointer;font-family:'DM Mono',monospace;font-size:11px;color:var(--mu);letter-spacing:1px;list-style:none}.hon-rv[open]{display:flex;gap:6px;align-items:center}.hon-rv[open] summary{display:none}
+.hon-rv input{background:var(--s2);border:1px solid var(--border);color:var(--text);font-family:'DM Mono',monospace;font-size:13px;padding:6px 8px;border-radius:5px;outline:none;width:70px;letter-spacing:3px}
 .foot{text-align:center;padding:28px 16px 36px;color:var(--mu);font-family:'DM Mono',monospace;font-size:11px;letter-spacing:2px;border-top:1px solid var(--border);margin-top:40px}
 .foot button{margin-top:10px;background:none;border:1px solid var(--border2);color:var(--t2);font-family:'DM Mono',monospace;font-size:11px;letter-spacing:2px;padding:6px 16px;border-radius:20px;cursor:pointer}
 .foot button:hover{border-color:#e30613;color:#ff4d5a}
@@ -395,32 +397,33 @@ tbody tr:last-child td{border-bottom:none}tbody tr:hover td{background:var(--s2)
 <!-- FOOTER -->
 <footer class="foot">
   Tribunal del Hierro · Est. 2026<br>
-  <button onclick="openHon()">&#x1F339; Premio honorífico extraordinario</button>
+  <button onclick="openHon()">&#x1F3C5; Premios honoríficos extraordinarios</button>
 </footer>
 
-<!-- PREMIO HONORIFICO -->
+<!-- PREMIOS EXTRAORDINARIOS -->
 <div id="hon-modal" onclick="if(event.target===this)closeHon()">
   <div class="hon-box">
-    <div class="hon-hd"><span>&#x1F339; Premio honorífico extraordinario</span><button onclick="closeHon()">&times;</button></div>
-    <div class="aj-row" style="margin-bottom:14px">
+    <div class="hon-hd"><span>&#x1F3C5; Premios honoríficos extraordinarios</span><button onclick="closeHon()">&times;</button></div>
+    <div class="aj-row" id="hon-form" style="margin-bottom:14px">
+      <select id="hon-tipo"></select>
       <select id="hon-per"><option value="">-- ¿a quién? --</option></select>
       <input type="text" id="hon-pass" placeholder="PIN" inputmode="numeric" pattern="[0-9]*" maxlength="4" autocomplete="off" onkeydown="if(event.key==='Enter')genHon()">
-      <button class="btn bp bs" onclick="genHon()">&#x1F339; Otorgar</button>
+      <button class="btn bp bs" onclick="genHon()">&#x1F3C5; Otorgar</button>
     </div>
     <div id="hon-out" style="display:none">
       <div class="dwrap" id="hwrap"><div id="dhon">
-        <div class="dbd"></div><div class="dbd2"></div><div class="dwm">PSOE</div>
+        <div class="dbd"></div><div class="dbd2"></div><div class="dwm" id="hwm">--</div>
         <div class="dtb">Tribunal del Hierro · Distinción extraordinaria</div>
-        <div class="dbr">&#x1F339; Premio Honorífico Extraordinario &#x1F339;</div>
+        <div class="dbr" id="hbr">--</div>
         <div class="ddiv"></div>
-        <div class="dhy">El Tribunal, en sesión solemne y sin quórum, distingue a</div>
+        <div class="dhy" id="hhy">--</div>
         <div class="dname" id="hnom">--</div>
         <div class="ddiv" style="width:40px;margin-top:4px"></div>
-        <div class="dtit">&#x1F339; PERRA DEL PSOE &#x1F339;</div>
+        <div class="dtit" id="htit">--</div>
         <div class="dmon" id="hfec">--</div>
         <div class="dtxt" id="htxt" style="margin-top:10px">--</div>
         <div class="dfr"><div class="dfe">Distinción honorífica · No computa PP</div><div class="dsg">El Tribunal del Hierro</div></div>
-        <div class="dse">&#x1F339;</div>
+        <div class="dse" id="hse">--</div>
       </div></div>
       <div class="dbtns" style="margin-top:14px">
         <button class="btn bp" onclick="dlHon()">&#x2B07;&#xFE0F; Descargar PNG</button>
@@ -458,9 +461,9 @@ const tod=()=>new Date().toISOString().split('T')[0];
 const curM=()=>{const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0');};
 const MES=['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
 const fmtM=ym=>{if(!ym)return'--';const[y,m]=ym.split('-');return MES[+m-1]+' '+y;};
-const TL={falta:'Falta',recuperacion:'Sabado Salvador',vagueo:'Vagueo en el gym',engano:'Engano al Jurado',corto:'Tiempo de entrenamiento insuficiente',tarde:'Llegada tarde (+21:30)',desierto:'Mes declarado desierto',reabierto:'Mes reabierto',honorifico:'Perra del PSOE (honorífico)'};
-const TC={falta:'cf',recuperacion:'cr',vagueo:'cv',engano:'ce',corto:'cy',tarde:'cc',desierto:'cy',reabierto:'cr',honorifico:'cf'};
-const TE={falta:'&#x1F480;',recuperacion:'&#x1F4C5;',vagueo:'&#x1F6CB;',engano:'&#x1F925;',corto:'&#x23F1;',tarde:'&#x1F422;',desierto:'&#x1F3D6;',reabierto:'&#x1F513;',honorifico:'&#x1F339;'};
+const TL={falta:'Falta',recuperacion:'Sabado Salvador',vagueo:'Vagueo en el gym',engano:'Engano al Jurado',corto:'Tiempo de entrenamiento insuficiente',tarde:'Llegada tarde (+21:30)',desierto:'Mes declarado desierto',reabierto:'Mes reabierto',honorifico:'Perra del PSOE (honorífico)',honorifico_choco:'Perrita Chocolatera (honorífico)',honorifico_abuelo:'Favorito del Abuelo Homosexual (honorífico)',revocado:'Premio revocado'};
+const TC={falta:'cf',recuperacion:'cr',vagueo:'cv',engano:'ce',corto:'cy',tarde:'cc',desierto:'cy',reabierto:'cr',honorifico:'cf',honorifico_choco:'cv',honorifico_abuelo:'ce',revocado:'cr'};
+const TE={falta:'&#x1F480;',recuperacion:'&#x1F4C5;',vagueo:'&#x1F6CB;',engano:'&#x1F925;',corto:'&#x23F1;',tarde:'&#x1F422;',desierto:'&#x1F3D6;',reabierto:'&#x1F513;',honorifico:'&#x1F339;',honorifico_choco:'&#x1F36B;',honorifico_abuelo:'&#x1F474;',revocado:'&#x274C;'};
 const getPP=(p,m)=>S.movs.filter(x=>x.persona===p&&x.mes===m).reduce((a,x)=>a+x.puntos,0);
 // Meses desiertos: sin Perra del Mes, nadie suma PP.
 // DESIERTOS son los de serie; desde el Hall se declaran/reabren con movimientos 'desierto'/'reabierto' (manda el último).
@@ -602,47 +605,54 @@ function newDip(){const pi=document.getElementById('dip-pass');if((pi?.value||''
   const mov={id:uid(),fecha:mes+'-01',persona:'Tribunal',tipo:'diploma',puntos:0,notas:salt,admin:'Tribunal',mes,creado_en:new Date().toISOString(),synced:false};
   S.movs.push(mov);ls();fetch(SURL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'write',mov})}).catch(()=>{});
   renderH();toast('🎲 Nuevo diploma: '+THEMES[dipTheme(mes,salt)].n);}
-const HON_TXT=[
- 'Por su habilidad para no presentarse en todo el mes y aun así seguir convencido de que lo está haciendo de maravilla.',
- 'Por anunciar cada lunes un ambicioso plan de entrenamiento que nunca llega a ejecutarse.',
- 'Por pactar con el sofá, con la cama y con la pereza a la vez, sin que ninguno se queje.',
- 'Por convertir cada excusa en una rueda de prensa de cuarenta minutos sin admitir preguntas.',
- 'Por su firme política de "ya entrenaremos en la próxima legislatura".',
- 'Por mantenerse en el cargo de perra contra viento, marea y mancuernas.',
- 'Por haber prometido abdominales para todos y entregado únicamente excusas.',
- 'Por su talento para cambiar de opinión sobre ir al gimnasio tres veces en la misma tarde.',
- 'Por gestionar su tiempo de entrenamiento como un presupuesto prorrogado: sin tocarlo.',
- 'Por aplicar con rigor la máxima de que el gimnasio es un derecho, nunca una obligación.',
- 'Por decretar el descanso indefinido sin pasar por el Tribunal.',
- 'Por su gran capacidad de negociación con la báscula, que todavía no ha firmado nada.'
-];
-let honI=-1;
-function openHon(){const sel=document.getElementById('hon-per');sel.innerHTML='<option value="">-- ¿a quién? --</option>'+S.members.map(m=>'<option>'+m+'</option>').join('');document.getElementById('hon-out').style.display='none';document.getElementById('hon-err').style.display='none';document.getElementById('hon-modal').style.display='flex';}
+// ---- Premios honoríficos extraordinarios ----
+// En el Sheets: tipo 'honorifico' (PSOE) u 'honorifico_<clave>'; notas = frase. Revocar: borrar la fila en el Sheets, o desde el Hall (crea fila 'revocado' con notas = id del premio).
+const HON={
+ psoe:{n:'Perra del PSOE',e:'&#x1F339;',wm:'PSOE',br:'&#x1F339; Premio Honorífico Extraordinario &#x1F339;',hy:'El Tribunal, en sesión solemne y sin quórum, distingue a',tit:'&#x1F339; PERRA DEL PSOE &#x1F339;',bg:'#fff7f5',ink:'#2a0a0a',acc:'#e30613',acc2:'#b0000f',mut:'#9a5a50',line:'#f2b8b0',f:"'Playfair Display',serif",pat:'radial-gradient(circle at 10% 15%,rgba(227,6,19,.08),transparent 30%),radial-gradient(circle at 90% 85%,rgba(227,6,19,.08),transparent 30%)',ui:'#ff4d5a',uib:'#1c0406',uibd:'#5a0a10',
+  t:['Por su habilidad para no presentarse en todo el mes y aun así seguir convencido de que lo está haciendo de maravilla.','Por anunciar cada lunes un ambicioso plan de entrenamiento que nunca llega a ejecutarse.','Por pactar con el sofá, con la cama y con la pereza a la vez, sin que ninguno se queje.','Por convertir cada excusa en una rueda de prensa de cuarenta minutos sin admitir preguntas.','Por su firme política de "ya entrenaremos en la próxima legislatura".','Por mantenerse en el cargo de perra contra viento, marea y mancuernas.','Por haber prometido abdominales para todos y entregado únicamente excusas.','Por su talento para cambiar de opinión sobre ir al gimnasio tres veces en la misma tarde.','Por gestionar su tiempo de entrenamiento como un presupuesto prorrogado: sin tocarlo.','Por aplicar con rigor la máxima de que el gimnasio es un derecho, nunca una obligación.','Por decretar el descanso indefinido sin pasar por el Tribunal.','Por su gran capacidad de negociación con la báscula, que todavía no ha firmado nada.']},
+ choco:{n:'Perrita Chocolatera',e:'&#x1F36B;',wm:'CHOCOLATE',br:'&#x1F36B; Premio Honorífico Extraordinario &#x1F36B;',hy:'Con las manos aún manchadas de cacao, el Tribunal distingue a',tit:'&#x1F36B; PERRITA CHOCOLATERA &#x1F36B;',bg:'#fbf3e8',ink:'#3b1f0e',acc:'#7b3f1d',acc2:'#5a2a10',mut:'#9a6a48',line:'#dcc0a0',f:"'Pacifico',cursive",pat:'repeating-linear-gradient(0deg,transparent 0 60px,rgba(123,63,29,.05) 60px 62px),repeating-linear-gradient(90deg,transparent 0 60px,rgba(123,63,29,.05) 60px 62px)',ns:.8,ui:'#d08a55',uib:'#1a0d05',uibd:'#5a3418',
+  t:['Por compensar cada sentadilla no hecha con una onza de chocolate, con una disciplina envidiable.','Por defender con argumentos científicos que el cacao puro cuenta como suplemento deportivo.','Por quemar 200 calorías en el gimnasio y recuperar 900 en la merienda de después.','Por llevar siempre una tableta de emergencia "por si me da un bajón".','Por su papel clave en el récord de ventas de napolitanas de la panadería de abajo.','Por confundir la proteína de chocolate con un batido de postre. Varias veces al día.','Por considerar el Nutella un macronutriente esencial.','Por su lema: "hoy entreno poco, pero me lo como todo".','Por su capacidad de encontrar chocolate en cualquier casa, oficina o mochila.','Por hacer del "me lo he ganado" una excusa válida antes incluso de entrenar.']},
+ abuelo:{n:'Favorito del Abuelo Homosexual',e:'&#x1F474;',wm:'FAVORITO',br:'&#x1F308; Premio Honorífico Extraordinario &#x1F308;',hy:'Por designación personal e irrevocable del abuelo, el Tribunal distingue a',tit:'&#x1F474; FAVORITO DEL ABUELO HOMOSEXUAL &#x1F308;',bg:'#fffdf8',ink:'#2a1a3a',acc:'#8a3ffc',acc2:'#e0287a',mut:'#7a6a8a',line:'#e4d4f4',f:"'Playfair Display',serif",pat:'linear-gradient(90deg,rgba(228,3,3,.07),rgba(255,140,0,.07),rgba(255,237,0,.07),rgba(0,128,38,.07),rgba(36,64,142,.07),rgba(115,41,130,.07))',ns:.9,ui:'#c07cff',uib:'#140a1c',uibd:'#4a2a6a',
+  t:['Por ser, sin discusión posible, el ojito derecho del abuelo. El resto del grupo lo sabe y lo acepta.','Por recibir siempre la mejor porción, el mejor consejo y la mejor anécdota del abuelo.','Por esa complicidad con el abuelo que el resto del grupo mira con sana (y no tan sana) envidia.','Por haber sido elegido en una votación donde el único voto era el del abuelo. Y bastó.','Por ganarse al abuelo con encanto, buenos modales y algún que otro halago estratégico.','Por ser el único al que el abuelo perdona las faltas sin pedir justificante.','Por tener línea directa con el abuelo y mensajes de buenos días garantizados.','Por su gran mérito: que el abuelo diga "este sí que vale" cada vez que pasa.','Por figurar en el testamento sentimental del abuelo en primer lugar.','Por ser el nieto adoptivo oficial del grupo, con todos los privilegios que conlleva.']}
+};
+const honKey=m=>m.tipo==='honorifico'?'psoe':m.tipo.slice(11);
+const isHon=m=>m.tipo==='honorifico'||(m.tipo.startsWith('honorifico_')&&HON[m.tipo.slice(11)]);
+const revIds=()=>new Set(S.movs.filter(x=>x.tipo==='revocado').map(x=>x.notas));
+let honLast='';
+function openHon(){document.getElementById('hon-tipo').innerHTML=Object.entries(HON).map(([k,h])=>'<option value="'+k+'">'+h.n+'</option>').join('');
+  document.getElementById('hon-per').innerHTML='<option value="">-- ¿a quién? --</option>'+S.members.map(m=>'<option>'+m+'</option>').join('');
+  document.getElementById('hon-form').style.display='flex';document.getElementById('hon-out').style.display='none';document.getElementById('hon-err').style.display='none';document.getElementById('hon-modal').style.display='flex';}
 function closeHon(){document.getElementById('hon-modal').style.display='none';}
 function fitHon(){const w=document.getElementById('hwrap'),d=document.getElementById('dhon');if(!w||!d||!w.clientWidth)return;const sc=Math.min(1,w.clientWidth/1123);d.style.transform='scale('+sc+')';w.style.height=(794*sc)+'px';}
 window.addEventListener('resize',fitHon);
-function genHon(){const err=document.getElementById('hon-err'),per=document.getElementById('hon-per').value,pi=document.getElementById('hon-pass');
+function genHon(){const err=document.getElementById('hon-err'),k=document.getElementById('hon-tipo').value,per=document.getElementById('hon-per').value,pi=document.getElementById('hon-pass');
   const fail=t=>{err.textContent=t;err.style.display='block';};err.style.display='none';
+  const h=HON[k];if(!h)return fail('Elige el premio.');
   if(!per)return fail('¿A quién se le otorga?');
   if(pi.value.trim()!==PWD)return fail('Contraseña incorrecta.');
   pi.value='';
-  let i;do{i=Math.floor(Math.random()*HON_TXT.length);}while(i===honI&&HON_TXT.length>1);honI=i;
+  let txt;do{txt=h.t[Math.floor(Math.random()*h.t.length)];}while(txt===honLast&&h.t.length>1);honLast=txt;
   const fecha=tod(),mes=fecha.slice(0,7);
-  const mov={id:uid(),fecha,persona:per,tipo:'honorifico',puntos:0,notas:HON_TXT[i],admin:'Tribunal',mes,creado_en:new Date().toISOString(),synced:false};
+  const mov={id:uid(),fecha,persona:per,tipo:k==='psoe'?'honorifico':'honorifico_'+k,puntos:0,notas:txt,admin:'Tribunal',mes,creado_en:new Date().toISOString(),synced:false};
   S.movs.push(mov);ls();fetch(SURL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'write',mov})}).catch(()=>{});
-  showHon(per,HON_TXT[i],mov.creado_en);
-  toast('🌹 '+per+': Perra del PSOE');
+  showHon(k,per,txt,mov.creado_en);
+  toast(per+': '+h.n);
   if(document.getElementById('tab-hall')?.classList.contains('on'))renderH();}
-function showHon(per,txt,when){
-  const d=document.getElementById('dhon'),v={'--dbg':'#fff7f5','--dink':'#2a0a0a','--dacc':'#e30613','--dacc2':'#b0000f','--dmut':'#9a5a50','--dline':'#f2b8b0','--dpat':'radial-gradient(circle at 10% 15%,rgba(227,6,19,.08),transparent 30%),radial-gradient(circle at 90% 85%,rgba(227,6,19,.08),transparent 30%)','--dfont':"'Playfair Display',serif"};for(const k in v)d.style.setProperty(k,v[k]);
-  const nm=document.getElementById('hnom');nm.textContent=per;nm.style.fontSize=per.length>14?'calc(84px * '+(14/per.length).toFixed(3)+')':'';
+function showHon(k,per,txt,when){const h=HON[k],d=document.getElementById('dhon');
+  const v={'--dbg':h.bg,'--dink':h.ink,'--dacc':h.acc,'--dacc2':h.acc2,'--dmut':h.mut,'--dline':h.line,'--dpat':h.pat,'--dfont':h.f,'--dns':h.ns||1};for(const x in v)d.style.setProperty(x,v[x]);
+  document.getElementById('hwm').textContent=h.wm;document.getElementById('hbr').innerHTML=h.br;document.getElementById('hhy').innerHTML=h.hy;document.getElementById('htit').innerHTML=h.tit;document.getElementById('hse').innerHTML=h.e;
+  const nm=document.getElementById('hnom');nm.textContent=per;nm.style.fontSize=per.length>14?'calc(84px * var(--dns) * '+(14/per.length).toFixed(3)+')':'';
   document.getElementById('hfec').textContent='Otorgado el '+new Date(when||Date.now()).toLocaleDateString('es-ES',{day:'numeric',month:'long',year:'numeric'});
   document.getElementById('htxt').textContent=txt;
   document.getElementById('hon-out').style.display='block';fitHon();}
-function viewHon(id){const m=S.movs.find(x=>x.id===id);if(!m)return;openHon();document.getElementById('hon-per').value=m.persona;document.getElementById('hon-modal').style.display='flex';showHon(m.persona,m.notas,m.creado_en||m.fecha);}
-function renderHonH(mes){const el=document.getElementById('hall-hon');if(!el)return;const hs=S.movs.filter(x=>x.tipo==='honorifico'&&x.mes===mes).sort((a,b)=>String(a.fecha).localeCompare(String(b.fecha)));
-  el.innerHTML=hs.length?'<div class="st"><span>&#x1F339;</span> Premios honoríficos</div><div class="hon-list">'+hs.map(h=>'<div class="hon-it"><div style="flex:1"><div class="hn">&#x1F339; '+h.persona+'</div><div class="hi">PERRA DEL PSOE · '+new Date(h.fecha).toLocaleDateString('es-ES',{day:'numeric',month:'short'})+' · NO COMPUTA PP</div></div><button class="btn bg bs" onclick="viewHon(\''+h.id+'\')">Ver diploma</button></div>').join('')+'</div>':'';}
-async function dlHon(){toast('Generando...');try{const c=await html2canvas(document.getElementById('dhon'),{scale:2,width:1123,height:794,backgroundColor:'#fff7f5',useCORS:true,onclone:doc=>{const x=doc.getElementById('dhon');x.style.transform='none';x.style.position='relative';}});const a=document.createElement('a');a.download='perra-del-psoe-'+(document.getElementById('hnom').textContent||'').toLowerCase().replace(/\s+/g,'-')+'.png';a.href=c.toDataURL('image/png');a.click();toast('Descargado');}catch(e){toast('Error',false);}}
+function viewHon(id){const m=S.movs.find(x=>x.id===id);if(!m)return;openHon();document.getElementById('hon-form').style.display='none';showHon(honKey(m),m.persona,m.notas,m.creado_en||m.fecha);}
+function revHon(id){const m=S.movs.find(x=>x.id===id);if(!m)return;const pi=document.getElementById('rv-'+id),pass=(pi?.value||'').trim();
+  if(pass!==PWD){toast(pass?'Contraseña incorrecta':'Pon el PIN para revocar',false);pi?.focus();return;}
+  const mov={id:uid(),fecha:tod(),persona:m.persona,tipo:'revocado',puntos:0,notas:m.id,admin:'Tribunal',mes:m.mes,creado_en:new Date().toISOString(),synced:false};
+  S.movs.push(mov);ls();fetch(SURL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'write',mov})}).catch(()=>{});
+  toast('Premio revocado: '+HON[honKey(m)].n+' de '+m.persona);renderH();}
+function renderHonH(mes){const el=document.getElementById('hall-hon');if(!el)return;const rv=revIds();const hs=S.movs.filter(x=>isHon(x)&&x.mes===mes&&!rv.has(x.id)).sort((a,b)=>String(a.fecha).localeCompare(String(b.fecha)));
+  el.innerHTML=hs.length?'<div class="st"><span>&#x1F3C5;</span> Premios honoríficos</div><div class="hon-list">'+hs.map(x=>{const h=HON[honKey(x)];return'<div class="hon-it" style="background:'+h.uib+';border-color:'+h.uibd+'"><div style="flex:1;min-width:160px"><div class="hn" style="color:'+h.ui+'">'+h.e+' '+x.persona+'</div><div class="hi">'+h.n.toUpperCase()+' · '+new Date(x.fecha).toLocaleDateString('es-ES',{day:'numeric',month:'short'})+' · NO COMPUTA PP</div></div><button class="btn bg bs" onclick="viewHon(\''+x.id+'\')">Ver diploma</button><details class="hon-rv"><summary>Revocar</summary><input type="text" id="rv-'+x.id+'" placeholder="PIN" inputmode="numeric" pattern="[0-9]*" maxlength="4" autocomplete="off"><button class="btn bp bs" onclick="revHon(\''+x.id+'\')">Revocar</button></details></div>';}).join('')+'</div>':'';}
 function hallPrev(){const[y,m]=hallMes.split('-').map(Number);const d=new Date(y,m-2);hallMes=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0');renderH();}
 function hallNext(){const[y,m]=hallMes.split('-').map(Number);const d=new Date(y,m);hallMes=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0');renderH();}
 function renderH(){
