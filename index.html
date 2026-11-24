@@ -44,6 +44,10 @@ main{max-width:960px;margin:0 auto;padding:28px 16px 80px}
 .fv textarea{resize:vertical;min-height:68px}
 .tg{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .tc{padding:12px;background:var(--s2);border:2px solid var(--border);border-radius:8px;cursor:pointer;user-select:none;transition:border-color .15s,background .15s,transform .1s;text-align:center}
+.tc-eng{grid-column:1/-1;padding:8px 12px;background:transparent;border:1px dashed var(--border);font-family:'DM Mono',monospace;font-size:11px;letter-spacing:1px;color:var(--mu)}
+.tc-eng:hover{transform:none;color:var(--t2)}.tc-eng .eng-b{display:none}
+.tc-eng.armed{border-style:solid;border-color:var(--pdim);color:var(--purple);background:var(--pbg)}.tc-eng.armed .eng-a{display:none}.tc-eng.armed .eng-b{display:inline}
+.tc-eng.se{color:var(--purple)}.tc-eng.se .eng-b{display:none}.tc-eng.se .eng-a{display:inline}
 .tc:hover{transform:translateY(-2px);border-color:var(--border2)}
 .sf{border-color:var(--pink)!important;background:var(--pkbg)!important}
 .sr{border-color:var(--green)!important;background:var(--gbg)!important}
@@ -228,9 +232,9 @@ tbody tr:last-child td{border-bottom:none}tbody tr:hover td{background:var(--s2)
     <div class="tg">
       <div class="tc" data-t="falta" onclick="selT(this)"><div class="ti">&#x1F480;</div><div class="tn">Falta</div><div class="tp">+1 PP · Vago de primera</div></div>
       <div class="tc" data-t="vagueo" onclick="selT(this)"><div class="ti">&#x1F6CB;&#xFE0F;</div><div class="tn">Vagueo en el gym</div><div class="tp">+1 PP · Fue pero no entrenó</div></div>
-      <div class="tc" data-t="engano" onclick="selT(this)"><div class="ti">&#x1F925;</div><div class="tn">Engano al Jurado</div><div class="tp">+2 PP · Falta grave</div></div>
       <div class="tc" data-t="corto" onclick="selT(this)"><div class="ti">&#x23F1;&#xFE0F;</div><div class="tn">Entreno insuficiente</div><div class="tp">+1 PP · Fue, pero se piró antes de tiempo</div></div>
       <div class="tc" data-t="tarde" onclick="selT(this)"><div class="ti">&#x1F422;</div><div class="tn">Llegada tarde</div><div class="tp">+1 PP · Llegó después de las 21:30</div></div>
+      <div class="tc tc-eng" data-t="engano" onclick="engTap(this)"><span class="eng-a">&#x1F925; Engaño al Jurado · +2 PP</span><span class="eng-b">&#x26A0;&#xFE0F; ¿Seguro? Toca otra vez para acusar de engaño</span></div>
     </div>
     <div class="st" style="margin-top:20px"><span>&#x1F39F;&#xFE0F;</span> Bonos</div>
     <div class="tg">
@@ -587,7 +591,9 @@ function goTab(n,b){document.querySelectorAll('.tab').forEach(t=>t.classList.rem
 function fillSels(){const s=(id,a,ph)=>{const e=document.getElementById(id);if(!e)return;e.innerHTML='<option value="">'+ph+'</option>'+a.map(v=>'<option>'+v+'</option>').join('');};s('fp',S.members,'-- quien ha fallado? --');s('fa',S.admins,'-- quien apunta esto? --');}
 function fillFS(){const s=(id,a)=>{const e=document.getElementById(id);if(!e)return;const c=e.value;e.innerHTML='<option value="">Todos</option>'+a.map(v=>'<option value="'+v+'">'+v+'</option>').join('');e.value=c;};s('fper',S.members);s('fadm',S.admins);}
 let cT='falta';
-function selT(el){document.querySelectorAll('.tc').forEach(c=>{c.classList.remove('sf','sr','sv','se','sy','sc');});cT=el.dataset.t;const m={falta:'sf',recuperacion:'sr',vagueo:'sv',engano:'se',corto:'sy',tarde:'sc',bono_espana:'sr',bono_cita:'sr',bono_aprobado:'sr'};el.classList.add(m[cT]||'sf');}
+let engTm=null;
+function engTap(el){if(el.classList.contains('se'))return;if(el.classList.contains('armed')){clearTimeout(engTm);el.classList.remove('armed');selT(el);return;}el.classList.add('armed');clearTimeout(engTm);engTm=setTimeout(()=>el.classList.remove('armed'),4000);}
+function selT(el){document.querySelector('.tc-eng')?.classList.remove('armed');document.querySelectorAll('.tc').forEach(c=>{c.classList.remove('sf','sr','sv','se','sy','sc');});cT=el.dataset.t;const m={falta:'sf',recuperacion:'sr',vagueo:'sv',engano:'se',corto:'sy',tarde:'sc',bono_espana:'sr',bono_cita:'sr',bono_aprobado:'sr'};el.classList.add(m[cT]||'sf');}
 function initT(){const e=document.querySelector('.tc[data-t="falta"]');if(e)selT(e);}
 function clearF(){const f=document.getElementById('ff');if(f)f.value=tod();['fp','fa','fn','fpass'].forEach(id=>{const e=document.getElementById(id);if(e)e.value='';});document.getElementById('ferr').classList.remove('on');initT();}
 function showE(m){const e=document.getElementById('ferr');e.innerHTML='<b>Atencion:</b> '+m;e.classList.add('on');}
