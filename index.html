@@ -103,9 +103,9 @@ tbody tr:last-child td{border-bottom:none}tbody tr:hover td{background:var(--s2)
 .p1 .pbdg{display:block}
 .ds{background:var(--s1);border:1px solid var(--border);border-radius:10px;padding:20px;margin-bottom:16px}
 .dwrap{position:relative;width:100%;overflow:hidden}
-#diploma{--dbg:#fffdf5;--dink:#1a0800;--dacc:#ff2d78;--dacc2:#c00050;--dmut:#aa8040;--dline:#e0c880;--dpat:none;--dfont:'Righteous',sans-serif;--dns:1;
+#diploma,#dhon{--dbg:#fffdf5;--dink:#1a0800;--dacc:#ff2d78;--dacc2:#c00050;--dmut:#aa8040;--dline:#e0c880;--dpat:none;--dfont:'Righteous',sans-serif;--dns:1;
   width:1123px;height:794px;transform-origin:top left;position:absolute;top:0;left:0;background:var(--dbg);color:var(--dink);padding:58px 80px 50px;font-family:'Nunito',sans-serif;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;text-align:center;border-radius:4px;box-sizing:border-box}
-#diploma::before{content:'';position:absolute;inset:0;background-image:var(--dpat);pointer-events:none}
+#diploma::before,#dhon::before{content:'';position:absolute;inset:0;background-image:var(--dpat);pointer-events:none}
 .dbd{position:absolute;inset:14px;border:3px solid var(--dacc);border-radius:4px;pointer-events:none;opacity:.6}
 .dbd2{position:absolute;inset:24px;border:1px solid var(--dacc);border-radius:2px;pointer-events:none;opacity:.35}
 .dwm{position:absolute;font-family:var(--dfont);font-size:150px;color:var(--dacc);opacity:.06;top:50%;left:50%;transform:translate(-50%,-50%) rotate(-22deg);white-space:nowrap;pointer-events:none;user-select:none}
@@ -148,6 +148,17 @@ tbody tr:last-child td{border-bottom:none}tbody tr:hover td{background:var(--s2)
 .rl{list-style:none;padding:0}
 .rl li{font-size:14px;color:var(--t2);padding:5px 0 5px 18px;position:relative;line-height:1.6;border-top:1px solid var(--border)}
 .rl li:first-child{border-top:none}.rl li::before{content:'--';position:absolute;left:0;color:var(--mu)}
+.hon-list{display:flex;flex-direction:column;gap:8px;margin-top:4px}
+.hon-it{display:flex;align-items:center;gap:12px;background:#1c0406;border:1px solid #5a0a10;border-radius:8px;padding:12px 16px}
+.hon-it .hn{font-family:'Righteous',sans-serif;font-size:20px;color:#ff4d5a;flex:1}
+.hon-it .hi{font-family:'DM Mono',monospace;font-size:10px;color:var(--mu);letter-spacing:1px;margin-top:2px}
+.foot{text-align:center;padding:28px 16px 36px;color:var(--mu);font-family:'DM Mono',monospace;font-size:11px;letter-spacing:2px;border-top:1px solid var(--border);margin-top:40px}
+.foot button{margin-top:10px;background:none;border:1px solid var(--border2);color:var(--t2);font-family:'DM Mono',monospace;font-size:11px;letter-spacing:2px;padding:6px 16px;border-radius:20px;cursor:pointer}
+.foot button:hover{border-color:#e30613;color:#ff4d5a}
+#hon-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:99997;align-items:flex-start;justify-content:center;padding:20px;overflow:auto}
+.hon-box{background:var(--s1);border:1px solid var(--border);border-radius:12px;width:100%;max-width:1000px;padding:18px 20px}
+.hon-hd{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;font-family:'Righteous',sans-serif;font-size:16px}
+.hon-hd button{background:none;border:none;color:var(--mu);font-size:24px;cursor:pointer}
 #toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(10px);padding:10px 22px;background:var(--s2);border:1px solid var(--pkd);color:var(--pink);font-family:'DM Mono',monospace;font-size:12px;letter-spacing:1px;border-radius:20px;opacity:0;transition:opacity .25s,transform .25s;pointer-events:none;z-index:9999;white-space:nowrap}
 #toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
 #toast.ok{border-color:var(--gdim);color:var(--green)}
@@ -249,6 +260,7 @@ tbody tr:last-child td{border-bottom:none}tbody tr:hover td{background:var(--s2)
   <div class="st"><span>&#x1F3C6;</span> Ranking</div>
   <div class="hr" id="hrank"></div>
   <div id="hall-desempate" style="display:none"></div>
+  <div id="hall-hon"></div>
   <div id="hall-ajustes"></div>
   <div class="st"><span>&#x1F4DC;</span> Diploma oficial de la verguenza</div>
   <div class="ds">
@@ -380,6 +392,44 @@ tbody tr:last-child td{border-bottom:none}tbody tr:hover td{background:var(--s2)
 
 </div>
 
+<!-- FOOTER -->
+<footer class="foot">
+  Tribunal del Hierro · Est. 2026<br>
+  <button onclick="openHon()">&#x1F339; Premio honorífico extraordinario</button>
+</footer>
+
+<!-- PREMIO HONORIFICO -->
+<div id="hon-modal" onclick="if(event.target===this)closeHon()">
+  <div class="hon-box">
+    <div class="hon-hd"><span>&#x1F339; Premio honorífico extraordinario</span><button onclick="closeHon()">&times;</button></div>
+    <div class="aj-row" style="margin-bottom:14px">
+      <select id="hon-per"><option value="">-- ¿a quién? --</option></select>
+      <input type="text" id="hon-pass" placeholder="PIN" inputmode="numeric" pattern="[0-9]*" maxlength="4" autocomplete="off" onkeydown="if(event.key==='Enter')genHon()">
+      <button class="btn bp bs" onclick="genHon()">&#x1F339; Otorgar</button>
+    </div>
+    <div id="hon-out" style="display:none">
+      <div class="dwrap" id="hwrap"><div id="dhon">
+        <div class="dbd"></div><div class="dbd2"></div><div class="dwm">PSOE</div>
+        <div class="dtb">Tribunal del Hierro · Distinción extraordinaria</div>
+        <div class="dbr">&#x1F339; Premio Honorífico Extraordinario &#x1F339;</div>
+        <div class="ddiv"></div>
+        <div class="dhy">El Tribunal, en sesión solemne y sin quórum, distingue a</div>
+        <div class="dname" id="hnom">--</div>
+        <div class="ddiv" style="width:40px;margin-top:4px"></div>
+        <div class="dtit">&#x1F339; PERRA DEL PSOE &#x1F339;</div>
+        <div class="dmon" id="hfec">--</div>
+        <div class="dtxt" id="htxt" style="margin-top:10px">--</div>
+        <div class="dfr"><div class="dfe">Distinción honorífica · No computa PP</div><div class="dsg">El Tribunal del Hierro</div></div>
+        <div class="dse">&#x1F339;</div>
+      </div></div>
+      <div class="dbtns" style="margin-top:14px">
+        <button class="btn bp" onclick="dlHon()">&#x2B07;&#xFE0F; Descargar PNG</button>
+      </div>
+    </div>
+    <div id="hon-err" class="aj-err"></div>
+  </div>
+</div>
+
 <!-- PDF MODAL -->
 <div id="pdf-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:99998;align-items:center;justify-content:center;padding:20px" onclick="if(event.target===this)this.style.display='none'">
   <div style="background:var(--s1);border:1px solid var(--border);border-radius:12px;width:100%;max-width:800px;max-height:90vh;display:flex;flex-direction:column;overflow:hidden">
@@ -408,9 +458,9 @@ const tod=()=>new Date().toISOString().split('T')[0];
 const curM=()=>{const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0');};
 const MES=['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
 const fmtM=ym=>{if(!ym)return'--';const[y,m]=ym.split('-');return MES[+m-1]+' '+y;};
-const TL={falta:'Falta',recuperacion:'Sabado Salvador',vagueo:'Vagueo en el gym',engano:'Engano al Jurado',corto:'Tiempo de entrenamiento insuficiente',tarde:'Llegada tarde (+21:30)',desierto:'Mes declarado desierto',reabierto:'Mes reabierto'};
-const TC={falta:'cf',recuperacion:'cr',vagueo:'cv',engano:'ce',corto:'cy',tarde:'cc',desierto:'cy',reabierto:'cr'};
-const TE={falta:'&#x1F480;',recuperacion:'&#x1F4C5;',vagueo:'&#x1F6CB;',engano:'&#x1F925;',corto:'&#x23F1;',tarde:'&#x1F422;',desierto:'&#x1F3D6;',reabierto:'&#x1F513;'};
+const TL={falta:'Falta',recuperacion:'Sabado Salvador',vagueo:'Vagueo en el gym',engano:'Engano al Jurado',corto:'Tiempo de entrenamiento insuficiente',tarde:'Llegada tarde (+21:30)',desierto:'Mes declarado desierto',reabierto:'Mes reabierto',honorifico:'Perra del PSOE (honorífico)'};
+const TC={falta:'cf',recuperacion:'cr',vagueo:'cv',engano:'ce',corto:'cy',tarde:'cc',desierto:'cy',reabierto:'cr',honorifico:'cf'};
+const TE={falta:'&#x1F480;',recuperacion:'&#x1F4C5;',vagueo:'&#x1F6CB;',engano:'&#x1F925;',corto:'&#x23F1;',tarde:'&#x1F422;',desierto:'&#x1F3D6;',reabierto:'&#x1F513;',honorifico:'&#x1F339;'};
 const getPP=(p,m)=>S.movs.filter(x=>x.persona===p&&x.mes===m).reduce((a,x)=>a+x.puntos,0);
 // Meses desiertos: sin Perra del Mes, nadie suma PP.
 // DESIERTOS son los de serie; desde el Hall se declaran/reabren con movimientos 'desierto'/'reabierto' (manda el último).
@@ -552,6 +602,47 @@ function newDip(){const pi=document.getElementById('dip-pass');if((pi?.value||''
   const mov={id:uid(),fecha:mes+'-01',persona:'Tribunal',tipo:'diploma',puntos:0,notas:salt,admin:'Tribunal',mes,creado_en:new Date().toISOString(),synced:false};
   S.movs.push(mov);ls();fetch(SURL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'write',mov})}).catch(()=>{});
   renderH();toast('🎲 Nuevo diploma: '+THEMES[dipTheme(mes,salt)].n);}
+const HON_TXT=[
+ 'Por su habilidad para no presentarse en todo el mes y aun así seguir convencido de que lo está haciendo de maravilla.',
+ 'Por anunciar cada lunes un ambicioso plan de entrenamiento que nunca llega a ejecutarse.',
+ 'Por pactar con el sofá, con la cama y con la pereza a la vez, sin que ninguno se queje.',
+ 'Por convertir cada excusa en una rueda de prensa de cuarenta minutos sin admitir preguntas.',
+ 'Por su firme política de "ya entrenaremos en la próxima legislatura".',
+ 'Por mantenerse en el cargo de perra contra viento, marea y mancuernas.',
+ 'Por haber prometido abdominales para todos y entregado únicamente excusas.',
+ 'Por su talento para cambiar de opinión sobre ir al gimnasio tres veces en la misma tarde.',
+ 'Por gestionar su tiempo de entrenamiento como un presupuesto prorrogado: sin tocarlo.',
+ 'Por aplicar con rigor la máxima de que el gimnasio es un derecho, nunca una obligación.',
+ 'Por decretar el descanso indefinido sin pasar por el Tribunal.',
+ 'Por su gran capacidad de negociación con la báscula, que todavía no ha firmado nada.'
+];
+let honI=-1;
+function openHon(){const sel=document.getElementById('hon-per');sel.innerHTML='<option value="">-- ¿a quién? --</option>'+S.members.map(m=>'<option>'+m+'</option>').join('');document.getElementById('hon-out').style.display='none';document.getElementById('hon-err').style.display='none';document.getElementById('hon-modal').style.display='flex';}
+function closeHon(){document.getElementById('hon-modal').style.display='none';}
+function fitHon(){const w=document.getElementById('hwrap'),d=document.getElementById('dhon');if(!w||!d||!w.clientWidth)return;const sc=Math.min(1,w.clientWidth/1123);d.style.transform='scale('+sc+')';w.style.height=(794*sc)+'px';}
+window.addEventListener('resize',fitHon);
+function genHon(){const err=document.getElementById('hon-err'),per=document.getElementById('hon-per').value,pi=document.getElementById('hon-pass');
+  const fail=t=>{err.textContent=t;err.style.display='block';};err.style.display='none';
+  if(!per)return fail('¿A quién se le otorga?');
+  if(pi.value.trim()!==PWD)return fail('Contraseña incorrecta.');
+  pi.value='';
+  let i;do{i=Math.floor(Math.random()*HON_TXT.length);}while(i===honI&&HON_TXT.length>1);honI=i;
+  const fecha=tod(),mes=fecha.slice(0,7);
+  const mov={id:uid(),fecha,persona:per,tipo:'honorifico',puntos:0,notas:HON_TXT[i],admin:'Tribunal',mes,creado_en:new Date().toISOString(),synced:false};
+  S.movs.push(mov);ls();fetch(SURL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'write',mov})}).catch(()=>{});
+  showHon(per,HON_TXT[i],mov.creado_en);
+  toast('🌹 '+per+': Perra del PSOE');
+  if(document.getElementById('tab-hall')?.classList.contains('on'))renderH();}
+function showHon(per,txt,when){
+  const d=document.getElementById('dhon'),v={'--dbg':'#fff7f5','--dink':'#2a0a0a','--dacc':'#e30613','--dacc2':'#b0000f','--dmut':'#9a5a50','--dline':'#f2b8b0','--dpat':'radial-gradient(circle at 10% 15%,rgba(227,6,19,.08),transparent 30%),radial-gradient(circle at 90% 85%,rgba(227,6,19,.08),transparent 30%)','--dfont':"'Playfair Display',serif"};for(const k in v)d.style.setProperty(k,v[k]);
+  const nm=document.getElementById('hnom');nm.textContent=per;nm.style.fontSize=per.length>14?'calc(84px * '+(14/per.length).toFixed(3)+')':'';
+  document.getElementById('hfec').textContent='Otorgado el '+new Date(when||Date.now()).toLocaleDateString('es-ES',{day:'numeric',month:'long',year:'numeric'});
+  document.getElementById('htxt').textContent=txt;
+  document.getElementById('hon-out').style.display='block';fitHon();}
+function viewHon(id){const m=S.movs.find(x=>x.id===id);if(!m)return;openHon();document.getElementById('hon-per').value=m.persona;document.getElementById('hon-modal').style.display='flex';showHon(m.persona,m.notas,m.creado_en||m.fecha);}
+function renderHonH(mes){const el=document.getElementById('hall-hon');if(!el)return;const hs=S.movs.filter(x=>x.tipo==='honorifico'&&x.mes===mes).sort((a,b)=>String(a.fecha).localeCompare(String(b.fecha)));
+  el.innerHTML=hs.length?'<div class="st"><span>&#x1F339;</span> Premios honoríficos</div><div class="hon-list">'+hs.map(h=>'<div class="hon-it"><div style="flex:1"><div class="hn">&#x1F339; '+h.persona+'</div><div class="hi">PERRA DEL PSOE · '+new Date(h.fecha).toLocaleDateString('es-ES',{day:'numeric',month:'short'})+' · NO COMPUTA PP</div></div><button class="btn bg bs" onclick="viewHon(\''+h.id+'\')">Ver diploma</button></div>').join('')+'</div>':'';}
+async function dlHon(){toast('Generando...');try{const c=await html2canvas(document.getElementById('dhon'),{scale:2,width:1123,height:794,backgroundColor:'#fff7f5',useCORS:true,onclone:doc=>{const x=doc.getElementById('dhon');x.style.transform='none';x.style.position='relative';}});const a=document.createElement('a');a.download='perra-del-psoe-'+(document.getElementById('hnom').textContent||'').toLowerCase().replace(/\s+/g,'-')+'.png';a.href=c.toDataURL('image/png');a.click();toast('Descargado');}catch(e){toast('Error',false);}}
 function hallPrev(){const[y,m]=hallMes.split('-').map(Number);const d=new Date(y,m-2);hallMes=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0');renderH();}
 function hallNext(){const[y,m]=hallMes.split('-').map(Number);const d=new Date(y,m);hallMes=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0');renderH();}
 function renderH(){
@@ -592,6 +683,7 @@ function renderH(){
   } else {
     desEl.style.display='none';
   }
+  renderHonH(mes);
   renderAj(mes);
   const w2=dw?r.find(x=>x.persona===dw.persona)||r[0]:r[0];
   const nw2=!w2||w2.pp===0;
