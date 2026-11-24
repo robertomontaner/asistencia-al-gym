@@ -303,7 +303,7 @@ tbody tr:last-child td{border-bottom:none}tbody tr:hover td{background:var(--s2)
       <div class="tc" data-t="falta" onclick="selT(this)"><div class="ti">&#x1F480;</div><div class="tn">Falta</div><div class="tp">+1 PP · Vago de primera</div></div>
       <div class="tc" data-t="vagueo" onclick="selT(this)"><div class="ti">&#x1F6CB;&#xFE0F;</div><div class="tn">Vagueo en el gym</div><div class="tp">+1 PP · Fue pero no entrenó</div></div>
       <div class="tc" data-t="corto" onclick="selT(this)"><div class="ti">&#x23F1;&#xFE0F;</div><div class="tn">Entreno insuficiente</div><div class="tp">+1 PP · Fue, pero se piró antes de tiempo</div></div>
-      <div class="tc" data-t="tarde" onclick="selT(this)"><div class="ti">&#x1F422;</div><div class="tn">Llegada tarde</div><div class="tp">+1 PP · Llegó después de las 21:30</div></div>
+      <div class="tc" data-t="tarde" onclick="selT(this)"><div class="ti">&#x1F422;</div><div class="tn">Llegada tarde</div><div class="tp">+1 PP · No entrenaba a las 21:30</div></div>
       <div class="tc tc-eng" data-t="engano" onclick="engTap(this)"><span class="eng-a">&#x1F925; Engaño al Jurado · +2 PP</span><span class="eng-b">&#x26A0;&#xFE0F; ¿Seguro? Toca otra vez para acusar de engaño</span></div>
     </div>
     <div class="st" style="margin-top:20px"><span>&#x1F39F;&#xFE0F;</span> Bonos</div>
@@ -456,7 +456,7 @@ tbody tr:last-child td{border-bottom:none}tbody tr:hover td{background:var(--s2)
       <tr><td style="padding:6px 0">&#x1F480; Falta</td><td style="text-align:right"><strong style="color:var(--pink)">+1 PP</strong></td></tr>
       <tr><td style="padding:6px 0">&#x1F6CB;&#xFE0F; Vagueo en el gym (fue pero no entrenó)</td><td style="text-align:right"><strong style="color:var(--pink)">+1 PP</strong></td></tr>
       <tr><td style="padding:6px 0">&#x23F1;&#xFE0F; Entreno insuficiente (menos de 30 min efectivos)</td><td style="text-align:right"><strong style="color:var(--pink)">+1 PP</strong></td></tr>
-      <tr><td style="padding:6px 0">&#x1F422; Llegada tarde (después de las 21:30)</td><td style="text-align:right"><strong style="color:var(--pink)">+1 PP</strong></td></tr>
+      <tr><td style="padding:6px 0">&#x1F422; Llegada tarde (no estar entrenando a las 21:30)</td><td style="text-align:right"><strong style="color:var(--pink)">+1 PP</strong></td></tr>
       <tr><td style="padding:6px 0">&#x1F925; Engaño al Jurado</td><td style="text-align:right"><strong style="color:var(--purple)">+2 PP</strong></td></tr>
       <tr><td style="padding:6px 0">&#x1F4C5; Sábado salvador (bono)</td><td style="text-align:right"><strong style="color:var(--green)">−1 PP</strong></td></tr>
       <tr><td style="padding:6px 0">&#x1F39F;&#xFE0F; Bonos (Título V)</td><td style="text-align:right"><strong style="color:var(--green)">−1 PP / mes perdonado</strong></td></tr>
@@ -471,9 +471,10 @@ tbody tr:last-child td{border-bottom:none}tbody tr:hover td{background:var(--s2)
     <li>Menos de 30 minutos = <em>Entreno insuficiente</em>, <strong style="color:var(--pink)">+1 PP</strong>.</li>
     <li>Ir y no entrenar de verdad = <em>Vagueo en el gym</em>, <strong style="color:var(--pink)">+1 PP</strong>.</li>
   </ul></div>
-  <div class="ra"><div class="ran">Art. 5 — Límite de llegada</div><ul class="rl">
-    <li>Hay que llegar al gimnasio <strong>antes de las 21:30</strong>.</li>
-    <li>Llegar más tarde = <em>Llegada tarde</em>, <strong style="color:var(--pink)">+1 PP</strong>.</li>
+  <div class="ra"><div class="ran">Art. 5 — Límite horario</div><ul class="rl">
+    <li>A las <strong>21:30</strong> hay que estar ya <strong>entrenando de forma efectiva</strong>.</li>
+    <li>No basta con llegar: cambiarse, dejar la mochila o calentar charlando no cuenta. Llegar a las 21:29 y empezar a las 21:40 es tarde.</li>
+    <li>No estar entrenando a las 21:30 = <em>Llegada tarde</em>, <strong style="color:var(--pink)">+1 PP</strong>.</li>
   </ul></div>
   <div class="ra"><div class="ran">Art. 6 — Actividades permitidas en lugar del gimnasio</div><ul class="rl">
     <li>Sirven de <strong>lunes a viernes</strong> para evitar el PP del día, con las mismas reglas de horario y duración.</li>
@@ -671,7 +672,7 @@ const tod=()=>new Date().toISOString().split('T')[0];
 const curM=()=>{const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0');};
 const MES=['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
 const fmtM=ym=>{if(!ym)return'--';const[y,m]=ym.split('-');return MES[+m-1]+' '+y;};
-const TL={falta:'Falta',recuperacion:'Sabado Salvador',vagueo:'Vagueo en el gym',engano:'Engano al Jurado',corto:'Tiempo de entrenamiento insuficiente',tarde:'Llegada tarde (+21:30)',desierto:'Mes declarado desierto',reabierto:'Mes reabierto',honorifico:'Perra del PSOE (honorífico)',honorifico_choco:'Perrita Chocolatera (honorífico)',honorifico_abuelo:'Favorito del Abuelo Homosexual (honorífico)',revocado:'Premio revocado',bono_espana:'Bono Salvar España',bono_cita:'Bono Cita con Mujer',bono_aprobado:'Bono Aprobado General'};
+const TL={falta:'Falta',recuperacion:'Sabado Salvador',vagueo:'Vagueo en el gym',engano:'Engano al Jurado',corto:'Tiempo de entrenamiento insuficiente',tarde:'Llegada tarde (no entrenaba a las 21:30)',desierto:'Mes declarado desierto',reabierto:'Mes reabierto',honorifico:'Perra del PSOE (honorífico)',honorifico_choco:'Perrita Chocolatera (honorífico)',honorifico_abuelo:'Favorito del Abuelo Homosexual (honorífico)',revocado:'Premio revocado',bono_espana:'Bono Salvar España',bono_cita:'Bono Cita con Mujer',bono_aprobado:'Bono Aprobado General'};
 const TC={falta:'cf',recuperacion:'cr',vagueo:'cv',engano:'ce',corto:'cy',tarde:'cc',desierto:'cy',reabierto:'cr',honorifico:'cf',honorifico_choco:'cv',honorifico_abuelo:'ce',revocado:'cr',bono_espana:'cr',bono_cita:'cr',bono_aprobado:'cr'};
 const TE={falta:'&#x1F480;',recuperacion:'&#x1F4C5;',vagueo:'&#x1F6CB;',engano:'&#x1F925;',corto:'&#x23F1;',tarde:'&#x1F422;',desierto:'&#x1F3D6;',reabierto:'&#x1F513;',honorifico:'&#x1F339;',honorifico_choco:'&#x1F36B;',honorifico_abuelo:'&#x1F474;',revocado:'&#x274C;',bono_espana:'&#x1F1EA;&#x1F1F8;',bono_cita:'&#x1F498;',bono_aprobado:'&#x1F393;'};
 const getPP=(p,m)=>perd(p,m)?0:S.movs.filter(x=>x.persona===p&&x.mes===m).reduce((a,x)=>a+x.puntos,0);
