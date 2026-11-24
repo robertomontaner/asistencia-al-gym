@@ -1124,6 +1124,11 @@ async function instApp(){if(instEvt){instEvt.prompt();await instEvt.userChoice.c
     :'<ol><li>Abre el menú del navegador (<b>⋮</b> arriba a la derecha en Chrome).</li><li>Pulsa <b>«Instalar aplicación»</b> o <b>«Añadir a pantalla de inicio»</b>.</li></ol>Se abrirá a pantalla completa con su icono.';
   document.getElementById('inst-modal').style.display='flex';}
 if('serviceWorker' in navigator&&location.protocol==='https:')navigator.serviceWorker.register('sw.js').catch(()=>{});
+// ---- Auto-actualización: si hay versión nueva publicada, recarga saltándose la caché ----
+const APP_V='20261124231436';
+async function checkV(){if(location.protocol!=='https:')return;try{const r=await fetch('version.json?_='+Date.now(),{cache:'no-store'});const j=await r.json();
+  if(j.v&&j.v!==APP_V){const k='th_upd_'+j.v;if(sessionStorage.getItem(k))return;sessionStorage.setItem(k,'1');toast('🔄 Nueva versión, actualizando…');setTimeout(()=>location.replace(location.pathname+'?v='+j.v),800);}}catch(e){}}
+checkV();document.addEventListener('visibilitychange',()=>{if(!document.hidden)checkV();});
 setTimeout(instUI,0);
 function hstr(t){let h=2166136261;for(let i=0;i<t.length;i++){h^=t.charCodeAt(i);h=Math.imul(h,16777619);}return h>>>0;}
 function dipSalt(m){const ms=S.movs.filter(x=>x.tipo==='diploma'&&x.mes===m).sort((a,b)=>String(a.creado_en).localeCompare(String(b.creado_en)));return ms.length?ms[ms.length-1].notas:'';}
