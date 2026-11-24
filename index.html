@@ -239,7 +239,8 @@ tbody tr:last-child td{border-bottom:none}tbody tr:hover td{background:var(--s2)
 #toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(10px);padding:10px 22px;background:var(--s2);border:1px solid var(--pkd);color:var(--pink);font-family:'DM Mono',monospace;font-size:12px;letter-spacing:1px;border-radius:20px;opacity:0;transition:opacity .25s,transform .25s;pointer-events:none;z-index:9999;white-space:nowrap}
 #toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
 #toast.ok{border-color:var(--gdim);color:var(--green)}
-@media(max-width:580px){.nb{padding:12px 11px;font-size:12px}.p1 .pbdg{display:none}.rpn{font-size:34px}}
+.nb .ni{margin-right:6px}
+@media(max-width:580px){nav{overflow:visible}.nb .ni{margin-right:0}.nb{flex:1;min-width:0;padding:9px 2px 8px;font-size:10.5px;white-space:normal;line-height:1.15;display:flex;flex-direction:column;align-items:center;gap:3px}.nb .ni{font-size:18px}.nb .nt{text-align:center}.p1 .pbdg{display:none}.rpn{font-size:34px}}
 </style>
 </head>
 <body>
@@ -263,11 +264,11 @@ tbody tr:last-child td{border-bottom:none}tbody tr:hover td{background:var(--s2)
   <div class="mpill" id="mpill">--</div>
 </header>
 <nav>
-  <button class="nb on" onclick="goTab('registro',this)">&#x1F4CB; Registro</button>
-  <button class="nb" onclick="goTab('movimientos',this)">&#x1F4CA; Movimientos</button>
-  <button class="nb" onclick="goTab('hall',this)">&#x1F3C6; Hall de la Fama</button>
-  <button class="nb" onclick="goTab('piques',this)">&#x1F3AE; Piques</button>
-  <button class="nb" onclick="goTab('reglamento',this)">&#x1F4DC; Reglamento</button>
+  <button class="nb on" onclick="goTab('registro',this)"><span class="ni">&#x1F4CB;</span><span class="nt">Registro</span></button>
+  <button class="nb" onclick="goTab('movimientos',this)"><span class="ni">&#x1F4CA;</span><span class="nt">Movimientos</span></button>
+  <button class="nb" onclick="goTab('hall',this)"><span class="ni">&#x1F3C6;</span><span class="nt">Hall de la Fama</span></button>
+  <button class="nb" onclick="goTab('piques',this)"><span class="ni">&#x1F3AE;</span><span class="nt">Piques</span></button>
+  <button class="nb" onclick="goTab('reglamento',this)"><span class="ni">&#x1F4DC;</span><span class="nt">Reglamento</span></button>
 </nav>
 <main>
 <div id="tab-registro" class="tab on">
