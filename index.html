@@ -239,7 +239,8 @@ tbody tr:last-child td{border-bottom:none}tbody tr:hover td{background:var(--s2)
 .pqc-it input{width:18px;height:18px;accent-color:var(--pink);flex-shrink:0}.pqc-it span{flex:1}.pqc-it.off span{color:var(--mu);text-decoration:line-through}
 .pqc-it em{font-style:normal;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1px;color:var(--yellow);border:1px solid var(--ydim);border-radius:8px;padding:1px 6px}
 .pqc-it button{background:none;border:none;color:var(--mu);font-size:18px;cursor:pointer;padding:0 4px}
-.pchips{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:8px}
+.pchips{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+@media(min-width:700px){.pchips{grid-template-columns:repeat(4,1fr)}}
 .pchip{display:flex;flex-direction:column;align-items:center;gap:5px;padding:10px 6px 8px;background:var(--s2);border:2px solid var(--border);border-radius:12px;cursor:pointer;color:var(--text);transition:transform .1s,border-color .15s,background .15s;-webkit-tap-highlight-color:transparent}
 .pchip:hover{border-color:var(--border2)}.pchip:active{transform:scale(.95)}
 .pchip.on{border-color:var(--pink);background:var(--pkbg);box-shadow:0 0 0 3px rgba(255,45,120,.2);animation:chipon .25s}
