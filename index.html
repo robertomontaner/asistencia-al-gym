@@ -213,7 +213,6 @@ tbody tr:last-child td{border-bottom:none}tbody tr:hover td{background:var(--s2)
     <div class="st" style="margin-top:20px"><span>&#x2696;&#xFE0F;</span> Que ha hecho ahora?</div>
     <div class="tg">
       <div class="tc" data-t="falta" onclick="selT(this)"><div class="ti">&#x1F480;</div><div class="tn">Falta</div><div class="tp">+1 PP · Vago de primera</div></div>
-      <div class="tc" data-t="recuperacion" onclick="selT(this)"><div class="ti">&#x1F4C5;</div><div class="tn">Sabado Salvador</div><div class="tp">-1 PP · Si tiene puntos</div></div>
       <div class="tc" data-t="vagueo" onclick="selT(this)"><div class="ti">&#x1F6CB;&#xFE0F;</div><div class="tn">Vagueo en el gym</div><div class="tp">+1 PP · Fue pero no entrenó</div></div>
       <div class="tc" data-t="engano" onclick="selT(this)"><div class="ti">&#x1F925;</div><div class="tn">Engano al Jurado</div><div class="tp">+2 PP · Falta grave</div></div>
       <div class="tc" data-t="corto" onclick="selT(this)"><div class="ti">&#x23F1;&#xFE0F;</div><div class="tn">Entreno insuficiente</div><div class="tp">+1 PP · Fue, pero se piró antes de tiempo</div></div>
@@ -221,6 +220,7 @@ tbody tr:last-child td{border-bottom:none}tbody tr:hover td{background:var(--s2)
     </div>
     <div class="st" style="margin-top:20px"><span>&#x1F39F;&#xFE0F;</span> Bonos</div>
     <div class="tg">
+      <div class="tc" data-t="recuperacion" onclick="selT(this)"><div class="ti">&#x1F4C5;</div><div class="tn">Sabado Salvador</div><div class="tp">-1 PP · Si tiene puntos</div></div>
       <div class="tc" data-t="bono_espana" onclick="selT(this)"><div class="ti">&#x1F1EA;&#x1F1F8;</div><div class="tn">Bono Salvar España</div><div class="tp">-1 PP · Acto de partido político ese día</div></div>
       <div class="tc" data-t="bono_cita" onclick="selT(this)"><div class="ti">&#x1F498;</div><div class="tn">Bono Cita con Mujer</div><div class="tp">-1 PP · Solo el nene Alex</div></div>
       <div class="tc" data-t="bono_aprobado" onclick="selT(this)"><div class="ti">&#x1F393;</div><div class="tn">Bono Aprobado General</div><div class="tp">Perdona todo el mes · Solo el nene Alex</div></div>
@@ -353,7 +353,7 @@ tbody tr:last-child td{border-bottom:none}tbody tr:hover td{background:var(--s2)
       <tr><td style="padding:6px 0">&#x23F1;&#xFE0F; Entreno insuficiente (menos de 30 min efectivos)</td><td style="text-align:right"><strong style="color:var(--pink)">+1 PP</strong></td></tr>
       <tr><td style="padding:6px 0">&#x1F422; Llegada tarde (después de las 21:30)</td><td style="text-align:right"><strong style="color:var(--pink)">+1 PP</strong></td></tr>
       <tr><td style="padding:6px 0">&#x1F925; Engaño al Jurado</td><td style="text-align:right"><strong style="color:var(--purple)">+2 PP</strong></td></tr>
-      <tr><td style="padding:6px 0">&#x1F4C5; Sábado salvador</td><td style="text-align:right"><strong style="color:var(--green)">−1 PP</strong></td></tr>
+      <tr><td style="padding:6px 0">&#x1F4C5; Sábado salvador (bono)</td><td style="text-align:right"><strong style="color:var(--green)">−1 PP</strong></td></tr>
       <tr><td style="padding:6px 0">&#x1F39F;&#xFE0F; Bonos (Título V)</td><td style="text-align:right"><strong style="color:var(--green)">−1 PP / mes perdonado</strong></td></tr>
     </table>
   </div>
@@ -418,6 +418,7 @@ tbody tr:last-child td{border-bottom:none}tbody tr:hover td{background:var(--s2)
   <!-- TÍTULO V -->
   <div class="rt">Título V — Bonos y premios extraordinarios</div>
   <div class="ra"><div class="ran">Art. 12 — Bonos</div><ul class="rl">
+    <li>&#x1F4C5; <strong>Sábado Salvador:</strong> ir al gimnasio un sábado resta <strong style="color:var(--green)">−1 PP</strong> (ver Art. 2).</li>
     <li>&#x1F1EA;&#x1F1F8; <strong>Bono Salvar España:</strong> asistir a un acto de partido político resta <strong style="color:var(--green)">−1 PP</strong>.</li>
     <li>&#x1F498; <strong>Bono Cita con Mujer:</strong> exclusivo del nene Alex. Resta <strong style="color:var(--green)">−1 PP</strong>.</li>
     <li>&#x1F393; <strong>Bono Aprobado General:</strong> exclusivo del nene Alex. Si lo aprueba todo, se le perdona el mes entero (0 PP).</li>
