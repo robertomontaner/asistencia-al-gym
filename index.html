@@ -287,6 +287,10 @@ tbody tr:last-child td{border-bottom:none}tbody tr:hover td{background:var(--s2)
 .sh-s{font-size:30px;color:#aaa;margin-top:auto;line-height:1.4}.sh-s b{color:#fff}.sh-f{font-family:'DM Mono',monospace;font-size:20px;color:#555;margin-top:24px;letter-spacing:3px}
 #inst-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:99997;align-items:center;justify-content:center;padding:20px}
 #inst-body ol{padding-left:20px}#inst-body b{color:var(--text)}
+.bonos{margin-top:16px;background:var(--s2);border:1px solid var(--border);border-radius:10px;overflow:hidden}
+.bonos summary{list-style:none;cursor:pointer;padding:12px 14px;font-family:'DM Mono',monospace;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--t2);display:flex;align-items:center;gap:8px}
+.bonos summary::-webkit-details-marker{display:none}.bonos summary::after{content:'▾';margin-left:auto;transition:transform .2s}.bonos[open] summary::after{transform:rotate(180deg)}
+.bonos summary em{font-style:normal;letter-spacing:1px;color:var(--green);text-transform:none}.bonos .tg{padding:0 10px 10px}
 .foot{text-align:center;padding:28px 16px 36px;color:var(--mu);font-family:'DM Mono',monospace;font-size:11px;letter-spacing:2px;border-top:1px solid var(--border);margin-top:40px}
 .foot button{margin-top:10px;background:none;border:1px solid var(--border2);color:var(--t2);font-family:'DM Mono',monospace;font-size:11px;letter-spacing:2px;padding:6px 16px;border-radius:20px;cursor:pointer}
 .foot button:hover{border-color:#e30613;color:#ff4d5a}
@@ -345,13 +349,14 @@ tbody tr:last-child td{border-bottom:none}tbody tr:hover td{background:var(--s2)
       <div class="tc" data-t="tarde" onclick="selT(this)"><div class="ti">&#x1F422;</div><div class="tn">Llegada tarde</div><div class="tp">+1 PP · No entrenaba a las 21:30</div></div>
       <div class="tc tc-eng" data-t="engano" onclick="engTap(this)"><span class="eng-a">&#x1F925; Engaño al Jurado · +2 PP</span><span class="eng-b">&#x26A0;&#xFE0F; ¿Seguro? Toca otra vez para acusar de engaño</span></div>
     </div>
-    <div class="st" style="margin-top:20px"><span>&#x1F39F;&#xFE0F;</span> Bonos</div>
+    <details class="bonos" id="bonos"><summary><span>&#x1F39F;&#xFE0F;</span> Bonos <em id="bonos-sel"></em></summary>
     <div class="tg">
       <div class="tc" data-t="recuperacion" onclick="selT(this)"><div class="ti">&#x1F4C5;</div><div class="tn">Sabado Salvador</div><div class="tp">-1 PP · Si tiene puntos</div></div>
       <div class="tc" data-t="bono_espana" onclick="selT(this)"><div class="ti">&#x1F1EA;&#x1F1F8;</div><div class="tn">Bono Salvar España</div><div class="tp">-1 PP · Acto de partido político ese día</div></div>
       <div class="tc" data-t="bono_cita" onclick="selT(this)"><div class="ti">&#x1F498;</div><div class="tn">Bono Cita con Mujer</div><div class="tp">-1 PP · Solo el nene Alex</div></div>
       <div class="tc" data-t="bono_aprobado" onclick="selT(this)"><div class="ti">&#x1F393;</div><div class="tn">Bono Aprobado General</div><div class="tp">Perdona el mes · Solo Alex · Con el informe de notas trimestral</div></div>
     </div>
+    </details>
     <div class="fg" style="margin-top:16px">
       <div class="fv" style="grid-column:1/-1"><label>&#x1F4AC; Notas</label><textarea id="fn" placeholder="Aqui van las excusas. El Tribunal lo leerá todo."></textarea></div>
     </div>
@@ -812,7 +817,7 @@ function fillFS(){const s=(id,a)=>{const e=document.getElementById(id);if(!e)ret
 let cT='falta';
 let engTm=null;
 function engTap(el){if(el.classList.contains('se'))return;if(el.classList.contains('armed')){clearTimeout(engTm);el.classList.remove('armed');selT(el);return;}el.classList.add('armed');clearTimeout(engTm);engTm=setTimeout(()=>el.classList.remove('armed'),4000);}
-function selT(el){document.querySelector('.tc-eng')?.classList.remove('armed');document.querySelectorAll('.tc').forEach(c=>{c.classList.remove('sf','sr','sv','se','sy','sc');});cT=el.dataset.t;const m={falta:'sf',recuperacion:'sr',vagueo:'sv',engano:'se',corto:'sy',tarde:'sc',bono_espana:'sr',bono_cita:'sr',bono_aprobado:'sr'};el.classList.add(m[cT]||'sf');}
+function selT(el){document.querySelector('.tc-eng')?.classList.remove('armed');setTimeout(()=>{const b=document.getElementById('bonos'),inB=b&&b.contains(el);const l=document.getElementById('bonos-sel');if(l)l.textContent=inB?'· '+el.querySelector('.tn').textContent:'';if(inB)b.open=true;},0);document.querySelectorAll('.tc').forEach(c=>{c.classList.remove('sf','sr','sv','se','sy','sc');});cT=el.dataset.t;const m={falta:'sf',recuperacion:'sr',vagueo:'sv',engano:'se',corto:'sy',tarde:'sc',bono_espana:'sr',bono_cita:'sr',bono_aprobado:'sr'};el.classList.add(m[cT]||'sf');}
 function initT(){const e=document.querySelector('.tc[data-t="falta"]');if(e)selT(e);}
 function clearF(){setTimeout(drawChips,0);const f=document.getElementById('ff');if(f)f.value=tod();['fp','fn','fpass'].forEach(id=>{const e=document.getElementById(id);if(e)e.value='';});document.getElementById('ferr').classList.remove('on');initT();}
 function showE(m){const e=document.getElementById('ferr');e.innerHTML='<b>Atencion:</b> '+m;e.classList.add('on');}
