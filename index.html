@@ -162,6 +162,20 @@ tbody tr:last-child td{border-bottom:none}tbody tr:hover td{background:var(--s2)
 .simt input[type=number]{width:70px}.simt button{background:none;border:none;color:var(--mu);font-size:18px;cursor:pointer}
 .sim-out{background:var(--s2);border:1px solid var(--border);border-radius:8px;padding:12px 14px;font-size:14px;color:var(--text);margin-bottom:12px}
 .sim-tc{font-family:'DM Mono',monospace;font-size:11px;padding:6px 0;border-bottom:1px solid var(--border);color:var(--t2)}.sim-tc b{font-weight:500}
+.pin{cursor:pointer;caret-color:transparent;letter-spacing:6px;user-select:none}
+#pinpad{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:99999;align-items:flex-end;justify-content:center}
+.pp-box{background:var(--s1);border:1px solid var(--border);border-bottom:none;border-radius:18px 18px 0 0;width:100%;max-width:380px;padding:20px 20px calc(20px + env(safe-area-inset-bottom));text-align:center;animation:ppup .18s ease-out}
+@keyframes ppup{from{transform:translateY(40px);opacity:0}to{transform:none;opacity:1}}
+@media(min-width:600px){#pinpad{align-items:center}.pp-box{border-radius:18px;border-bottom:1px solid var(--border)}}
+.pp-tit{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:3px;color:var(--mu);text-transform:uppercase;margin-bottom:14px}
+.pp-dots{display:flex;gap:16px;justify-content:center;margin-bottom:20px}.pp-dots i{width:16px;height:16px;border-radius:50%;border:2px solid var(--border2);transition:background .1s,border-color .1s}
+.pp-dots i.on{background:var(--pink);border-color:var(--pink)}.pp-dots.err{animation:ppsh .3s}.pp-dots.err i{border-color:var(--pink)}
+@keyframes ppsh{0%,100%{transform:none}25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
+.pp-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.pp-grid button{height:62px;border-radius:14px;border:1px solid var(--border);background:var(--s2);color:var(--text);font-family:'Righteous',sans-serif;font-size:26px;cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+.pp-grid button:active{background:var(--border);transform:scale(.96)}
+.pp-grid .pp-fn{font-size:22px;color:var(--t2)}.pp-grid .pp-ok{background:var(--pink);border-color:var(--pink);color:#fff;font-size:18px;letter-spacing:2px}.pp-grid .pp-ok:disabled{opacity:.35}
+.pp-cancel{margin-top:12px;background:none;border:none;color:var(--mu);font-family:'DM Mono',monospace;font-size:11px;letter-spacing:2px;cursor:pointer;text-transform:uppercase;padding:8px}
 .foot{text-align:center;padding:28px 16px 36px;color:var(--mu);font-family:'DM Mono',monospace;font-size:11px;letter-spacing:2px;border-top:1px solid var(--border);margin-top:40px}
 .foot button{margin-top:10px;background:none;border:1px solid var(--border2);color:var(--t2);font-family:'DM Mono',monospace;font-size:11px;letter-spacing:2px;padding:6px 16px;border-radius:20px;cursor:pointer}
 .foot button:hover{border-color:#e30613;color:#ff4d5a}
@@ -229,7 +243,7 @@ tbody tr:last-child td{border-bottom:none}tbody tr:hover td{background:var(--s2)
       <div class="fv" style="grid-column:1/-1"><label>&#x1F4AC; Notas</label><textarea id="fn" placeholder="Aqui van las excusas. El Tribunal lo leerá todo."></textarea></div>
     </div>
     <div style="margin-top:16px;background:var(--ybg);border:1px solid var(--ydim);border-radius:8px;padding:14px 16px">
-      <div class="fv"><label>&#x1F510; Contrasena del Tribunal</label><input type="text" id="fpass" placeholder="••••" inputmode="numeric" pattern="[0-9]*" maxlength="4" autocomplete="off" style="letter-spacing:4px;font-size:15px;max-width:260px" onkeydown="if(event.key==='Enter')doSave()"></div>
+      <div class="fv"><label>&#x1F510; Contrasena del Tribunal</label><input type="password" id="fpass" class="pin" readonly placeholder="Toca para poner el PIN" maxlength="4" autocomplete="off" data-go="doSave()" style="max-width:260px"></div>
     </div>
     <div class="ban berr" id="ferr"></div>
     <div style="margin-top:16px;display:flex;gap:8px;flex-wrap:wrap">
@@ -307,7 +321,7 @@ tbody tr:last-child td{border-bottom:none}tbody tr:hover td{background:var(--s2)
   <div class="dbtns">
     <button class="btn bp" onclick="dlPNG()">&#x2B07;&#xFE0F; Descargar PNG</button>
     <button class="btn bg" onclick="cpImg()">&#x1F4CB; Copiar imagen</button>
-    <span class="dipnew"><input type="text" id="dip-pass" placeholder="PIN" inputmode="numeric" pattern="[0-9]*" maxlength="4" autocomplete="off" onkeydown="if(event.key==='Enter')newDip()"><button class="btn bg" onclick="newDip()">&#x1F3B2; Nuevo diploma</button></span>
+    <span class="dipnew"><input type="password" id="dip-pass" class="pin" readonly placeholder="PIN" maxlength="4" autocomplete="off" data-go="newDip()"><button class="btn bg" onclick="newDip()">&#x1F3B2; Nuevo diploma</button></span>
   </div>
 </div>
 <div id="tab-reglamento" class="tab">
@@ -454,6 +468,21 @@ tbody tr:last-child td{border-bottom:none}tbody tr:hover td{background:var(--s2)
   <a class="simlink" onclick="openSim()">simulador de desempates</a>
 </footer>
 
+<!-- TECLADO PIN -->
+<div id="pinpad" onclick="if(event.target===this)pinClose()">
+  <div class="pp-box">
+    <div class="pp-tit">&#x1F510; PIN del Tribunal</div>
+    <div class="pp-dots" id="pp-dots"><i></i><i></i><i></i><i></i></div>
+    <div class="pp-grid">
+      <button onclick="pinKey(1)">1</button><button onclick="pinKey(2)">2</button><button onclick="pinKey(3)">3</button>
+      <button onclick="pinKey(4)">4</button><button onclick="pinKey(5)">5</button><button onclick="pinKey(6)">6</button>
+      <button onclick="pinKey(7)">7</button><button onclick="pinKey(8)">8</button><button onclick="pinKey(9)">9</button>
+      <button class="pp-fn" onclick="pinDel()">&#x232B;</button><button onclick="pinKey(0)">0</button><button class="pp-ok" id="pp-ok" onclick="pinOk()">OK</button>
+    </div>
+    <button class="pp-cancel" onclick="pinClose()">Cancelar</button>
+  </div>
+</div>
+
 <!-- SIMULADOR DE DESEMPATES -->
 <div id="sim-modal" onclick="if(event.target===this)closeSim()">
   <div class="hon-box" style="max-width:640px">
@@ -477,7 +506,7 @@ tbody tr:last-child td{border-bottom:none}tbody tr:hover td{background:var(--s2)
     <div class="aj-row" id="hon-form" style="margin-bottom:14px">
       <select id="hon-tipo"></select>
       <select id="hon-per"><option value="">-- ¿a quién? --</option></select>
-      <input type="text" id="hon-pass" placeholder="PIN" inputmode="numeric" pattern="[0-9]*" maxlength="4" autocomplete="off" onkeydown="if(event.key==='Enter')genHon()">
+      <input type="password" id="hon-pass" class="pin" readonly placeholder="PIN" maxlength="4" autocomplete="off" data-go="genHon()">
       <button class="btn bp bs" onclick="genHon()">&#x1F3C5; Otorgar</button>
     </div>
     <div id="hon-out" style="display:none">
@@ -688,6 +717,17 @@ const SIM_CASES=[
 function simTests(){let ok=0;const html=SIM_CASES.map(([n,d,st,w])=>{const R=resolveM(d.map(([p,pp,s])=>({persona:p,pp,sabs:s})));const got=R.w.map(x=>x.persona).sort().join(',');const pass=R.st===st&&got===[...w].sort().join(',');if(pass)ok++;
   return'<div class="sim-tc">'+(pass?'&#x2705;':'&#x274C;')+' <b>'+n+'</b><br>'+d.map(([p,pp,s])=>p+': '+pp+' PP / '+s+' sáb').join(' · ')+'<br>→ '+simTxt(R).replace(/<[^>]+>/g,'')+'</div>';}).join('');
   document.getElementById('sim-tests').innerHTML='<div style="font-family:DM Mono,monospace;font-size:12px;margin-bottom:6px;color:'+(ok===SIM_CASES.length?'var(--green)':'var(--pink)')+'">'+ok+'/'+SIM_CASES.length+' casos correctos</div>'+html;}
+// ---- Teclado PIN tipo cajero: los campos .pin son de solo lectura y se rellenan con el teclado en pantalla ----
+let pinT=null,pinV='';
+function pinOpen(el){pinT=el;pinV='';pinDraw();document.getElementById('pinpad').style.display='flex';}
+function pinClose(){document.getElementById('pinpad').style.display='none';pinT=null;pinV='';}
+function pinDraw(){document.querySelectorAll('#pp-dots i').forEach((d,i)=>d.classList.toggle('on',i<pinV.length));document.getElementById('pp-ok').disabled=pinV.length<4;}
+function pinKey(n){if(pinV.length>=4)return;pinV+=n;pinDraw();if(pinV.length===4)setTimeout(pinOk,180);}
+function pinDel(){pinV=pinV.slice(0,-1);pinDraw();}
+function pinOk(){if(!pinT||pinV.length<4)return;if(pinV!==PWD){const d=document.getElementById('pp-dots');d.classList.remove('err');void d.offsetWidth;d.classList.add('err');if(navigator.vibrate)navigator.vibrate(120);pinV='';setTimeout(pinDraw,250);return;}
+  const el=pinT,go=el.dataset.go;el.value=pinV;pinClose();if(go)try{new Function(go)();}catch(e){console.error(e);}}
+document.addEventListener('click',e=>{const el=e.target.closest&&e.target.closest('input.pin');if(el){e.preventDefault();el.blur();pinOpen(el);}});
+document.addEventListener('focusin',e=>{if(e.target.matches&&e.target.matches('input.pin'))e.target.blur();});
 function hstr(t){let h=2166136261;for(let i=0;i<t.length;i++){h^=t.charCodeAt(i);h=Math.imul(h,16777619);}return h>>>0;}
 function dipSalt(m){const ms=S.movs.filter(x=>x.tipo==='diploma'&&x.mes===m).sort((a,b)=>String(a.creado_en).localeCompare(String(b.creado_en)));return ms.length?ms[ms.length-1].notas:'';}
 const dipTheme=(m,salt)=>hstr('tema|'+m+'|'+salt)%THEMES.length;
@@ -752,7 +792,7 @@ function revHon(id){const m=S.movs.find(x=>x.id===id);if(!m)return;const pi=docu
   S.movs.push(mov);ls();fetch(SURL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'write',mov})}).catch(()=>{});
   toast('Premio revocado: '+HON[honKey(m)].n+' de '+m.persona);renderH();}
 function renderHonH(mes){const el=document.getElementById('hall-hon');if(!el)return;const rv=revIds();const hs=S.movs.filter(x=>isHon(x)&&x.mes===mes&&!rv.has(x.id)).sort((a,b)=>String(a.fecha).localeCompare(String(b.fecha)));
-  el.innerHTML=hs.length?'<div class="st"><span>&#x1F3C5;</span> Premios honoríficos</div><div class="hon-list">'+hs.map(x=>{const h=HON[honKey(x)];return'<div class="hon-it" style="background:'+h.uib+';border-color:'+h.uibd+'"><div style="flex:1;min-width:160px"><div class="hn" style="color:'+h.ui+'">'+h.e+' '+x.persona+'</div><div class="hi">'+h.n.toUpperCase()+' · '+new Date(x.fecha).toLocaleDateString('es-ES',{day:'numeric',month:'short'})+' · NO COMPUTA PP</div></div><button class="btn bg bs" onclick="viewHon(\''+x.id+'\')">Ver diploma</button><details class="hon-rv"><summary>Revocar</summary><input type="text" id="rv-'+x.id+'" placeholder="PIN" inputmode="numeric" pattern="[0-9]*" maxlength="4" autocomplete="off"><button class="btn bp bs" onclick="revHon(\''+x.id+'\')">Revocar</button></details></div>';}).join('')+'</div>':'';}
+  el.innerHTML=hs.length?'<div class="st"><span>&#x1F3C5;</span> Premios honoríficos</div><div class="hon-list">'+hs.map(x=>{const h=HON[honKey(x)];return'<div class="hon-it" style="background:'+h.uib+';border-color:'+h.uibd+'"><div style="flex:1;min-width:160px"><div class="hn" style="color:'+h.ui+'">'+h.e+' '+x.persona+'</div><div class="hi">'+h.n.toUpperCase()+' · '+new Date(x.fecha).toLocaleDateString('es-ES',{day:'numeric',month:'short'})+' · NO COMPUTA PP</div></div><button class="btn bg bs" onclick="viewHon(\''+x.id+'\')">Ver diploma</button><details class="hon-rv"><summary>Revocar</summary><input type="password" id="rv-'+x.id+'" class="pin" readonly placeholder="PIN" maxlength="4" autocomplete="off" data-go="revHon(\''+x.id+'\')"><button class="btn bp bs" onclick="revHon(\''+x.id+'\')">Revocar</button></details></div>';}).join('')+'</div>':'';}
 function hallPrev(){const[y,m]=hallMes.split('-').map(Number);const d=new Date(y,m-2);hallMes=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0');renderH();}
 function hallNext(){const[y,m]=hallMes.split('-').map(Number);const d=new Date(y,m);hallMes=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0');renderH();}
 function renderH(){
@@ -796,7 +836,7 @@ function renderAj(mes){const el=document.getElementById('hall-ajustes');if(!el)r
   el.innerHTML='<details class="aj"><summary>&#x2699;&#xFE0F; Ajustes del mes · '+fmtM(mes)+(d?' · DESIERTO':'')+'</summary><div class="aj-in">'
     +'<p>'+(d?'Este mes está declarado <strong>desierto</strong>: nadie suma PP y no hay Perra del Mes. Reábrelo para que vuelva a contar.':'Declara el mes <strong>desierto</strong> si el grupo se ha tomado un descanso: nadie suma PP y no hay Perra del Mes. Los registros no se borran.')+'</p>'
     +'<div class="aj-row"><select id="aj-adm"><option value="">-- quién lo declara? --</option>'+S.admins.map(a=>'<option>'+a+'</option>').join('')+'</select>'
-    +'<input type="text" id="aj-pass" placeholder="PIN" inputmode="numeric" pattern="[0-9]*" maxlength="4" autocomplete="off" onkeydown="if(event.key===String.fromCharCode(13))togDes()">'
+    +'<input type="password" id="aj-pass" class="pin" readonly placeholder="PIN" maxlength="4" autocomplete="off" data-go="togDes()">'
     +'<button class="btn bp bs" onclick="togDes()">'+(d?'&#x1F513; Reabrir mes':'&#x1F3D6;&#xFE0F; Declarar desierto')+'</button></div>'
     +'<div id="aj-err" class="aj-err"></div></div></details>';}
 function togDes(){const mes=hallMes,d=isDes(mes),err=document.getElementById('aj-err'),admin=document.getElementById('aj-adm')?.value||'',pass=document.getElementById('aj-pass')?.value.trim();
