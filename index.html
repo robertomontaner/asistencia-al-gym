@@ -500,10 +500,40 @@ const GAGS=[
  'Sus zapatillas de deporte siguen con el olor a nuevo. El Tribunal lo considera prueba concluyente.',
  'La báscula ha pedido una orden de alejamiento. El Tribunal se abstiene de opinar.',
  'Por su firme compromiso con el descanso activo, el pasivo y el que viene después.',
- 'El grupo agradece su sacrificio: alguien tenía que ser la Perra del Mes, y lo ha bordado.'
+ 'El grupo agradece su sacrificio: alguien tenía que ser la Perra del Mes, y lo ha bordado.',
+ 'Ha batido el récord mundial de "voy luego" sin ir luego. El Tribunal lo homologa.',
+ 'El monitor del gimnasio ha preguntado si sigue vivo. El Tribunal no ha sabido qué responder.',
+ 'Su rutina de cardio consiste en correr hacia la nevera en los anuncios. Ritmo admirable.',
+ 'Por haber convertido la mochila del gimnasio en un elemento decorativo del recibidor.',
+ 'El Tribunal le concede este diploma, aunque probablemente le dé pereza ir a recogerlo.',
+ 'Ha descubierto un nuevo grupo muscular: el que se activa al decir "estoy liadísimo".',
+ 'Su compromiso con el gimnasio es como el wifi del vestuario: aparece y desaparece sin avisar.',
+ 'El Tribunal ha calculado sus calorías quemadas este mes. El resultado es confidencial por vergüenza.',
+ 'Ha entrenado más la imaginación inventando excusas que cualquier músculo de su cuerpo.',
+ 'Por demostrar que se puede pagar un gimnasio todo el mes y usarlo como una donación.',
+ 'Las pesas preguntan por usted. El Tribunal les ha dicho que está "en una época complicada".',
+ 'Si las excusas levantaran peso, hoy competiría en los Juegos Olímpicos.',
+ 'Ha dominado la técnica avanzada del "hoy hago en casa", disciplina que nadie ha visto jamás.',
+ 'El Tribunal certifica que su único PR del mes ha sido en horas de sueño.',
+ 'Su taquilla ha sido reasignada por abandono. Dentro solo había una toalla y mucha decepción.',
+ 'Por su valiente lucha contra el hierro: el hierro va ganando por incomparecencia.',
+ 'Ha sustituido el press de banca por el press de mando a distancia. Técnica impecable.',
+ 'El grupo de WhatsApp ha visto más fotos de su cena que de su entrenamiento.',
+ 'El Tribunal ha encontrado pruebas de vida en Netflix, Glovo y el sofá. En el gimnasio, ninguna.',
+ 'Ha llevado el concepto de "día de descanso" a un nivel casi espiritual.',
+ 'Sus agujetas son leyenda: nadie las ha visto nunca, pero todos han oído hablar de ellas.',
+ 'Por convertir cada lunes en "la semana que viene empiezo en serio".',
+ 'El espejo del gimnasio ha olvidado su cara. El Tribunal, por desgracia, no.',
+ 'Ha confundido "entrenamiento funcional" con funcionar lo justo para llegar al sofá.',
+ 'Por la gesta de encontrar tráfico, lluvia y cansancio todos los días del mes, a la vez.',
+ 'El Tribunal reconoce que su fuerza de voluntad es como la proteína en polvo: siempre "para mañana".',
+ 'Ha sido visto haciendo estiramientos. Resultó ser un bostezo. El Tribunal no se deja engañar.',
+ 'El recepcionista ya no le saluda: cree que es un cliente nuevo cada vez.',
+ 'Por haber logrado que la cuota del gimnasio sea su gasto más simbólico del mes.',
+ 'Su plan de entrenamiento tiene más días de descanso que el calendario laboral.'
 ];
-const NOW_TXT=['El Tribunal constata que nadie ha fallado todavía. Se suspende el diploma por falta de méritos deshonrosos.','Ni una sola falta. El Tribunal, sorprendido, guarda el sello en el cajón hasta nuevo aviso.','La vergüenza de este mes sigue vacante. Se aceptan candidaturas (no se recomiendan).','El hierro ha sido respetado por todos. El Tribunal sospecha, pero no tiene pruebas.','Diploma en blanco: el grupo ha cumplido. Que no sirva de precedente.'];
-const DES_TXT=['Mes de descanso colectivo. El Tribunal declara el título desierto: el hierro también necesita vacaciones.','El gimnasio ha cerrado por vacaciones del grupo. La vergüenza, también.','Mes desierto por acuerdo unánime del sofá. No hay perra, solo merecido descanso.','El Tribunal se ha ido de vacaciones y ha dejado el sello en casa. Título desierto.','Descanso oficial: este mes las excusas no cotizan.'];
+const NOW_TXT=['El Tribunal constata que nadie ha fallado todavía. Se suspende el diploma por falta de méritos deshonrosos.','Ni una sola falta. El Tribunal, sorprendido, guarda el sello en el cajón hasta nuevo aviso.','La vergüenza de este mes sigue vacante. Se aceptan candidaturas (no se recomiendan).','El hierro ha sido respetado por todos. El Tribunal sospecha, pero no tiene pruebas.','Diploma en blanco: el grupo ha cumplido. Que no sirva de precedente.','El Tribunal ha revisado tres veces el registro: limpio. Debe de ser un error de la hoja.','Mes impecable. El sello del Tribunal coge polvo y el grupo coge músculo.','Nadie ha fallado. Se recomienda no acostumbrarse a esta sensación.'];
+const DES_TXT=['Mes de descanso colectivo. El Tribunal declara el título desierto: el hierro también necesita vacaciones.','El gimnasio ha cerrado por vacaciones del grupo. La vergüenza, también.','Mes desierto por acuerdo unánime del sofá. No hay perra, solo merecido descanso.','El Tribunal se ha ido de vacaciones y ha dejado el sello en casa. Título desierto.','Descanso oficial: este mes las excusas no cotizan.','Mes desierto: el Tribunal está en modo avión.','Vacaciones del hierro. Las mancuernas también tienen derecho a descansar.','Sin perra este mes: el grupo ha pactado una tregua con el sofá.'];
 function hstr(t){let h=2166136261;for(let i=0;i<t.length;i++){h^=t.charCodeAt(i);h=Math.imul(h,16777619);}return h>>>0;}
 function dipSalt(m){const ms=S.movs.filter(x=>x.tipo==='diploma'&&x.mes===m).sort((a,b)=>String(a.creado_en).localeCompare(String(b.creado_en)));return ms.length?ms[ms.length-1].notas:'';}
 const dipTheme=(m,salt)=>hstr('tema|'+m+'|'+salt)%THEMES.length;
