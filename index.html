@@ -124,6 +124,7 @@ tbody tr:last-child td{border-bottom:none}tbody tr:hover td{background:var(--s2)
 .dfe{font-family:'DM Mono',monospace;font-size:13px;color:var(--dmut);letter-spacing:1px}
 .dsg{font-size:15px;color:var(--dmut);font-style:italic;margin-right:110px}
 .dse{position:absolute;bottom:34px;right:40px;width:96px;height:96px;border-radius:50%;background:var(--dbg);border:3px solid var(--dacc);box-shadow:0 0 0 6px color-mix(in srgb,var(--dacc) 18%,transparent);display:flex;align-items:center;justify-content:center;font-size:42px}
+.dipnew{display:inline-flex;gap:6px;align-items:center}.dipnew input{background:var(--s2);border:1px solid var(--border);color:var(--text);font-family:'DM Mono',monospace;font-size:13px;padding:8px 10px;border-radius:5px;outline:none;width:80px;letter-spacing:4px}
 .dthm{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:2px;color:var(--mu);margin:10px 0 0;text-transform:uppercase}
 .dbtns{display:flex;gap:10px;flex-wrap:wrap}
 .des-box{background:var(--ybg);border:2px solid var(--yellow-dim,#7a6500);border-radius:10px;padding:20px;margin-bottom:20px}
@@ -278,7 +279,7 @@ tbody tr:last-child td{border-bottom:none}tbody tr:hover td{background:var(--s2)
   <div class="dbtns">
     <button class="btn bp" onclick="dlPNG()">&#x2B07;&#xFE0F; Descargar PNG</button>
     <button class="btn bg" onclick="cpImg()">&#x1F4CB; Copiar imagen</button>
-    <button class="btn bg" onclick="newDip()">&#x1F3B2; Nuevo diploma</button>
+    <span class="dipnew"><input type="text" id="dip-pass" placeholder="PIN" inputmode="numeric" pattern="[0-9]*" maxlength="4" autocomplete="off" onkeydown="if(event.key==='Enter')newDip()"><button class="btn bg" onclick="newDip()">&#x1F3B2; Nuevo diploma</button></span>
   </div>
 </div>
 <div id="tab-reglamento" class="tab">
@@ -547,7 +548,7 @@ function applyTheme(m){const t=THEMES[dipTheme(m,dipSalt(m))],d=document.getElem
 function fitDip(){const w=document.getElementById('dwrap'),d=document.getElementById('diploma');if(!w||!d||!w.clientWidth)return;const sc=Math.min(1,w.clientWidth/1123);d.style.transform='scale('+sc+')';w.style.height=(794*sc)+'px';}
 window.addEventListener('resize',fitDip);
 const DIP_OPTS=()=>({scale:2,width:1123,height:794,backgroundColor:getComputedStyle(document.getElementById('diploma')).getPropertyValue('--dbg').trim()||'#fffdf5',useCORS:true,onclone:doc=>{const c=doc.getElementById('diploma');c.style.transform='none';c.style.position='relative';}});
-function newDip(){const mes=hallMes||curM(),cur=dipTheme(mes,dipSalt(mes));let salt;do{salt=Math.random().toString(36).slice(2,10);}while(dipTheme(mes,salt)===cur);
+function newDip(){const pi=document.getElementById('dip-pass');if((pi?.value||'').trim()!==PWD){toast(pi?.value?'Contraseña incorrecta':'Pon el PIN del Tribunal',false);pi?.focus();return;}pi.value='';const mes=hallMes||curM(),cur=dipTheme(mes,dipSalt(mes));let salt;do{salt=Math.random().toString(36).slice(2,10);}while(dipTheme(mes,salt)===cur);
   const mov={id:uid(),fecha:mes+'-01',persona:'Tribunal',tipo:'diploma',puntos:0,notas:salt,admin:'Tribunal',mes,creado_en:new Date().toISOString(),synced:false};
   S.movs.push(mov);ls();fetch(SURL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'write',mov})}).catch(()=>{});
   renderH();toast('🎲 Nuevo diploma: '+THEMES[dipTheme(mes,salt)].n);}
