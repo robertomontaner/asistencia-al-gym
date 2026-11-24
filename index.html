@@ -296,7 +296,6 @@ tbody tr:last-child td{border-bottom:none}tbody tr:hover td{background:var(--s2)
     <div class="fg">
       <div class="fv"><label>&#x1F4C5; Fecha</label><input type="date" id="ff"></div>
       <div class="fv" style="grid-column:1/-1"><label>&#x1F480; El Faltón</label><select id="fp" style="display:none"><option value="">-- quien ha fallado? --</option></select><div class="pchips" id="fp-chips"></div></div>
-      <div class="fv"><label>&#x1F575;&#xFE0F; Admin</label><select id="fa"><option value="">-- quien apunta esto? --</option></select></div>
     </div>
     <div class="st" style="margin-top:20px"><span>&#x2696;&#xFE0F;</span> Que ha hecho ahora?</div>
     <div class="tg">
@@ -661,6 +660,7 @@ const SID='1KAcBc72p-i2jc2v_V9YQKv--Nz7e43duyvvCQZikDM4';
 const SURL='https://script.google.com/macros/s/AKfycbxYE6N3VHKgxqCQrcS5oG-qe5gyxC_r8YmX94_1N6Dd35Zv9hPtsTH8ixYTLxR6MRa8/exec';
 const _k=atob('QUl6YVN5RHV0RVBXOTNxVEtWRENIV1J0Z2NtWkFuMnlTdlpBQjNn');
 const PWD='5555';
+const ADMIN='Roberto'; // quien apunta siempre los registros
 const S={movs:[],members:[],admins:[],sk:'fecha',sd:-1};
 let hallMes='';
 function ll(){try{const d=JSON.parse(localStorage.getItem('th3')||'{}');if(d.movs)S.movs=d.movs;}catch(e){}}
@@ -711,9 +711,9 @@ let engTm=null;
 function engTap(el){if(el.classList.contains('se'))return;if(el.classList.contains('armed')){clearTimeout(engTm);el.classList.remove('armed');selT(el);return;}el.classList.add('armed');clearTimeout(engTm);engTm=setTimeout(()=>el.classList.remove('armed'),4000);}
 function selT(el){document.querySelector('.tc-eng')?.classList.remove('armed');document.querySelectorAll('.tc').forEach(c=>{c.classList.remove('sf','sr','sv','se','sy','sc');});cT=el.dataset.t;const m={falta:'sf',recuperacion:'sr',vagueo:'sv',engano:'se',corto:'sy',tarde:'sc',bono_espana:'sr',bono_cita:'sr',bono_aprobado:'sr'};el.classList.add(m[cT]||'sf');}
 function initT(){const e=document.querySelector('.tc[data-t="falta"]');if(e)selT(e);}
-function clearF(){setTimeout(drawChips,0);const f=document.getElementById('ff');if(f)f.value=tod();['fp','fa','fn','fpass'].forEach(id=>{const e=document.getElementById(id);if(e)e.value='';});document.getElementById('ferr').classList.remove('on');initT();}
+function clearF(){setTimeout(drawChips,0);const f=document.getElementById('ff');if(f)f.value=tod();['fp','fn','fpass'].forEach(id=>{const e=document.getElementById(id);if(e)e.value='';});document.getElementById('ferr').classList.remove('on');initT();}
 function showE(m){const e=document.getElementById('ferr');e.innerHTML='<b>Atencion:</b> '+m;e.classList.add('on');}
-function doSave(){document.getElementById('ferr').classList.remove('on');const fecha=document.getElementById('ff').value,persona=document.getElementById('fp').value,admin=document.getElementById('fa').value,notas=document.getElementById('fn').value.trim(),pass=document.getElementById('fpass').value.trim(),tipo=cT;if(!fecha)return showE('Selecciona una fecha.');if(!persona)return showE('Quien es el culpable?');if(!admin)return showE('Quien esta apuntando esto?');if(!pass)return showE('El Tribunal exige la contrasena.');if(pass!==PWD)return showE('Contrasena incorrecta.');const mes=fecha.slice(0,7);if(isDes(mes))return showE(fmtM(mes)+' es mes de descanso. El Tribunal no admite registros.');const puntos=tipo==='falta'?1:tipo==='recuperacion'?-1:tipo==='vagueo'?1:tipo==='engano'?2:tipo==='corto'?1:tipo==='tarde'?1:tipo==='bono_espana'?-1:tipo==='bono_cita'?-1:0;if((tipo==='bono_cita'||tipo==='bono_aprobado')&&!isAlex(persona))return showE('Ese bono es exclusivo del nene Alex.');if(tipo==='bono_aprobado'&&perd(persona,mes))return showE(persona+' ya tiene el Bono Aprobado este mes.');if((tipo==='recuperacion'||tipo==='bono_espana'||tipo==='bono_cita')&&getPP(persona,mes)<=0)return showE(persona+' tiene 0 PP. No hay nada que restar.');const mov={id:uid(),fecha,persona,tipo,puntos,notas,admin,mes,creado_en:new Date().toISOString(),synced:false};S.movs.push(mov);ls();fetch(SURL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'write',mov})}).catch(()=>{});fxPoint(persona,tipo,puntos);clearF();renderQ();}
+function doSave(){document.getElementById('ferr').classList.remove('on');const fecha=document.getElementById('ff').value,persona=document.getElementById('fp').value,admin=ADMIN,notas=document.getElementById('fn').value.trim(),pass=document.getElementById('fpass').value.trim(),tipo=cT;if(!fecha)return showE('Selecciona una fecha.');if(!persona)return showE('Quien es el culpable?');if(!pass)return showE('El Tribunal exige la contrasena.');if(pass!==PWD)return showE('Contrasena incorrecta.');const mes=fecha.slice(0,7);if(isDes(mes))return showE(fmtM(mes)+' es mes de descanso. El Tribunal no admite registros.');const puntos=tipo==='falta'?1:tipo==='recuperacion'?-1:tipo==='vagueo'?1:tipo==='engano'?2:tipo==='corto'?1:tipo==='tarde'?1:tipo==='bono_espana'?-1:tipo==='bono_cita'?-1:0;if((tipo==='bono_cita'||tipo==='bono_aprobado')&&!isAlex(persona))return showE('Ese bono es exclusivo del nene Alex.');if(tipo==='bono_aprobado'&&perd(persona,mes))return showE(persona+' ya tiene el Bono Aprobado este mes.');if((tipo==='recuperacion'||tipo==='bono_espana'||tipo==='bono_cita')&&getPP(persona,mes)<=0)return showE(persona+' tiene 0 PP. No hay nada que restar.');const mov={id:uid(),fecha,persona,tipo,puntos,notas,admin,mes,creado_en:new Date().toISOString(),synced:false};S.movs.push(mov);ls();fetch(SURL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'write',mov})}).catch(()=>{});fxPoint(persona,tipo,puntos);clearF();renderQ();}
 let _tt;
 function toast(m,ok=true){const t=document.getElementById('toast');t.textContent=m;t.className='on'+(ok?' ok':'');clearTimeout(_tt);_tt=setTimeout(()=>t.classList.remove('on'),3000);}
 function renderQ(){
@@ -1043,13 +1043,13 @@ function renderH(){
 function renderAj(mes){const el=document.getElementById('hall-ajustes');if(!el)return;const d=isDes(mes);
   el.innerHTML='<details class="aj"><summary>&#x2699;&#xFE0F; Ajustes del mes · '+fmtM(mes)+(d?' · DESIERTO':'')+'</summary><div class="aj-in">'
     +'<p>'+(d?'Este mes está declarado <strong>desierto</strong>: nadie suma PP y no hay Perra del Mes. Reábrelo para que vuelva a contar.':'Declara el mes <strong>desierto</strong> si el grupo se ha tomado un descanso: nadie suma PP y no hay Perra del Mes. Los registros no se borran.')+'</p>'
-    +'<div class="aj-row"><select id="aj-adm"><option value="">-- quién lo declara? --</option>'+S.admins.map(a=>'<option>'+a+'</option>').join('')+'</select>'
+    +'<div class="aj-row">'
     +'<input type="password" id="aj-pass" class="pin" readonly placeholder="PIN" maxlength="4" autocomplete="off" data-go="togDes()">'
     +'<button class="btn bp bs" onclick="togDes()">'+(d?'&#x1F513; Reabrir mes':'&#x1F3D6;&#xFE0F; Declarar desierto')+'</button></div>'
     +'<div id="aj-err" class="aj-err"></div></div></details>';}
-function togDes(){const mes=hallMes,d=isDes(mes),err=document.getElementById('aj-err'),admin=document.getElementById('aj-adm')?.value||'',pass=document.getElementById('aj-pass')?.value.trim();
+function togDes(){const mes=hallMes,d=isDes(mes),err=document.getElementById('aj-err'),admin=ADMIN,pass=document.getElementById('aj-pass')?.value.trim();
   const fail=t=>{if(err){err.textContent=t;err.style.display='block';}};
-  if(!admin)return fail('¿Quién lo declara?');
+  
   if(pass!==PWD)return fail('Contraseña incorrecta.');
   const tipo=d?'reabierto':'desierto';
   const mov={id:uid(),fecha:mes+'-01',persona:'Tribunal',tipo,puntos:0,notas:(d?'Mes reabierto: ':'Mes declarado desierto: ')+fmtM(mes),admin,mes,creado_en:new Date().toISOString(),synced:false};
