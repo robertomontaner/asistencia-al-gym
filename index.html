@@ -260,7 +260,7 @@ tbody tr:last-child td{border-bottom:none}tbody tr:hover td{background:var(--s2)
 .ppp{font-family:'DM Mono',monospace;font-size:9px;color:var(--mu);letter-spacing:1px}.pchip.on .ppp{color:var(--pink)}
 .tact{background:none;border:1px solid var(--border);border-radius:6px;padding:3px 6px;margin-left:4px;cursor:pointer;font-size:13px}.tact:hover{border-color:var(--pink)}
 .edban{display:none;align-items:center;gap:10px;justify-content:space-between;background:var(--ybg);border:1px solid var(--ydim);color:var(--yellow);border-radius:8px;padding:10px 14px;font-family:'DM Mono',monospace;font-size:12px;margin-bottom:14px}.edban.on{display:flex}.edban button{background:none;border:1px solid var(--ydim);color:var(--yellow);border-radius:6px;padding:4px 10px;cursor:pointer;font-family:inherit}
-.cd{grid-column:1/-1;display:flex;gap:12px;align-items:center;background:linear-gradient(90deg,#1a0010,#141414);border:1px solid var(--pkd);border-radius:10px;padding:12px 14px;margin-bottom:4px}
+.cd{grid-column:1/-1;margin-bottom:14px!important;display:flex;gap:12px;align-items:center;background:linear-gradient(90deg,#1a0010,#141414);border:1px solid var(--pkd);border-radius:10px;padding:12px 14px;margin-bottom:4px}
 .cd-n{font-family:'Press Start 2P',monospace;font-size:22px;color:var(--yellow);text-shadow:2px 2px 0 var(--pink);min-width:46px;text-align:center}.cd-n small{display:block;font-size:7px;color:var(--mu);text-shadow:none;margin-top:6px;letter-spacing:1px}
 .cd-t{font-size:13px;color:var(--t2);line-height:1.5}.cd-t b{color:var(--text)}.cd.hot{animation:cdpulse 1.6s infinite}@keyframes cdpulse{50%{box-shadow:0 0 18px rgba(255,45,120,.35)}}
 .pf-box{max-width:560px}
@@ -369,8 +369,6 @@ tbody tr:last-child td{border-bottom:none}tbody tr:hover td{background:var(--s2)
       <button class="btn bg" onclick="clearF()">Limpiar</button>
     </div>
   </div>
-  <div class="st" style="margin-top:28px"><span>&#x1F4CA;</span> Estado actual</div>
-  <div class="qg" id="qsum"></div>
 </div>
 <div id="tab-movimientos" class="tab">
   <div class="st"><span>&#x1F5C2;&#xFE0F;</span> Resumen del mes</div>
@@ -405,6 +403,7 @@ tbody tr:last-child td{border-bottom:none}tbody tr:hover td{background:var(--s2)
     <div id="hall-mes-label" style="font-family:'Righteous',sans-serif;font-size:20px;min-width:160px;text-align:center"></div>
     <button class="btn bg bs" id="hall-next-btn" onclick="hallNext()">Siguiente &#x2192;</button>
   </div>
+  <div id="hall-cd"></div>
   <div class="st"><span>&#x1F3C6;</span> Ranking <span style="font-size:10px;color:var(--mu);letter-spacing:1px;text-transform:none;margin-left:auto">toca un nombre para ver su perfil</span></div>
   <div class="hr" id="hrank"></div>
   <div style="margin:10px 0 4px"><button class="btn bg bs" onclick="shareRank()">&#x1F4E4; Compartir ranking por WhatsApp</button></div>
@@ -821,7 +820,7 @@ function selT(el){document.querySelector('.tc-eng')?.classList.remove('armed');s
 function initT(){const e=document.querySelector('.tc[data-t="falta"]');if(e)selT(e);}
 function clearF(){setTimeout(drawChips,0);const f=document.getElementById('ff');if(f)f.value=tod();['fp','fn','fpass'].forEach(id=>{const e=document.getElementById(id);if(e)e.value='';});document.getElementById('ferr').classList.remove('on');initT();}
 function showE(m){const e=document.getElementById('ferr');e.innerHTML='<b>Atencion:</b> '+m;e.classList.add('on');}
-function doSave(){document.getElementById('ferr').classList.remove('on');const fecha=document.getElementById('ff').value,persona=document.getElementById('fp').value,admin=ADMIN,notas=document.getElementById('fn').value.trim(),pass=document.getElementById('fpass').value.trim(),tipo=cT;if(!fecha)return showE('Selecciona una fecha.');if(!persona)return showE('Quien es el culpable?');if(!pass)return showE('El Tribunal exige la contrasena.');if(pass!==PWD)return showE('Contrasena incorrecta.');const mes=fecha.slice(0,7);if(isDes(mes))return showE(fmtM(mes)+' es mes de descanso. El Tribunal no admite registros.');const puntos=tipo==='falta'?1:tipo==='recuperacion'?-1:tipo==='vagueo'?1:tipo==='engano'?2:tipo==='corto'?1:tipo==='tarde'?1:tipo==='bono_espana'?-1:tipo==='bono_cita'?-1:0;if((tipo==='bono_cita'||tipo==='bono_aprobado')&&!isAlex(persona))return showE('Ese bono es exclusivo del nene Alex.');if(tipo==='bono_aprobado'&&!notas)return showE('Indica en Notas el informe de notas trimestral (ej. 1er trimestre, todo aprobado).');if(tipo==='bono_aprobado'&&perd(persona,mes))return showE(persona+' ya tiene el Bono Aprobado este mes.');if((tipo==='recuperacion'||tipo==='bono_espana'||tipo==='bono_cita')&&getPP(persona,mes)<=0)return showE(persona+' tiene 0 PP. No hay nada que restar.');achSnap(persona);const mov={id:uid(),fecha,persona,tipo,puntos,notas,admin,mes,creado_en:new Date().toISOString(),synced:false};S.movs.push(mov);ls();sendMov(mov);const was=S.editId;if(was){anulMov(was,true);S.editId='';editBan();}fxPoint(persona,tipo,puntos,mov,was?'EDITADO':'');achCheck(persona);clearF();renderQ();}
+function doSave(){document.getElementById('ferr').classList.remove('on');const fecha=document.getElementById('ff').value,persona=document.getElementById('fp').value,admin=ADMIN,notas=document.getElementById('fn').value.trim(),pass=document.getElementById('fpass').value.trim(),tipo=cT;if(!fecha)return showE('Selecciona una fecha.');if(!persona)return showE('Quien es el culpable?');if(!pass)return showE('El Tribunal exige la contrasena.');if(pass!==PWD)return showE('Contrasena incorrecta.');const mes=fecha.slice(0,7);if(isDes(mes))return showE(fmtM(mes)+' es mes de descanso. El Tribunal no admite registros.');const puntos=tipo==='falta'?1:tipo==='recuperacion'?-1:tipo==='vagueo'?1:tipo==='engano'?2:tipo==='corto'?1:tipo==='tarde'?1:tipo==='bono_espana'?-1:tipo==='bono_cita'?-1:0;if((tipo==='bono_cita'||tipo==='bono_aprobado')&&!isAlex(persona))return showE('Ese bono es exclusivo del nene Alex.');if(tipo==='bono_aprobado'&&!notas)return showE('Indica en Notas el informe de notas trimestral (ej. 1er trimestre, todo aprobado).');if(tipo==='bono_aprobado'&&perd(persona,mes))return showE(persona+' ya tiene el Bono Aprobado este mes.');if((tipo==='recuperacion'||tipo==='bono_espana'||tipo==='bono_cita')&&getPP(persona,mes)<=0)return showE(persona+' tiene 0 PP. No hay nada que restar.');achSnap(persona);const mov={id:uid(),fecha,persona,tipo,puntos,notas,admin,mes,creado_en:new Date().toISOString(),synced:false};S.movs.push(mov);ls();sendMov(mov);const was=S.editId;if(was){anulMov(was,true);S.editId='';editBan();}fxAfter=()=>{const b=[...document.querySelectorAll('.nb')].find(x=>x.getAttribute('onclick').includes("'hall'"));goTab('hall',b);window.scrollTo({top:0,behavior:'smooth'});};fxPoint(persona,tipo,puntos,mov,was?'EDITADO':'');achCheck(persona);clearF();renderQ();}
 let _tt;
 function toast(m,ok=true){const t=document.getElementById('toast');t.textContent=m;t.className='on'+(ok?' ok':'');clearTimeout(_tt);_tt=setTimeout(()=>t.classList.remove('on'),3000);}
 function renderQ(){
@@ -981,7 +980,8 @@ function fxPoint(per,tipo,pts,mov,label){
     :pts<0?{c:'#00e676',big:'−1',lv:TL[tipo].toUpperCase(),sub:'¡SALVADO!',s:'good'}
     :{c:'#ff2d78',big:'+1',lv:TL[tipo].toUpperCase(),sub:'PUNTO DE PERRA',s:'bad',shake:1};
   if(label)cfg.lv=label+' · '+cfg.lv;fxShow(cfg,per,mov);}
-function fxEnd(){clearTimeout(fxTm);document.getElementById('fx').classList.remove('on','shake');if(fxQ.length){const n=fxQ.shift();setTimeout(n,250);}}
+let fxAfter=null;
+function fxEnd(){clearTimeout(fxTm);document.getElementById('fx').classList.remove('on','shake');if(fxQ.length){const n=fxQ.shift();setTimeout(n,250);return;}if(fxAfter){const f=fxAfter;fxAfter=null;f();}}
 // ---- Arena de piques ----
 const RSHORT={'Colgado en la barra':'Colgado barra','Flexiones en 1 min':'Flexiones 1 min','Plancha más larga':'Plancha','Sentadillas en 1 min':'Sentadillas 1 min','Dominadas máximas':'Dominadas','Burpees en 1 min':'Burpees 1 min','Sentadilla en pared':'Silla en pared','Abdominales en 1 min':'Abdos 1 min','Piedra, papel o tijera (al 5)':'Piedra-papel','Sprint 50 m':'Sprint 50 m'};
 const RETOS=['Pulso','Colgado en la barra','Flexiones en 1 min','Plancha más larga','Sentadillas en 1 min','Dominadas máximas','Burpees en 1 min','Sentadilla en pared','Abdominales en 1 min','Comba 1 min','Piedra, papel o tijera (al 5)','Sprint 50 m'];
@@ -1062,9 +1062,11 @@ function stats(p){const mv=S.movs.filter(x=>x.persona===p),months=allMonths(),pa
   const cnt=t=>mv.filter(x=>x.tipo===t).length,byMonth=t=>{const c={};mv.filter(x=>x.tipo===t).forEach(x=>c[x.mes]=(c[x.mes]||0)+1);return Math.max(0,...Object.values(c));};
   const clean=past.filter(m=>getPP(p,m)<=0).length,perras=past.filter(m=>winnersOf(m).includes(p)).length;
   // rachas por semanas (lunes a domingo); las semanas de meses desiertos no cuentan ni rompen
-  let streak=0,best=0;const first=months[0];if(first){const dirty=new Set(mv.filter(x=>PLUS.has(x.tipo)&&x.fecha).map(x=>monKey(x.fecha)));
-    const d=new Date(monKey(first+'-01')+'T12:00:00'),now=new Date(monKey(tod())+'T12:00:00');let run=0;
-    for(;d<=now;d.setDate(d.getDate()+7)){const k=d.toISOString().slice(0,10);if(isDes(k.slice(0,7)))continue;if(dirty.has(k))run=0;else{run++;best=Math.max(best,run);}}streak=run;}
+  // solo cuentan semanas completas desde el primer registro del grupo
+  let streak=0,best=0;const fs=S.movs.filter(x=>/^\d{4}-\d{2}-\d{2}$/.test(x.fecha)&&(PLUS.has(x.tipo)||x.tipo==='recuperacion')).map(x=>x.fecha).sort()[0];
+  if(fs){const dirty=new Set(mv.filter(x=>PLUS.has(x.tipo)&&x.fecha).map(x=>monKey(x.fecha)));
+    const d=new Date(monKey(fs)+'T12:00:00'),now=new Date(monKey(tod())+'T12:00:00');let run=0;
+    for(;d<now;d.setDate(d.getDate()+7)){const k=d.toISOString().slice(0,10);if(isDes(k.slice(0,7)))continue;if(dirty.has(k))run=0;else{run++;best=Math.max(best,run);}}streak=run;}
   const piq=S.movs.filter(x=>x.tipo==='pique'&&x.persona===p).length,rv=revIds(),hon=S.movs.filter(x=>isHon(x)&&x.persona===p&&!rv.has(x.id)).length;
   return{p,faltas:cnt('falta'),plus:mv.filter(x=>PLUS.has(x.tipo)).length,ppTot:mv.reduce((a,x)=>a+x.puntos,0),sabs:cnt('recuperacion'),tarde:cnt('tarde'),tardeMes:byMonth('tarde'),engano:cnt('engano'),espana:cnt('bono_espana'),cita:cnt('bono_cita'),aprob:cnt('bono_aprobado'),clean,perras,streak,best,piq,hon,months:past.length};}
 const LEVELS=[[0,'Perrito','&#x1F436;'],[1,'Perro','&#x1F415;'],[3,'Lobo','&#x1F43A;'],[6,'Bestia del Hierro','&#x1F98D;'],[10,'Leyenda','&#x1F981;']];
@@ -1196,6 +1198,7 @@ function renderH(){
   const nb=document.getElementById('hall-next-btn');if(nb)nb.style.visibility=mes>=curM()?'hidden':'visible';
   const lbl=document.getElementById('hall-mes-label');if(lbl)lbl.textContent=fmtM(mes);
   const R=resolveM(r),names=R.w.map(x=>x.persona);
+  const cdEl=document.getElementById('hall-cd');if(cdEl)cdEl.innerHTML=mes===curM()&&!isDes(mes)?cdHTML(r,R):'';
   document.getElementById('hrank').innerHTML=r.map((x,i)=>{
     const w=inL(R.w,x),perra=w&&R.st!=='desierto',tie=w&&R.st==='desierto',sv=inL(R.saved,x);
     const cls=perra?' p1':tie?' p1 tie':'';
