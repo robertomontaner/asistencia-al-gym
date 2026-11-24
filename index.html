@@ -49,6 +49,9 @@ main{max-width:960px;margin:0 auto;padding:28px 16px 80px}
 .sr{border-color:var(--green)!important;background:var(--gbg)!important}
 .sv{border-color:var(--orange)!important;background:var(--obg)!important}
 .se{border-color:var(--purple)!important;background:var(--pbg)!important}
+.sy{border-color:var(--yellow)!important;background:var(--ybg)!important}
+.sc{border-color:#18c8ff!important;background:#00141c!important}
+.sy .tp{color:var(--yellow)}.sc .tp{color:#18c8ff}
 .ti{font-size:24px;margin-bottom:4px}.tn{font-weight:700;font-size:13px;margin-bottom:2px}
 .tp{font-family:'DM Mono',monospace;font-size:11px;color:var(--mu)}
 .sf .tp{color:var(--pink)}.sr .tp{color:var(--green)}.sv .tp{color:var(--orange)}.se .tp{color:var(--purple)}
@@ -65,6 +68,8 @@ main{max-width:960px;margin:0 auto;padding:28px 16px 80px}
 .cr{background:var(--gbg);color:var(--green);border:1px solid var(--gdim)}
 .cv{background:var(--obg);color:var(--orange);border:1px solid #5a3000}
 .ce{background:var(--pbg);color:var(--purple);border:1px solid var(--pdim)}
+.cy{background:var(--ybg);color:var(--yellow);border:1px solid var(--ydim)}
+.cc{background:#00141c;color:#18c8ff;border:1px solid #0a4a5e}
 .qg{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px}
 .qc{background:var(--s1);border:1px solid var(--border);border-radius:10px;padding:16px;position:relative;overflow:hidden}
 .qc.pk{border-color:var(--pink);background:var(--pkbg)}.qc.qc-tie{border-color:var(--ydim);background:var(--ybg)}.qc.qc-tie .qp{color:var(--yellow)}
@@ -125,6 +130,14 @@ tbody tr:last-child td{border-bottom:none}tbody tr:hover td{background:var(--s2)
 .des-opt:hover{border-color:var(--border2);color:var(--text)}
 .des-opt.sel{border-color:var(--pink);color:var(--pink);background:var(--pkbg)}
 .des-declared{background:var(--pkbg);border:1px solid var(--pkd);border-radius:8px;padding:12px 16px;font-family:'DM Mono',monospace;font-size:12px;color:var(--pink);letter-spacing:1px;margin-bottom:20px}
+.des-ban{grid-column:1/-1;background:var(--ybg);border:1px solid var(--ydim);border-radius:8px;padding:12px 16px;font-family:'DM Mono',monospace;font-size:12px;color:var(--yellow);letter-spacing:1px;text-align:center;margin-bottom:12px}
+.aj{margin-top:16px;background:var(--s1);border:1px solid var(--border);border-radius:8px}
+.aj summary{cursor:pointer;padding:12px 16px;font-family:'DM Mono',monospace;font-size:11px;letter-spacing:2px;color:var(--t2);text-transform:uppercase}
+.aj-in{padding:0 16px 16px}.aj-in p{font-size:13px;color:var(--t2);margin-bottom:12px}
+.aj-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.aj-row select,.aj-row input{background:var(--s2);border:1px solid var(--border);color:var(--text);font-family:'DM Mono',monospace;font-size:13px;padding:8px 12px;border-radius:5px;outline:none}
+.aj-row input{width:90px;letter-spacing:4px}
+.aj-err{display:none;margin-top:8px;font-family:'DM Mono',monospace;font-size:11px;color:var(--pink)}
 .rt{font-family:'Righteous',sans-serif;font-size:13px;letter-spacing:3px;color:var(--pink);text-transform:uppercase;margin:32px 0 12px;padding-bottom:8px;border-bottom:1px solid var(--pkd)}
 .ra{background:var(--s1);border:1px solid var(--border);border-radius:8px;padding:14px 18px;margin-bottom:10px}
 .ran{font-family:'DM Mono',monospace;font-size:12px;color:var(--text);margin-bottom:8px}
@@ -178,12 +191,14 @@ tbody tr:last-child td{border-bottom:none}tbody tr:hover td{background:var(--s2)
       <div class="tc" data-t="recuperacion" onclick="selT(this)"><div class="ti">&#x1F4C5;</div><div class="tn">Sabado Salvador</div><div class="tp">-1 PP · Si tiene puntos</div></div>
       <div class="tc" data-t="vagueo" onclick="selT(this)"><div class="ti">&#x1F6CB;&#xFE0F;</div><div class="tn">Vagueo en el gym</div><div class="tp">+1 PP · Fue pero no entrenó</div></div>
       <div class="tc" data-t="engano" onclick="selT(this)"><div class="ti">&#x1F925;</div><div class="tn">Engano al Jurado</div><div class="tp">+2 PP · Falta grave</div></div>
+      <div class="tc" data-t="corto" onclick="selT(this)"><div class="ti">&#x23F1;&#xFE0F;</div><div class="tn">Entreno insuficiente</div><div class="tp">+1 PP · Fue, pero se piró antes de tiempo</div></div>
+      <div class="tc" data-t="tarde" onclick="selT(this)"><div class="ti">&#x1F422;</div><div class="tn">Llegada tarde</div><div class="tp">+1 PP · Llegó después de las 21:30</div></div>
     </div>
     <div class="fg" style="margin-top:16px">
       <div class="fv" style="grid-column:1/-1"><label>&#x1F4AC; Notas</label><textarea id="fn" placeholder="Aqui van las excusas. El Tribunal lo leerá todo."></textarea></div>
     </div>
     <div style="margin-top:16px;background:var(--ybg);border:1px solid var(--ydim);border-radius:8px;padding:14px 16px">
-      <div class="fv"><label>&#x1F510; Contrasena del Tribunal</label><input type="text" id="fpass" placeholder="........" autocomplete="off" style="letter-spacing:4px;font-size:15px;max-width:260px" onkeydown="if(event.key==='Enter')doSave()"></div>
+      <div class="fv"><label>&#x1F510; Contrasena del Tribunal</label><input type="text" id="fpass" placeholder="••••" inputmode="numeric" pattern="[0-9]*" maxlength="4" autocomplete="off" style="letter-spacing:4px;font-size:15px;max-width:260px" onkeydown="if(event.key==='Enter')doSave()"></div>
     </div>
     <div class="ban berr" id="ferr"></div>
     <div style="margin-top:16px;display:flex;gap:8px;flex-wrap:wrap">
@@ -202,7 +217,7 @@ tbody tr:last-child td{border-bottom:none}tbody tr:hover td{background:var(--s2)
     <div class="fb">
       <div class="fv"><label>Mes</label><input type="month" id="fmes" onchange="renderT();renderMS()"></div>
       <div class="fv"><label>Persona</label><select id="fper" onchange="renderT();renderMS()"><option value="">Todos</option></select></div>
-      <div class="fv"><label>Tipo</label><select id="ftip" onchange="renderT();renderMS()"><option value="">Todos</option><option value="falta">Falta</option><option value="recuperacion">Sabado Salvador</option><option value="vagueo">Vagueo</option><option value="engano">Engano</option></select></div>
+      <div class="fv"><label>Tipo</label><select id="ftip" onchange="renderT();renderMS()"><option value="">Todos</option><option value="falta">Falta</option><option value="recuperacion">Sabado Salvador</option><option value="vagueo">Vagueo</option><option value="engano">Engano</option><option value="corto">Entreno insuficiente</option><option value="tarde">Llegada tarde</option></select></div>
       <div class="fv"><label>Admin</label><select id="fadm" onchange="renderT();renderMS()"><option value="">Todos</option></select></div>
     </div>
     <button class="btn bg bs" onclick="clrF()">&#x2715; Limpiar</button>
@@ -230,6 +245,7 @@ tbody tr:last-child td{border-bottom:none}tbody tr:hover td{background:var(--s2)
   <div class="st"><span>&#x1F3C6;</span> Ranking</div>
   <div class="hr" id="hrank"></div>
   <div id="hall-desempate" style="display:none"></div>
+  <div id="hall-ajustes"></div>
   <div class="st"><span>&#x1F4DC;</span> Diploma oficial de la verguenza</div>
   <div class="ds">
     <div id="diploma">
@@ -376,7 +392,7 @@ tbody tr:last-child td{border-bottom:none}tbody tr:hover td{background:var(--s2)
 const SID='1KAcBc72p-i2jc2v_V9YQKv--Nz7e43duyvvCQZikDM4';
 const SURL='https://script.google.com/macros/s/AKfycbxYE6N3VHKgxqCQrcS5oG-qe5gyxC_r8YmX94_1N6Dd35Zv9hPtsTH8ixYTLxR6MRa8/exec';
 const _k=atob('QUl6YVN5RHV0RVBXOTNxVEtWRENIV1J0Z2NtWkFuMnlTdlpBQjNn');
-const PWD='perramala';
+const PWD='5555';
 const S={movs:[],members:[],admins:[],sk:'fecha',sd:-1};
 let hallMes='';
 function ll(){try{const d=JSON.parse(localStorage.getItem('th3')||'{}');if(d.movs)S.movs=d.movs;}catch(e){}}
@@ -386,11 +402,16 @@ const tod=()=>new Date().toISOString().split('T')[0];
 const curM=()=>{const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0');};
 const MES=['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
 const fmtM=ym=>{if(!ym)return'--';const[y,m]=ym.split('-');return MES[+m-1]+' '+y;};
-const TL={falta:'Falta',recuperacion:'Sabado Salvador',vagueo:'Vagueo en el gym',engano:'Engano al Jurado'};
-const TC={falta:'cf',recuperacion:'cr',vagueo:'cv',engano:'ce'};
-const TE={falta:'&#x1F480;',recuperacion:'&#x1F4C5;',vagueo:'&#x1F6CB;',engano:'&#x1F925;'};
+const TL={falta:'Falta',recuperacion:'Sabado Salvador',vagueo:'Vagueo en el gym',engano:'Engano al Jurado',corto:'Tiempo de entrenamiento insuficiente',tarde:'Llegada tarde (+21:30)',desierto:'Mes declarado desierto',reabierto:'Mes reabierto'};
+const TC={falta:'cf',recuperacion:'cr',vagueo:'cv',engano:'ce',corto:'cy',tarde:'cc',desierto:'cy',reabierto:'cr'};
+const TE={falta:'&#x1F480;',recuperacion:'&#x1F4C5;',vagueo:'&#x1F6CB;',engano:'&#x1F925;',corto:'&#x23F1;',tarde:'&#x1F422;',desierto:'&#x1F3D6;',reabierto:'&#x1F513;'};
 const getPP=(p,m)=>S.movs.filter(x=>x.persona===p&&x.mes===m).reduce((a,x)=>a+x.puntos,0);
-const getRes=m=>{const dw=S.movs.find(x=>x.tipo==='desempate'&&x.mes===m)?.persona;return S.members.map(p=>{const xs=S.movs.filter(x=>x.persona===p&&x.mes===m&&x.tipo!=='desempate');return{persona:p,faltas:xs.filter(x=>x.tipo==='falta').length,sabs:xs.filter(x=>x.tipo==='recuperacion').length,pp:xs.reduce((a,x)=>a+x.puntos,0),desempate:p===dw};}).sort((a,b)=>{if(b.pp!==a.pp)return b.pp-a.pp;if(a.sabs!==b.sabs)return a.sabs-b.sabs;if(a.desempate&&!b.desempate)return -1;if(!a.desempate&&b.desempate)return 1;return 0;});};
+// Meses desiertos: sin Perra del Mes, nadie suma PP.
+// DESIERTOS son los de serie; desde el Hall se declaran/reabren con movimientos 'desierto'/'reabierto' (manda el último).
+const DESIERTOS=new Set(['2026-08','2026-09','2026-10','2026-11']);
+const isDes=m=>{const ms=S.movs.filter(x=>x.mes===m&&(x.tipo==='desierto'||x.tipo==='reabierto')).sort((a,b)=>String(a.creado_en).localeCompare(String(b.creado_en)));return ms.length?ms[ms.length-1].tipo==='desierto':DESIERTOS.has(m);};
+const DES_BAN='<div class="des-ban">&#x1F3D6;&#xFE0F; MES DESIERTO · Descanso colectivo del Tribunal. No hay Perra del Mes.</div>';
+const getRes=m=>{if(isDes(m))return S.members.map(p=>({persona:p,faltas:0,sabs:0,pp:0,desempate:false}));const dw=S.movs.find(x=>x.tipo==='desempate'&&x.mes===m)?.persona;return S.members.map(p=>{const xs=S.movs.filter(x=>x.persona===p&&x.mes===m&&x.tipo!=='desempate');return{persona:p,faltas:xs.filter(x=>x.tipo==='falta').length,sabs:xs.filter(x=>x.tipo==='recuperacion').length,pp:xs.reduce((a,x)=>a+x.puntos,0),desempate:p===dw};}).sort((a,b)=>{if(b.pp!==a.pp)return b.pp-a.pp;if(a.sabs!==b.sabs)return a.sabs-b.sabs;if(a.desempate&&!b.desempate)return -1;if(!a.desempate&&b.desempate)return 1;return 0;});};
 const lmsg=t=>{const e=document.getElementById('lmsg');if(e)e.textContent=t;};
 function hideL(){const e=document.getElementById('loader');if(!e)return;e.classList.add('fo');setTimeout(()=>e.classList.add('gn'),420);}
 function errL(msg){lmsg(msg);const sp=document.getElementById('lspin'),bt=document.getElementById('lbtns'),lk=document.getElementById('llink');if(sp)sp.style.display='none';if(bt)bt.style.display='flex';if(lk)lk.href='https://sheets.googleapis.com/v4/spreadsheets/'+SID+'/values/Miembros!A2:A?key='+_k;}
@@ -402,11 +423,11 @@ function goTab(n,b){document.querySelectorAll('.tab').forEach(t=>t.classList.rem
 function fillSels(){const s=(id,a,ph)=>{const e=document.getElementById(id);if(!e)return;e.innerHTML='<option value="">'+ph+'</option>'+a.map(v=>'<option>'+v+'</option>').join('');};s('fp',S.members,'-- quien ha fallado? --');s('fa',S.admins,'-- quien apunta esto? --');}
 function fillFS(){const s=(id,a)=>{const e=document.getElementById(id);if(!e)return;const c=e.value;e.innerHTML='<option value="">Todos</option>'+a.map(v=>'<option value="'+v+'">'+v+'</option>').join('');e.value=c;};s('fper',S.members);s('fadm',S.admins);}
 let cT='falta';
-function selT(el){document.querySelectorAll('.tc').forEach(c=>{c.classList.remove('sf','sr','sv','se');});cT=el.dataset.t;const m={falta:'sf',recuperacion:'sr',vagueo:'sv',engano:'se'};el.classList.add(m[cT]||'sf');}
+function selT(el){document.querySelectorAll('.tc').forEach(c=>{c.classList.remove('sf','sr','sv','se','sy','sc');});cT=el.dataset.t;const m={falta:'sf',recuperacion:'sr',vagueo:'sv',engano:'se',corto:'sy',tarde:'sc'};el.classList.add(m[cT]||'sf');}
 function initT(){const e=document.querySelector('.tc[data-t="falta"]');if(e)selT(e);}
 function clearF(){const f=document.getElementById('ff');if(f)f.value=tod();['fp','fa','fn','fpass'].forEach(id=>{const e=document.getElementById(id);if(e)e.value='';});document.getElementById('ferr').classList.remove('on');initT();}
 function showE(m){const e=document.getElementById('ferr');e.innerHTML='<b>Atencion:</b> '+m;e.classList.add('on');}
-function doSave(){document.getElementById('ferr').classList.remove('on');const fecha=document.getElementById('ff').value,persona=document.getElementById('fp').value,admin=document.getElementById('fa').value,notas=document.getElementById('fn').value.trim(),pass=document.getElementById('fpass').value.trim(),tipo=cT;if(!fecha)return showE('Selecciona una fecha.');if(!persona)return showE('Quien es el culpable?');if(!admin)return showE('Quien esta apuntando esto?');if(!pass)return showE('El Tribunal exige la contrasena.');if(pass!==PWD)return showE('Contrasena incorrecta.');const mes=fecha.slice(0,7);const puntos=tipo==='falta'?1:tipo==='recuperacion'?-1:tipo==='vagueo'?1:tipo==='engano'?2:0;if(tipo==='recuperacion'&&getPP(persona,mes)<=0)return showE(persona+' tiene 0 PP. No puede recuperar mas.');const mov={id:uid(),fecha,persona,tipo,puntos,notas,admin,mes,creado_en:new Date().toISOString(),synced:false};S.movs.push(mov);ls();fetch(SURL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'write',mov})}).catch(()=>{});toast(TL[tipo]+' para '+persona);clearF();renderQ();}
+function doSave(){document.getElementById('ferr').classList.remove('on');const fecha=document.getElementById('ff').value,persona=document.getElementById('fp').value,admin=document.getElementById('fa').value,notas=document.getElementById('fn').value.trim(),pass=document.getElementById('fpass').value.trim(),tipo=cT;if(!fecha)return showE('Selecciona una fecha.');if(!persona)return showE('Quien es el culpable?');if(!admin)return showE('Quien esta apuntando esto?');if(!pass)return showE('El Tribunal exige la contrasena.');if(pass!==PWD)return showE('Contrasena incorrecta.');const mes=fecha.slice(0,7);if(isDes(mes))return showE(fmtM(mes)+' es mes de descanso. El Tribunal no admite registros.');const puntos=tipo==='falta'?1:tipo==='recuperacion'?-1:tipo==='vagueo'?1:tipo==='engano'?2:tipo==='corto'?1:tipo==='tarde'?1:0;if(tipo==='recuperacion'&&getPP(persona,mes)<=0)return showE(persona+' tiene 0 PP. No puede recuperar mas.');const mov={id:uid(),fecha,persona,tipo,puntos,notas,admin,mes,creado_en:new Date().toISOString(),synced:false};S.movs.push(mov);ls();fetch(SURL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'write',mov})}).catch(()=>{});toast(TL[tipo]+' para '+persona);clearF();renderQ();}
 let _tt;
 function toast(m,ok=true){const t=document.getElementById('toast');t.textContent=m;t.className='on'+(ok?' ok':'');clearTimeout(_tt);_tt=setTimeout(()=>t.classList.remove('on'),3000);}
 function renderQ(){
@@ -415,7 +436,7 @@ function renderQ(){
   const nw=!r[0]||r[0].pp===0;
   const tiedGroup=(!nw&&!dw)?r.filter(x=>x.pp===r[0].pp&&x.sabs===r[0].sabs):[];
   const hasTie=tiedGroup.length>1;
-  e.innerHTML=r.map((x,i)=>{
+  e.innerHTML=(isDes(curM())?DES_BAN:'')+r.map((x,i)=>{
     const isWinner=!hasTie&&i===0&&!nw;
     const isTied=hasTie&&tiedGroup.some(t=>t.persona===x.persona);
     const cls=isWinner?' pk':isTied?' qc-tie':'';
@@ -427,7 +448,7 @@ function renderQ(){
 function getF(){const mes=(document.getElementById('fmes')?.value||'').trim(),per=(document.getElementById('fper')?.value||'').trim(),tip=(document.getElementById('ftip')?.value||'').trim(),adm=(document.getElementById('fadm')?.value||'').trim();return[...S.movs].filter(m=>(!mes||m.mes===mes)&&(!per||m.persona.trim()===per)&&(!tip||m.tipo.trim()===tip)&&(!adm||m.admin.trim()===adm)).sort((a,b)=>{const va=a[S.sk]||'',vb=b[S.sk]||'';return va<vb?S.sd:va>vb?-S.sd:0;});}
 function srt(k){S.sd=S.sk===k?-S.sd:-1;S.sk=k;renderT();}
 function renderT(){const mv=getF();document.getElementById('tcnt').textContent=mv.length+' movimiento'+(mv.length!==1?'s':'');const tb=document.getElementById('tbody');if(!tb)return;if(!mv.length){tb.innerHTML='<tr><td colspan="7"><div class="em">Sin movimientos</div></td></tr>';return;}tb.innerHTML=mv.map(m=>{const pp=m.puntos>0?'<span class="pb pos">+'+m.puntos+'</span>':m.puntos<0?'<span class="pb neg">'+m.puntos+'</span>':'<span class="pb z">0</span>';return'<tr><td style="white-space:nowrap">'+m.fecha+'</td><td style="font-weight:700">'+m.persona+'</td><td><span class="chip '+(TC[m.tipo]||'')+'">'+(TL[m.tipo]||m.tipo)+'</span></td><td style="text-align:center">'+pp+'</td><td style="max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--mu)" title="'+(m.notas||'')+'">'+(m.notas||'--')+'</td><td style="color:var(--mu)">'+m.admin+'</td><td style="color:var(--mu);white-space:nowrap">'+(m.creado_en?new Date(m.creado_en).toLocaleDateString('es-ES'):'--')+'</td></tr>';}).join('');}
-function renderMS(){const mes=document.getElementById('fmes')?.value||curM(),r=getRes(mes),e=document.getElementById('msum');if(!e)return;e.innerHTML=r.map((x,i)=>'<div class="qc'+(i===0&&x.pp>0?' pk':'')+'"><div class="qrk">#'+(i+1)+'</div><div class="qn">'+(i===0&&x.pp>0?'&#x1F480; ':'')+x.persona+'</div><div class="qp">'+x.pp+'</div><div class="ql">PP · '+fmtM(mes)+'</div><div class="qs"><span class="qi">&#x1F480; '+x.faltas+' faltas</span><span class="qi">&#x1F4C5; '+x.sabs+' rec.</span></div></div>').join('');}
+function renderMS(){const mes=document.getElementById('fmes')?.value||curM(),r=getRes(mes),e=document.getElementById('msum');if(!e)return;e.innerHTML=(isDes(mes)?DES_BAN:'')+r.map((x,i)=>'<div class="qc'+(i===0&&x.pp>0?' pk':'')+'"><div class="qrk">#'+(i+1)+'</div><div class="qn">'+(i===0&&x.pp>0?'&#x1F480; ':'')+x.persona+'</div><div class="qp">'+x.pp+'</div><div class="ql">PP · '+fmtM(mes)+'</div><div class="qs"><span class="qi">&#x1F480; '+x.faltas+' faltas</span><span class="qi">&#x1F4C5; '+x.sabs+' rec.</span></div></div>').join('');}
 function clrF(){['fmes','fper','ftip','fadm'].forEach(id=>{const e=document.getElementById(id);if(e)e.value=id==='fmes'?curM():'';});renderT();renderMS();}
 function expCSV(){const mv=getF();if(!mv.length)return toast('Nada que exportar',false);const rows=mv.map(m=>[m.fecha,m.persona,TL[m.tipo]||m.tipo,m.puntos,'"'+(m.notas||'').replace(/"/g,'""')+'"',m.admin,m.creado_en?new Date(m.creado_en).toLocaleDateString('es-ES'):''].join(','));const b=new Blob(['\ufeffFecha,Persona,Tipo,Puntos,Notas,Admin,Registrado\n'+rows.join('\n')],{type:'text/csv;charset=utf-8;'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='tribunal-'+curM()+'.csv';a.click();toast('CSV exportado');}
 function closeMes(){const mes=document.getElementById('fmes')?.value||curM();if(!confirm('Cerrar '+fmtM(mes)+' del registro local?'))return;S.movs=S.movs.filter(m=>m.mes!==mes);ls();renderT();renderMS();renderQ();toast('Mes cerrado');}
@@ -453,7 +474,10 @@ function renderH(){
     return'<div class="rr'+cls+'"><div class="rnum">'+numEl+'</div><div><div class="rname">'+x.persona+badge+tieTag+'</div><div class="rinfo">'+x.faltas+' falta'+(x.faltas!==1?'s':'')+' · '+x.sabs+' sábado'+(x.sabs!==1?'s':'')+'</div></div><div class="rpw" style="margin-left:auto"><div class="rpn">'+x.pp+'</div><div class="rpl">PP</div></div>'+(isWinner?'<div class="pbdg">PERRA DEL MES</div>':'')+'</div>';
   }).join('');
   const desEl=document.getElementById('hall-desempate');
-  if(dw){
+  if(isDes(mes)){
+    desEl.style.display='block';
+    desEl.innerHTML=DES_BAN;
+  } else if(dw){
     desEl.style.display='block';
     desEl.innerHTML='<div class="des-declared">&#x2705; Desempate declarado: <strong>'+dw.persona+'</strong> es la Perra del Mes de '+fmtM(mes)+'. Registrado por '+dw.admin+'.</div>';
   } else if(hasTie){
@@ -462,26 +486,47 @@ function renderH(){
       +'<p style="font-size:13px;color:var(--t2);margin-bottom:12px">'+tiedGroup.map(x=>x.persona+' ('+x.pp+' PP, '+x.sabs+' sáb.)').join(' vs ')+'<br><span style="font-size:12px;color:var(--mu)">Art. 9 — El Tribunal decide por votación</span></p>'
       +'<div class="des-opts">'+tiedGroup.map(x=>'<div class="des-opt" data-p="'+x.persona+'" onclick="desSel(this)">'+x.persona+'</div>').join('')+'</div>'
       +'<div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">'
-      +'<input type="text" id="des-pass" placeholder="Contrasena del Tribunal" style="background:var(--s2);border:1px solid var(--border);color:var(--text);font-family:DM Mono,monospace;font-size:13px;padding:8px 12px;border-radius:5px;outline:none;width:220px" onkeydown="if(event.key===String.fromCharCode(13))hacerDesempate()">'
+      +'<input type="text" id="des-pass" placeholder="PIN del Tribunal" inputmode="numeric" pattern="[0-9]*" maxlength="4" autocomplete="off" style="background:var(--s2);border:1px solid var(--border);color:var(--text);font-family:DM Mono,monospace;font-size:13px;padding:8px 12px;border-radius:5px;outline:none;width:220px" onkeydown="if(event.key===String.fromCharCode(13))hacerDesempate()">'
       +'<button class="btn bp bs" onclick="hacerDesempate()">&#x1F528; Declarar Perra</button>'
       +'</div><div id="des-err" style="margin-top:8px;font-family:DM Mono,monospace;font-size:11px;color:var(--pink);display:none"></div>'
       +'</div>';
   } else {
     desEl.style.display='none';
   }
+  renderAj(mes);
   const w2=dw?r.find(x=>x.persona===dw.persona)||r[0]:r[0];
   const nw2=!w2||w2.pp===0;
-  document.getElementById('dnom').textContent=nw2?'— Nadie todavía —':hasTie?tiedGroup.map(x=>x.persona).join(' / '):w2.persona;
+  document.getElementById('dnom').textContent=isDes(mes)?'— Desierto —':nw2?'— Nadie todavía —':hasTie?tiedGroup.map(x=>x.persona).join(' / '):w2.persona;
   document.getElementById('dmes').textContent='del mes de '+fmtM(mes);
   document.getElementById('dpp').textContent=nw2?'0':w2.pp;
   document.getElementById('dfal').textContent=nw2?'0':w2.faltas;
   document.getElementById('dsab').textContent=nw2?'0':w2.sabs;
   document.getElementById('dfecha').textContent=(mes<curM()?'Resolución retroactiva · ':'Emitido el ')+new Date().toLocaleDateString('es-ES',{day:'numeric',month:'long',year:'numeric'});
-  document.getElementById('dtxt').textContent=nw2
+  document.getElementById('dtxt').textContent=isDes(mes)
+    ?'Mes de descanso colectivo. El Tribunal declara el título desierto: el hierro también necesita vacaciones.'
+    :nw2
     ?'El Tribunal constata que nadie ha fallado todavía. Se suspende el diploma por falta de méritos deshonrosos.'
     :hasTie
       ?(mes<curM()?'El Tribunal registra un empate irresuelto de '+fmtM(mes)+' entre '+tiedGroup.map(x=>x.persona).join(' y ')+'. El veredicto puede emitirse retroactivamente desde el Hall de la Fama.':'El Tribunal ha detectado un empate irresuelto entre '+tiedGroup.map(x=>x.persona).join(' y ')+'. Este diploma permanece en suspenso hasta que el Tribunal emita su veredicto.')
       :DT[w2.pp%DT.length];
+}
+function renderAj(mes){const el=document.getElementById('hall-ajustes');if(!el)return;const d=isDes(mes);
+  el.innerHTML='<details class="aj"><summary>&#x2699;&#xFE0F; Ajustes del mes · '+fmtM(mes)+(d?' · DESIERTO':'')+'</summary><div class="aj-in">'
+    +'<p>'+(d?'Este mes está declarado <strong>desierto</strong>: nadie suma PP y no hay Perra del Mes. Reábrelo para que vuelva a contar.':'Declara el mes <strong>desierto</strong> si el grupo se ha tomado un descanso: nadie suma PP y no hay Perra del Mes. Los registros no se borran.')+'</p>'
+    +'<div class="aj-row"><select id="aj-adm"><option value="">-- quién lo declara? --</option>'+S.admins.map(a=>'<option>'+a+'</option>').join('')+'</select>'
+    +'<input type="text" id="aj-pass" placeholder="PIN" inputmode="numeric" pattern="[0-9]*" maxlength="4" autocomplete="off" onkeydown="if(event.key===String.fromCharCode(13))togDes()">'
+    +'<button class="btn bp bs" onclick="togDes()">'+(d?'&#x1F513; Reabrir mes':'&#x1F3D6;&#xFE0F; Declarar desierto')+'</button></div>'
+    +'<div id="aj-err" class="aj-err"></div></div></details>';}
+function togDes(){const mes=hallMes,d=isDes(mes),err=document.getElementById('aj-err'),admin=document.getElementById('aj-adm')?.value||'',pass=document.getElementById('aj-pass')?.value.trim();
+  const fail=t=>{if(err){err.textContent=t;err.style.display='block';}};
+  if(!admin)return fail('¿Quién lo declara?');
+  if(pass!==PWD)return fail('Contraseña incorrecta.');
+  const tipo=d?'reabierto':'desierto';
+  const mov={id:uid(),fecha:mes+'-01',persona:'Tribunal',tipo,puntos:0,notas:(d?'Mes reabierto: ':'Mes declarado desierto: ')+fmtM(mes),admin,mes,creado_en:new Date().toISOString(),synced:false};
+  S.movs.push(mov);ls();
+  fetch(SURL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'write',mov})}).catch(()=>{});
+  toast(fmtM(mes)+(d?' reabierto':' declarado desierto'));
+  renderH();renderQ();if(document.getElementById('tab-movimientos')?.classList.contains('on')){renderT();renderMS();}
 }
 let desSelP='';
 function desSel(el){document.querySelectorAll('.des-opt').forEach(x=>x.classList.remove('sel'));el.classList.add('sel');desSelP=el.dataset.p;}
