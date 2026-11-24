@@ -306,10 +306,9 @@ tbody tr:last-child td{border-bottom:none}tbody tr:hover td{background:var(--s2)
 
   <!-- Header -->
   <div style="text-align:center;padding:28px 0 24px;border-bottom:1px solid var(--border);margin-bottom:28px;position:relative">
-    <div style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:4px;color:var(--mu);margin-bottom:8px">DOCUMENTO OFICIAL · v2.1 · VIGENTE</div>
+    <div style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:4px;color:var(--mu);margin-bottom:8px">DOCUMENTO OFICIAL · v3.0 · VIGENTE</div>
     <div style="font-family:'Righteous',sans-serif;font-size:clamp(28px,6vw,42px)">Reglamento del Tribunal</div>
     <div style="font-size:14px;color:var(--mu);margin-top:6px;font-style:italic">Premio "Perra del Gimnasio" — porque alguien tiene que serlo</div>
-    <button onclick="document.getElementById('pdf-modal').style.display='flex'" style="margin-top:14px;background:none;border:1px solid var(--border2);color:var(--t2);font-family:'DM Mono',monospace;font-size:11px;letter-spacing:2px;padding:6px 16px;border-radius:20px;cursor:pointer;transition:border-color .15s,color .15s" onmouseover="this.style.borderColor='var(--pink)';this.style.color='var(--pink)'" onmouseout="this.style.borderColor='var(--border2)';this.style.color='var(--t2)'">&#x1F4C4; Ver PDF oficial</button>
   </div>
 
   <!-- PREÁMBULO -->
@@ -330,40 +329,60 @@ tbody tr:last-child td{border-bottom:none}tbody tr:hover td{background:var(--s2)
   <!-- TÍTULO I -->
   <div class="rt">Título I — Del sistema de puntuación</div>
   <div class="ra"><div class="ran">Art. 1 — Principio básico</div><ul class="rl">
-    <li>Asistir al gimnasio entre semana <strong>no suma ni resta</strong> puntos.</li>
-    <li>Faltar a un entrenamiento programado suma <strong style="color:var(--pink)">+1 PP</strong>.</li>
+    <li>Entrenar entre semana de forma válida <strong>no suma ni resta</strong> puntos.</li>
+    <li>Faltar a un entrenamiento entre semana suma <strong style="color:var(--pink)">+1 PP</strong>.</li>
+    <li>El mes lo pierde quien más Puntos de Perra (PP) acumule.</li>
   </ul></div>
-  <div class="ra"><div class="ran">Art. 2 — Recuperación mediante sábado salvador</div><ul class="rl">
-    <li>Acudir al gimnasio un <strong>sábado</strong> permite restar <strong style="color:var(--green)">−1 PP</strong>.</li>
-    <li>Solo puede recuperarse una falta ya existente. Con 0 PP el sábado no genera saldo positivo.</li>
-    <li>No se pueden acumular sábados salvadores para meses futuros.</li>
+  <div class="ra"><div class="ran">Art. 2 — Sábado salvador</div><ul class="rl">
+    <li>Ir al gimnasio un <strong>sábado</strong> resta <strong style="color:var(--green)">−1 PP</strong>. Basta con ir y entrenar de forma válida (Art. 4).</li>
+    <li>Solo resta si tienes puntos ese mes. Con 0 PP el sábado no deja saldo a favor.</li>
+    <li>Los sábados no se guardan para meses futuros.</li>
   </ul></div>
-  <div class="ra"><div class="ran">Art. 3 — Sustitución por carrera entre semana</div><ul class="rl">
-    <li>Salir a correr de <strong>lunes a viernes</strong> evita sumar el PP del día correspondiente.</li>
-    <li>La carrera deberá realizarse <strong>antes de las 21:30</strong>.</li>
-    <li>Correr sábado o domingo <strong>no resta PP</strong>.</li>
-  </ul></div>
+  <div class="ra"><div class="ran">Art. 3 — Tabla de puntos</div>
+    <table style="width:100%;border-collapse:collapse;font-size:13px;color:var(--t2);margin-top:6px">
+      <tr><td style="padding:6px 0">&#x1F480; Falta</td><td style="text-align:right"><strong style="color:var(--pink)">+1 PP</strong></td></tr>
+      <tr><td style="padding:6px 0">&#x1F6CB;&#xFE0F; Vagueo en el gym (fue pero no entrenó)</td><td style="text-align:right"><strong style="color:var(--pink)">+1 PP</strong></td></tr>
+      <tr><td style="padding:6px 0">&#x23F1;&#xFE0F; Entreno insuficiente (menos de 30 min efectivos)</td><td style="text-align:right"><strong style="color:var(--pink)">+1 PP</strong></td></tr>
+      <tr><td style="padding:6px 0">&#x1F422; Llegada tarde (después de las 21:30)</td><td style="text-align:right"><strong style="color:var(--pink)">+1 PP</strong></td></tr>
+      <tr><td style="padding:6px 0">&#x1F925; Engaño al Jurado</td><td style="text-align:right"><strong style="color:var(--purple)">+2 PP</strong></td></tr>
+      <tr><td style="padding:6px 0">&#x1F4C5; Sábado salvador</td><td style="text-align:right"><strong style="color:var(--green)">−1 PP</strong></td></tr>
+      <tr><td style="padding:6px 0">&#x1F39F;&#xFE0F; Bonos (Título V)</td><td style="text-align:right"><strong style="color:var(--green)">−1 PP / mes perdonado</strong></td></tr>
+    </table>
+  </div>
 
   <!-- TÍTULO II -->
-  <div class="rt">Título II — De los horarios y justificaciones</div>
-  <div class="ra"><div class="ran">Art. 4 — Límite horario</div><ul class="rl">
-    <li>Todo entrenamiento válido debe comenzar <strong>antes de las 21:30</strong>.</li>
-    <li>Entrenar después contará como intento honorable, pero no evitará el PP.</li>
+  <div class="rt">Título II — Del entrenamiento válido</div>
+  <div class="ra"><div class="ran">Art. 4 — Entrenamiento mínimo</div><ul class="rl">
+    <li>Mínimo <strong>30 minutos efectivos</strong> entrenando.</li>
+    <li>La ducha, el vestuario, la charla y el móvil <strong>no cuentan</strong>.</li>
+    <li>Menos de 30 minutos = <em>Entreno insuficiente</em>, <strong style="color:var(--pink)">+1 PP</strong>.</li>
+    <li>Ir y no entrenar de verdad = <em>Vagueo en el gym</em>, <strong style="color:var(--pink)">+1 PP</strong>.</li>
   </ul></div>
-  <div class="ra"><div class="ran">Art. 5 — Régimen especial para trabajadores y estudiantes</div><ul class="rl">
-    <li>Podrán realizar entrenamiento reducido para evitar el PP.</li>
-    <li>Debe implicar actividad física real. Pasearse entre máquinas mirando el móvil no cuenta.</li>
+  <div class="ra"><div class="ran">Art. 5 — Límite de llegada</div><ul class="rl">
+    <li>Hay que llegar al gimnasio <strong>antes de las 21:30</strong>.</li>
+    <li>Llegar más tarde = <em>Llegada tarde</em>, <strong style="color:var(--pink)">+1 PP</strong>.</li>
   </ul></div>
-  <div class="ra"><div class="ran">Art. 6 — Justificación por desplazamiento</div><ul class="rl">
+  <div class="ra"><div class="ran">Art. 6 — Actividades permitidas en lugar del gimnasio</div><ul class="rl">
+    <li>Sirven de <strong>lunes a viernes</strong> para evitar el PP del día, con las mismas reglas de horario y duración.</li>
+    <li>&#x1F3C3; <strong>Correr:</strong> mínimo <strong>5 km</strong>, acreditados con captura de la app o reloj.</li>
+    <li>&#x1F6B6; <strong>Excepción de Jam Benari Camacho:</strong> por sus problemas de coordinación, le vale caminar en la cinta (30 min efectivos).</li>
+    <li>&#x26F0;&#xFE0F; <strong>Subir a la montaña:</strong> permitido. Se acredita con foto en ruta o el track de la app.</li>
+    <li>Las actividades del fin de semana no restan PP. Solo resta el sábado de gimnasio (Art. 2).</li>
+  </ul></div>
+
+  <!-- TÍTULO III -->
+  <div class="rt">Título III — De las justificaciones</div>
+  <div class="ra"><div class="ran">Art. 7 — Régimen especial para trabajadores y estudiantes</div><ul class="rl">
+    <li>Podrán hacer un entrenamiento más corto para evitar el PP, siempre con actividad física real.</li>
+    <li>Pasearse entre máquinas mirando el móvil no cuenta.</li>
+  </ul></div>
+  <div class="ra"><div class="ran">Art. 8 — Justificación por desplazamiento</div><ul class="rl">
     <li><strong>Trabajadores:</strong> si el desplazamiento por trabajo te ha llevado fuera de Valencia, la ausencia queda automáticamente perdonada. Si estás en Valencia, no hay excusa.</li>
     <li><strong>Sin empleo ni estudios:</strong> deberás demostrar que no estabas en la ciudad en el momento del entrenamiento. El destino debe estar a <strong>más de 30 km de Valencia</strong>. Barx, Rotova, Gandía y similares <em>no cuentan</em>.</li>
     <li>Pruebas válidas: billete de transporte, captura del trayecto o foto acreditativa en destino lejano.</li>
     <li>No acreditar la ausencia válida = <strong style="color:var(--pink)">falta por PERRA</strong>, sin más deliberación.</li>
   </ul></div>
-
-  <!-- TÍTULO III -->
-  <div class="rt">Título III — De las situaciones especiales</div>
-  <div class="ra"><div class="ran">Art. 7 — Enfermedad y lesión</div><ul class="rl">
+  <div class="ra"><div class="ran">Art. 9 — Enfermedad y lesión</div><ul class="rl">
     <li>Lesiones o enfermedades justificadas impiden sumar PP durante el periodo.</li>
     <li>Pruebas válidas: informe médico, foto de medicación, o prueba razonable aceptada por el grupo.</li>
     <li>Rechazados automáticamente: <em>"me dolía un poco la cabeza"</em>, <em>"no tenía ganas"</em>, <em>"hacía frío"</em>.</li>
@@ -371,24 +390,37 @@ tbody tr:last-child td{border-bottom:none}tbody tr:hover td{background:var(--s2)
 
   <!-- TÍTULO IV -->
   <div class="rt">Título IV — Del diploma</div>
-  <div class="ra"><div class="ran">Art. 8 — Otorgamiento</div><ul class="rl">
+  <div class="ra"><div class="ran">Art. 10 — Otorgamiento</div><ul class="rl">
     <li>El miembro con más PP al finalizar el mes recibe el diploma de <strong style="color:var(--pink)">"Perra del Gimnasio del Mes"</strong>.</li>
     <li><strong>Desempate 1:</strong> quien más sábados haya acudido queda <strong style="color:var(--green)">salvado</strong>; la perra es quien menos sábados tenga.</li>
     <li><strong>Desempate 2:</strong> decide votación grupal del Tribunal (requiere contraseña).</li>
     <li><strong>Desempate 3:</strong> ambos comparten el título de manera solidaria y humillante.</li>
   </ul></div>
+  <div class="ra"><div class="ran">Art. 11 — Meses desiertos</div><ul class="rl">
+    <li>El Tribunal puede declarar un mes <strong>desierto</strong> (descanso colectivo): nadie suma PP y no hay Perra del Mes.</li>
+    <li>Se declara o reabre desde el Hall de la Fama con la contraseña.</li>
+  </ul></div>
 
   <!-- TÍTULO V -->
-  <div class="rt">Título V — Enmiendas y disposiciones especiales</div>
-  <div class="ra"><div class="ran">Art. 9 — Intento de engaño al Jurado</div><ul class="rl">
+  <div class="rt">Título V — Bonos y premios extraordinarios</div>
+  <div class="ra"><div class="ran">Art. 12 — Bonos</div><ul class="rl">
+    <li>&#x1F1EA;&#x1F1F8; <strong>Bono Salvar España:</strong> asistir a un acto de partido político resta <strong style="color:var(--green)">−1 PP</strong>.</li>
+    <li>&#x1F498; <strong>Bono Cita con Mujer:</strong> exclusivo del nene Alex. Resta <strong style="color:var(--green)">−1 PP</strong>.</li>
+    <li>&#x1F393; <strong>Bono Aprobado General:</strong> exclusivo del nene Alex. Si lo aprueba todo, se le perdona el mes entero (0 PP).</li>
+    <li>Los bonos que restan punto no dejan el saldo del mes por debajo de 0.</li>
+  </ul></div>
+  <div class="ra"><div class="ran">Art. 13 — Premios honoríficos extraordinarios</div><ul class="rl">
+    <li>El Tribunal puede otorgar con la contraseña distinciones extraordinarias (Perra del PSOE, Perrita Chocolatera, Favorito del Abuelo Homosexual…).</li>
+    <li>No computan PP. Quedan en el Hall de la Fama y pueden revocarse.</li>
+  </ul></div>
+
+  <!-- TÍTULO VI -->
+  <div class="rt">Título VI — Disposiciones sancionadoras</div>
+  <div class="ra"><div class="ran">Art. 14 — Intento de engaño al Jurado</div><ul class="rl">
     <li>Cualquier intento de engaño, manipulación de pruebas, reutilización de fotos antiguas, capturas falsas o declaración fraudulenta: <strong style="color:var(--purple)">+2 PP</strong> inmediatos.</li>
     <li>Intentar obtener tratos de favor mediante lamentos, presión emocional, lloriqueos o súplicas ante el Tribunal será igualmente considerado intento de engaño y sancionado con <strong style="color:var(--purple)">+2 PP</strong>.</li>
     <li>La sanción se suma de forma independiente a la falta original si la hubiera.</li>
     <li>El engaño no será considerado estrategia, sino <em>perrería agravada</em>. Llorar tampoco.</li>
-  </ul></div>
-  <div class="ra"><div class="ran">Art. 10 — Entrenamiento mínimo válido</div><ul class="rl">
-    <li>No se considera entrenamiento válido acudir sin realizar actividad física real.</li>
-    <li>Duración mínima: <strong>30 minutos</strong>. Todo lo inferior es como no haber ido.</li>
   </ul></div>
 
   <!-- DISPOSICIÓN FINAL -->
@@ -439,16 +471,6 @@ tbody tr:last-child td{border-bottom:none}tbody tr:hover td{background:var(--s2)
   </div>
 </div>
 
-<!-- PDF MODAL -->
-<div id="pdf-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:99998;align-items:center;justify-content:center;padding:20px" onclick="if(event.target===this)this.style.display='none'">
-  <div style="background:var(--s1);border:1px solid var(--border);border-radius:12px;width:100%;max-width:800px;max-height:90vh;display:flex;flex-direction:column;overflow:hidden">
-    <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 20px;border-bottom:1px solid var(--border)">
-      <span style="font-family:'Righteous',sans-serif;font-size:16px;color:var(--text)">&#x1F4C4; Reglamento Oficial — PDF</span>
-      <button onclick="document.getElementById('pdf-modal').style.display='none'" style="background:none;border:none;color:var(--mu);font-size:22px;cursor:pointer;line-height:1;padding:2px 6px" onmouseover="this.style.color='var(--text)'" onmouseout="this.style.color='var(--mu)'">&times;</button>
-    </div>
-    <iframe src="reglamento_perra_gimnasio.pdf" style="flex:1;border:none;min-height:70vh"></iframe>
-  </div>
-</div>
 
 </main>
 <div id="toast"></div>
@@ -692,7 +714,7 @@ function renderH(){
   } else if(hasTie){
     desEl.style.display='block';
     desEl.innerHTML='<div class="des-box"><div class="des-title">&#x26A0;&#xFE0F; Empate — votación requerida</div>'
-      +'<p style="font-size:13px;color:var(--t2);margin-bottom:12px">'+tiedGroup.map(x=>x.persona+' ('+x.pp+' PP, '+x.sabs+' sáb.)').join(' vs ')+'<br><span style="font-size:12px;color:var(--mu)">Art. 9 — El Tribunal decide por votación</span></p>'
+      +'<p style="font-size:13px;color:var(--t2);margin-bottom:12px">'+tiedGroup.map(x=>x.persona+' ('+x.pp+' PP, '+x.sabs+' sáb.)').join(' vs ')+'<br><span style="font-size:12px;color:var(--mu)">Art. 10 — El Tribunal decide por votación</span></p>'
       +'<div class="des-opts">'+tiedGroup.map(x=>'<div class="des-opt" data-p="'+x.persona+'" onclick="desSel(this)">'+x.persona+'</div>').join('')+'</div>'
       +'<div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">'
       +'<input type="text" id="des-pass" placeholder="PIN del Tribunal" inputmode="numeric" pattern="[0-9]*" maxlength="4" autocomplete="off" style="background:var(--s2);border:1px solid var(--border);color:var(--text);font-family:DM Mono,monospace;font-size:13px;padding:8px 12px;border-radius:5px;outline:none;width:220px" onkeydown="if(event.key===String.fromCharCode(13))hacerDesempate()">'
