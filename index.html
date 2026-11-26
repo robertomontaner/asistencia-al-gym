@@ -195,13 +195,16 @@ tbody tr:last-child td{border-bottom:none}tbody tr:hover td{background:var(--s2)
 .pq-t{font-family:'Press Start 2P',monospace;font-size:clamp(16px,5vw,26px);color:#fff;text-shadow:3px 3px 0 var(--pink),-2px -2px 0 #00f0ff}
 .pq-s{font-family:'DM Mono',monospace;font-size:11px;color:var(--t2);margin-top:12px;letter-spacing:1px}
 @keyframes blink{50%{opacity:0}}
-.pq-fight{display:grid;grid-template-columns:1fr auto 1fr;gap:10px;align-items:center}
-.pq-p{background:var(--s1);border:2px solid var(--border);border-radius:10px;padding:12px;text-align:center}.pq-p.p1{border-color:#00b4ff}.pq-p.p2{border-color:var(--pink)}
+.pq-fight{display:grid;grid-template-columns:minmax(0,1fr) 44px minmax(0,1fr);gap:8px;align-items:stretch}
+.pq-p{background:var(--s1);border:2px solid var(--border);border-radius:10px;padding:10px;text-align:center;min-width:0}.pq-p.p1{border-color:#00b4ff}.pq-p.p2{border-color:var(--pink)}
 .pq-lbl{font-family:'Press Start 2P',monospace;font-size:8px;color:var(--mu);margin-bottom:8px}.p1 .pq-lbl{color:#00b4ff}.p2 .pq-lbl{color:var(--pink)}
-.pq-slot{font-family:'Righteous',sans-serif;font-size:22px;min-height:30px;margin-bottom:8px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.pq-slot.roll{animation:roll .08s linear infinite}@keyframes roll{50%{transform:translateY(-3px);opacity:.6}}
+.pq-slot{font-family:'Righteous',sans-serif;font-size:20px;height:52px;margin-bottom:8px;display:flex;align-items:center;justify-content:center;overflow:hidden;background:var(--s2);border-radius:8px;position:relative;line-height:1.1;padding:0 6px;word-break:break-word;text-align:center}
+.pq-slot span{display:block;max-width:100%;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.pq-slot.roll span{animation:reel .09s linear infinite}@keyframes reel{0%{transform:translateY(-60%);opacity:.3}50%{opacity:1}100%{transform:translateY(60%);opacity:.3}}
+.pq-slot.hit{animation:slothit .35s}@keyframes slothit{40%{transform:scale(1.08);box-shadow:0 0 18px currentColor}}
+
 .pq-p select{width:100%;background:var(--s2);border:1px solid var(--border);color:var(--text);padding:6px;border-radius:5px;font-size:12px}
-.pq-vs{font-family:'Press Start 2P',monospace;font-size:18px;color:var(--yellow);text-shadow:2px 2px 0 var(--pink)}
+.pq-vs{align-self:center;text-align:center;font-family:'Press Start 2P',monospace;font-size:16px;color:var(--yellow);text-shadow:2px 2px 0 var(--pink)}
 .pq-wheel-wrap{position:relative;width:min(340px,90vw);margin:6px auto 0}
 #pq-wheel{width:100%;display:block;transition:transform 4.6s cubic-bezier(.12,.7,.1,1);filter:drop-shadow(0 0 14px rgba(255,45,120,.3))}
 .pq-pointer{position:absolute;top:-6px;left:50%;transform:translateX(-50%);z-index:2;color:var(--yellow);font-size:30px;text-shadow:0 2px 0 #000}
@@ -263,7 +266,36 @@ tbody tr:last-child td{border-bottom:none}tbody tr:hover td{background:var(--s2)
 .cd{grid-column:1/-1;margin-bottom:14px!important;display:flex;gap:12px;align-items:center;background:linear-gradient(90deg,#1a0010,#141414);border:1px solid var(--pkd);border-radius:10px;padding:12px 14px;margin-bottom:4px}
 .cd-n{font-family:'Press Start 2P',monospace;font-size:22px;color:var(--yellow);text-shadow:2px 2px 0 var(--pink);min-width:46px;text-align:center}.cd-n small{display:block;font-size:7px;color:var(--mu);text-shadow:none;margin-top:6px;letter-spacing:1px}
 .cd-t{font-size:13px;color:var(--t2);line-height:1.5}.cd-t b{color:var(--text)}.cd.hot{animation:cdpulse 1.6s infinite}@keyframes cdpulse{50%{box-shadow:0 0 18px rgba(255,45,120,.35)}}
-.pf-box{max-width:560px}
+.pf-box{max-width:560px;overflow:hidden}
+.pf-hd{position:relative;gap:8px}.pf-hd #pf-title{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.hon-hd .pf-back{display:none;background:var(--s2);border:1px solid var(--border);color:var(--text);border-radius:20px;padding:6px 14px 6px 10px;font-family:'Nunito',sans-serif;font-weight:800;font-size:14px;cursor:pointer;white-space:nowrap;line-height:1.2}
+.pf-box.deep .hon-hd .pf-back{display:inline-block}.pf-box.deep #pf-title{text-align:center}
+.pf-stage{position:relative;overflow:hidden}.pf-view{transition:transform .28s cubic-bezier(.3,.8,.3,1),opacity .28s}
+.pf-sub{position:absolute;inset:0 0 auto 0;transform:translateX(105%);opacity:0;pointer-events:none}
+.pf-box.deep #pf-body{transform:translateX(-30%);opacity:0;pointer-events:none;height:0;overflow:hidden}
+.pf-box.deep .pf-sub{position:relative;transform:none;opacity:1;pointer-events:auto}
+.pf-s.clk:hover,.md.clk:hover{border-color:var(--pink)}.pf-s.clk::after{content:'›';position:absolute;top:6px;right:8px;color:var(--mu);font-size:14px}.pf-s{position:relative}
+.dt-sum{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}.dt-pill{background:var(--s2);border:1px solid var(--border);border-radius:20px;padding:6px 12px;font-family:'DM Mono',monospace;font-size:11px;color:var(--t2)}.dt-pill b{color:var(--text);font-family:'Righteous',sans-serif;font-size:14px;margin-right:4px}
+.dt-mh{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:3px;color:var(--mu);text-transform:uppercase;margin:14px 0 6px}
+.dt-it{display:flex;gap:12px;align-items:flex-start;padding:10px 12px;background:var(--s2);border:1px solid var(--border);border-radius:10px;margin-bottom:6px}
+.dt-ic{font-size:22px;line-height:1;width:28px;text-align:center;flex-shrink:0}.dt-tx{flex:1;min-width:0}.dt-tx b{display:block;font-size:14px}.dt-tx small{display:block;font-family:'DM Mono',monospace;font-size:10px;color:var(--mu);margin-top:3px;letter-spacing:.5px}.dt-tx i{display:block;font-size:12px;color:var(--t2);margin-top:4px}
+.dt-pp{font-family:'Righteous',sans-serif;font-size:18px;white-space:nowrap}.dt-pp.up{color:var(--pink)}.dt-pp.dn{color:var(--green)}.dt-pp.z{color:var(--mu)}
+.dt-it.win{border-color:var(--gdim)}.dt-it.lose{border-color:var(--pkd)}.dt-btn{margin-top:8px}
+.dt-empty{text-align:center;color:var(--mu);font-size:13px;padding:24px 0}
+.wk-grid{display:grid;grid-template-columns:repeat(8,1fr);gap:5px;margin:8px 0 14px}.wk{aspect-ratio:1;border-radius:6px;background:var(--s2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:12px}
+.wk.ok{background:#003a1c;border-color:var(--gdim)}.wk.bad{background:var(--pkbg);border-color:var(--pkd)}.wk.des{opacity:.4}
+.md-big{text-align:center;padding:10px 0 4px}.md-big b{font-size:64px;display:block;line-height:1.1}.md-big h3{font-family:'Righteous',sans-serif;font-size:24px;margin:8px 0 4px}.md-big p{color:var(--t2);font-size:13px}
+.md-prog{height:10px;background:var(--s2);border-radius:5px;overflow:hidden;margin:16px 0 6px}.md-prog i{display:block;height:100%;background:var(--yellow)}
+.rp-chips{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}.rp-chip{background:var(--s2);border:1px solid var(--border);color:var(--t2);border-radius:20px;padding:7px 14px;font-size:13px;cursor:pointer;font-weight:800}.rp-chip.on{background:var(--pkbg);border-color:var(--pink);color:var(--pink)}
+.rp-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}.rp-row select,.rp-row input{flex:1;min-width:120px;background:var(--s2);border:1px solid var(--border);color:var(--text);padding:9px 10px;border-radius:6px;font-size:14px}
+.rp-ck{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:16px}.rp-ck label{display:flex;gap:8px;align-items:center;background:var(--s2);border:1px solid var(--border);border-radius:8px;padding:9px 10px;font-size:13px;cursor:pointer}.rp-ck input{accent-color:var(--pink);width:16px;height:16px}
+.pf-rep{width:100%;margin-top:18px;padding:14px;font-size:15px}
+#rep{position:fixed;left:-99999px;top:0;width:794px;background:#fff;color:#1a1a1a;font-family:'Nunito',Arial,sans-serif;padding:48px 52px;box-sizing:border-box}
+#rep h1{font-family:'Righteous',sans-serif;font-size:32px;margin:0 0 4px;color:#111}#rep .rp-k{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:4px;color:#ff2d78}#rep .rp-sub{color:#666;font-size:13px;margin-bottom:22px}
+#rep h2{font-family:'Righteous',sans-serif;font-size:19px;margin:26px 0 10px;padding-bottom:6px;border-bottom:2px solid #ff2d78;color:#111}
+#rep .rp-g{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}#rep .rp-b{border:1px solid #ddd;border-radius:8px;padding:10px;text-align:center}#rep .rp-b b{display:block;font-family:'Righteous',sans-serif;font-size:24px;color:#ff2d78}#rep .rp-b span{font-size:10px;letter-spacing:1px;color:#777;text-transform:uppercase}
+#rep table{width:100%;border-collapse:collapse;font-size:12px}#rep th{text-align:left;background:#f4f4f4;padding:6px 8px;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#555}#rep td{padding:6px 8px;border-bottom:1px solid #eee;vertical-align:top}
+#rep .rp-f{margin-top:30px;font-family:'DM Mono',monospace;font-size:10px;color:#999;text-align:center;letter-spacing:2px}
 #prof{display:none;position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:99995;align-items:flex-start;justify-content:center;padding:20px;overflow:auto}
 .pf-top{display:flex;gap:14px;align-items:center;margin-bottom:14px}.pf-av{width:64px;height:64px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Righteous',sans-serif;font-size:24px;color:#0e0e0e;border:3px solid #fff;flex-shrink:0}
 .pf-nm{font-family:'Righteous',sans-serif;font-size:26px;line-height:1.1}.pf-lv{font-family:'Press Start 2P',monospace;font-size:9px;color:var(--yellow);margin-top:6px;line-height:1.6}
@@ -351,6 +383,7 @@ tbody tr:last-child td{border-bottom:none}tbody tr:hover td{background:var(--s2)
     </div>
     <details class="bonos" id="bonos"><summary><span>&#x1F39F;&#xFE0F;</span> Bonos <em id="bonos-sel"></em></summary>
     <div class="tg">
+      <div class="tc" data-t="futbol" onclick="selT(this)"><div class="ti">&#x26BD;</div><div class="tn">Lunes libre por fútbol</div><div class="tp">0 PP · Jugaste fútbol el domingo</div></div>
       <div class="tc" data-t="descanso" onclick="selT(this)"><div class="ti">&#x1F634;</div><div class="tn">Día de descanso</div><div class="tp">0 PP · L-V · Tras 2 entrenos esa semana</div></div>
       <div class="tc" data-t="recuperacion" onclick="selT(this)"><div class="ti">&#x1F4C5;</div><div class="tn">Sabado Salvador</div><div class="tp">-1 PP · Si tiene puntos</div></div>
       <div class="tc" data-t="bono_espana" onclick="selT(this)"><div class="ti">&#x1F1EA;&#x1F1F8;</div><div class="tn">Bono Salvar España</div><div class="tp">-1 PP · Acto de partido político ese día</div></div>
@@ -379,7 +412,7 @@ tbody tr:last-child td{border-bottom:none}tbody tr:hover td{background:var(--s2)
     <div class="fb">
       <div class="fv"><label>Mes</label><input type="month" id="fmes" onchange="renderT();renderMS()"></div>
       <div class="fv"><label>Persona</label><select id="fper" onchange="renderT();renderMS()"><option value="">Todos</option></select></div>
-      <div class="fv"><label>Tipo</label><select id="ftip" onchange="renderT();renderMS()"><option value="">Todos</option><option value="falta">Falta</option><option value="recuperacion">Sabado Salvador</option><option value="vagueo">Vagueo</option><option value="engano">Engano</option><option value="corto">Entreno insuficiente</option><option value="tarde">Llegada tarde</option><option value="bono_espana">Bono Salvar España</option><option value="bono_cita">Bono Cita con Mujer</option><option value="bono_aprobado">Bono Aprobado General</option><option value="descanso">Día de descanso</option></select></div>
+      <div class="fv"><label>Tipo</label><select id="ftip" onchange="renderT();renderMS()"><option value="">Todos</option><option value="falta">Falta</option><option value="recuperacion">Sabado Salvador</option><option value="vagueo">Vagueo</option><option value="engano">Engano</option><option value="corto">Entreno insuficiente</option><option value="tarde">Llegada tarde</option><option value="bono_espana">Bono Salvar España</option><option value="bono_cita">Bono Cita con Mujer</option><option value="bono_aprobado">Bono Aprobado General</option><option value="descanso">Día de descanso</option><option value="futbol">Lunes libre por fútbol</option></select></div>
       <div class="fv"><label>Admin</label><select id="fadm" onchange="renderT();renderMS()"><option value="">Todos</option></select></div>
     </div>
     <button class="btn bg bs" onclick="clrF()">&#x2715; Limpiar</button>
@@ -449,9 +482,9 @@ tbody tr:last-child td{border-bottom:none}tbody tr:hover td{background:var(--s2)
   <div class="pq-hero"><div class="pq-ins">INSERT COIN</div><div class="pq-t">ARENA DE PIQUES</div><div class="pq-s">Dos entran. Uno sale con la honra intacta.</div></div>
   <div class="st"><span>&#x1F94A;</span> 1 · Elige a los luchadores</div>
   <div class="pq-fight">
-    <div class="pq-p p1"><div class="pq-lbl">PLAYER 1</div><div class="pq-slot" id="pq-n1">???</div><select id="pq-s1" onchange="pqPick(1,this.value)"><option value="">elegir…</option></select></div>
+    <div class="pq-p p1"><div class="pq-lbl">PLAYER 1</div><div class="pq-slot" id="pq-n1"><span>???</span></div><select id="pq-s1" onchange="pqPick(1,this.value)"><option value="">elegir…</option></select></div>
     <div class="pq-vs">VS</div>
-    <div class="pq-p p2"><div class="pq-lbl">PLAYER 2</div><div class="pq-slot" id="pq-n2">???</div><select id="pq-s2" onchange="pqPick(2,this.value)"><option value="">elegir…</option></select></div>
+    <div class="pq-p p2"><div class="pq-lbl">PLAYER 2</div><div class="pq-slot" id="pq-n2"><span>???</span></div><select id="pq-s2" onchange="pqPick(2,this.value)"><option value="">elegir…</option></select></div>
   </div>
   <div style="text-align:center;margin:10px 0 4px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap"><button class="btn bg" onclick="pqRandom()">&#x1F3B0; Sortear rivales</button><button class="btn bg" onclick="pqCfg('p')">&#x2699;&#xFE0F; Participantes <span id="pq-cnt-p" class="pq-cnt"></span></button></div>
   <div class="st" style="margin-top:24px"><span>&#x1F3A1;</span> 2 · Gira la ruleta del reto</div>
@@ -504,6 +537,7 @@ tbody tr:last-child td{border-bottom:none}tbody tr:hover td{background:var(--s2)
       <tr><td style="padding:6px 0">&#x23F1;&#xFE0F; Entreno insuficiente (menos de 30 min efectivos)</td><td style="text-align:right"><strong style="color:var(--pink)">+1 PP</strong></td></tr>
       <tr><td style="padding:6px 0">&#x1F422; Llegada tarde (no estar entrenando a las 21:30)</td><td style="text-align:right"><strong style="color:var(--pink)">+1 PP</strong></td></tr>
       <tr><td style="padding:6px 0">&#x1F925; Engaño al Jurado</td><td style="text-align:right"><strong style="color:var(--purple)">+2 PP</strong></td></tr>
+      <tr><td style="padding:6px 0">&#x26BD; Lunes libre por fútbol del domingo</td><td style="text-align:right"><strong>0 PP</strong></td></tr>
       <tr><td style="padding:6px 0">&#x1F634; Día de descanso (tras 2 entrenos esa semana)</td><td style="text-align:right"><strong>0 PP</strong></td></tr>
       <tr><td style="padding:6px 0">&#x1F4C5; Sábado salvador (bono)</td><td style="text-align:right"><strong style="color:var(--green)">−1 PP</strong></td></tr>
       <tr><td style="padding:6px 0">&#x1F39F;&#xFE0F; Bonos (Título V)</td><td style="text-align:right"><strong style="color:var(--green)">−1 PP / mes perdonado</strong></td></tr>
@@ -531,7 +565,8 @@ tbody tr:last-child td{border-bottom:none}tbody tr:hover td{background:var(--s2)
     <li>&#x1F3CA; <strong>Natación:</strong> permitida si es demostrable (captura de la app o reloj, o foto en la piscina).</li>
     <li>&#x1F6B4; <strong>Bici:</strong> permitida si es demostrable (track o captura de la app).</li>
     <li>&#x1F9D8; <strong>Clase dirigida:</strong> vale cualquier clase completa (crossfit, boxeo, spinning, yoga…).</li>
-    <li>&#x274C; <strong>No valen:</strong> pádel, fútbol ni otros partidos.</li>
+    <li>&#x274C; <strong>No valen entre semana:</strong> pádel, fútbol ni otros partidos.</li>
+    <li>&#x26BD; <strong>Fútbol del domingo:</strong> jugar un partido de fútbol el domingo permite no ir al gimnasio el <strong>lunes</strong> siguiente sin sumar PP. Se registra el lunes en Bonos → Lunes libre por fútbol.</li>
     <li>Las actividades del fin de semana no restan PP. Solo resta el sábado de gimnasio (Art. 2).</li>
   </ul></div>
 
@@ -640,8 +675,8 @@ tbody tr:last-child td{border-bottom:none}tbody tr:hover td{background:var(--s2)
 <!-- PERFIL -->
 <div id="prof" onclick="if(event.target===this)closeProf()">
   <div class="hon-box pf-box">
-    <div class="hon-hd"><span>&#x1F464; Perfil</span><button onclick="closeProf()">&times;</button></div>
-    <div id="pf-body"></div>
+    <div class="hon-hd pf-hd"><button class="pf-back" id="pf-back" onclick="pfBack()">&#x2039; <span id="pf-back-t">Perfil</span></button><span id="pf-title">&#x1F464; Perfil</span><button onclick="closeProf()">&times;</button></div>
+    <div class="pf-stage" id="pf-stage"><div id="pf-body" class="pf-view"></div><div id="pf-detail" class="pf-view pf-sub"></div></div>
   </div>
 </div>
 
@@ -654,6 +689,8 @@ tbody tr:last-child td{border-bottom:none}tbody tr:hover td{background:var(--s2)
     <div id="inst-body" style="font-size:14px;color:var(--t2);line-height:1.7"></div>
   </div>
 </div>
+
+<div id="rep" aria-hidden="true"></div>
 
 <!-- TECLADO PIN -->
 <div id="pinpad" onclick="if(event.target===this)pinClose()">
@@ -749,9 +786,9 @@ const tod=()=>new Date().toISOString().split('T')[0];
 const curM=()=>{const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0');};
 const MES=['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
 const fmtM=ym=>{if(!ym)return'--';const[y,m]=ym.split('-');return MES[+m-1]+' '+y;};
-const TL={falta:'Falta',recuperacion:'Sabado Salvador',vagueo:'Vagueo en el gym',engano:'Engano al Jurado',corto:'Tiempo de entrenamiento insuficiente',tarde:'Llegada tarde (no entrenaba a las 21:30)',desierto:'Mes declarado desierto',reabierto:'Mes reabierto',honorifico:'Perra del PSOE (honorífico)',honorifico_choco:'Perrita Chocolatera (honorífico)',honorifico_abuelo:'Favorito del Abuelo Homosexual (honorífico)',revocado:'Premio revocado',bono_espana:'Bono Salvar España',bono_cita:'Bono Cita con Mujer',bono_aprobado:'Bono Aprobado General',descanso:'Día de descanso'};
-const TC={falta:'cf',recuperacion:'cr',vagueo:'cv',engano:'ce',corto:'cy',tarde:'cc',desierto:'cy',reabierto:'cr',honorifico:'cf',honorifico_choco:'cv',honorifico_abuelo:'ce',revocado:'cr',bono_espana:'cr',bono_cita:'cr',bono_aprobado:'cr',descanso:'cc'};
-const TE={falta:'&#x1F480;',recuperacion:'&#x1F4C5;',vagueo:'&#x1F6CB;',engano:'&#x1F925;',corto:'&#x23F1;',tarde:'&#x1F422;',desierto:'&#x1F3D6;',reabierto:'&#x1F513;',honorifico:'&#x1F339;',honorifico_choco:'&#x1F36B;',honorifico_abuelo:'&#x1F474;',revocado:'&#x274C;',bono_espana:'&#x1F1EA;&#x1F1F8;',bono_cita:'&#x1F498;',bono_aprobado:'&#x1F393;',descanso:'&#x1F634;'};
+const TL={falta:'Falta',recuperacion:'Sabado Salvador',vagueo:'Vagueo en el gym',engano:'Engano al Jurado',corto:'Tiempo de entrenamiento insuficiente',tarde:'Llegada tarde (no entrenaba a las 21:30)',desierto:'Mes declarado desierto',reabierto:'Mes reabierto',honorifico:'Perra del PSOE (honorífico)',honorifico_choco:'Perrita Chocolatera (honorífico)',honorifico_abuelo:'Favorito del Abuelo Homosexual (honorífico)',revocado:'Premio revocado',bono_espana:'Bono Salvar España',bono_cita:'Bono Cita con Mujer',bono_aprobado:'Bono Aprobado General',descanso:'Día de descanso',futbol:'Lunes libre por fútbol'};
+const TC={falta:'cf',recuperacion:'cr',vagueo:'cv',engano:'ce',corto:'cy',tarde:'cc',desierto:'cy',reabierto:'cr',honorifico:'cf',honorifico_choco:'cv',honorifico_abuelo:'ce',revocado:'cr',bono_espana:'cr',bono_cita:'cr',bono_aprobado:'cr',descanso:'cc',futbol:'cr'};
+const TE={falta:'&#x1F480;',recuperacion:'&#x1F4C5;',vagueo:'&#x1F6CB;',engano:'&#x1F925;',corto:'&#x23F1;',tarde:'&#x1F422;',desierto:'&#x1F3D6;',reabierto:'&#x1F513;',honorifico:'&#x1F339;',honorifico_choco:'&#x1F36B;',honorifico_abuelo:'&#x1F474;',revocado:'&#x274C;',bono_espana:'&#x1F1EA;&#x1F1F8;',bono_cita:'&#x1F498;',bono_aprobado:'&#x1F393;',descanso:'&#x1F634;',futbol:'&#x26BD;'};
 const getPP=(p,m)=>perd(p,m)?0:S.movs.filter(x=>x.persona===p&&x.mes===m).reduce((a,x)=>a+x.puntos,0);
 // Meses desiertos: sin Perra del Mes, nadie suma PP.
 // DESIERTOS son los de serie; desde el Hall se declaran/reabren con movimientos 'desierto'/'reabierto' (manda el último).
@@ -770,7 +807,7 @@ function descErr(p,f){const d=new Date(f+'T12:00:00'),wd=(d.getDay()+6)%7;// 0 =
   if(wk.some(x=>x.tipo==='descanso'))return p+' ya ha usado su día de descanso esta semana.';
   // días entrenados = días laborables anteriores de esa semana sin falta ni incidencia
   const mon=new Date(wkOf(f)+'T12:00:00');let ok=0;
-  for(let i=0;i<wd;i++){const x=new Date(mon);x.setDate(mon.getDate()+i);const k=x.toISOString().slice(0,10);if(!isDes(k.slice(0,7))&&!wk.some(m=>m.fecha===k&&(PLUS.has(m.tipo)||m.tipo==='descanso')))ok++;}
+  for(let i=0;i<wd;i++){const x=new Date(mon);x.setDate(mon.getDate()+i);const k=x.toISOString().slice(0,10);if(!isDes(k.slice(0,7))&&!wk.some(m=>m.fecha===k&&(PLUS.has(m.tipo)||m.tipo==='descanso'||m.tipo==='futbol')))ok++;}
   if(ok<2)return 'Para el día de descanso hay que haber entrenado 2 días antes esa semana ('+p+' lleva '+ok+').';
   return '';}
 // ---- Resolución del mes (Art. 10). Pura: la usan el Hall, el resumen y el simulador ----
@@ -805,7 +842,7 @@ function sendMov(mov){const p=(async()=>{await postMov(mov);for(let i=0;i<2;i++)
   SENT[mov.id]=p;p.then(st=>{if(st!=='ok'&&!document.getElementById('fx').classList.contains('on'))toast(st==='offline'?'📴 Sin conexión: se reintentará':'⚠️ No confirmado: se reintentará',false);});return p;}
 const ST_TXT={wait:'⏳ GUARDANDO EN EL TRIBUNAL…',ok:'✅ GUARDADO EN EL SHEETS',offline:'📴 SIN CONEXIÓN · SE REINTENTARÁ',fail:'⚠️ NO CONFIRMADO · SE REINTENTARÁ'};
 // ---- Anular / editar movimientos (se guarda una fila 'anulado' con notas = id; o se borra la fila en el Sheets) ----
-const EDITABLE=new Set(['descanso','falta','vagueo','corto','tarde','engano','recuperacion','bono_espana','bono_cita','bono_aprobado']);
+const EDITABLE=new Set(['futbol','descanso','falta','vagueo','corto','tarde','engano','recuperacion','bono_espana','bono_cita','bono_aprobado']);
 function anulMov(id,quiet){const m=S.movs.find(x=>x.id===id);if(!m)return null;
   const a={id:uid(),fecha:tod(),persona:m.persona,tipo:'anulado',puntos:0,notas:id,admin:ADMIN,mes:m.mes,creado_en:new Date().toISOString(),synced:false};
   S.anul.push(a);S.movs=S.movs.filter(x=>x.id!==id);ls();sendMov(a);return{m,a};}
@@ -836,11 +873,11 @@ function fillFS(){const s=(id,a)=>{const e=document.getElementById(id);if(!e)ret
 let cT='falta';
 let engTm=null;
 function engTap(el){if(el.classList.contains('se'))return;if(el.classList.contains('armed')){clearTimeout(engTm);el.classList.remove('armed');selT(el);return;}el.classList.add('armed');clearTimeout(engTm);engTm=setTimeout(()=>el.classList.remove('armed'),4000);}
-function selT(el){document.querySelector('.tc-eng')?.classList.remove('armed');setTimeout(()=>{const b=document.getElementById('bonos'),inB=b&&b.contains(el);const l=document.getElementById('bonos-sel');if(l)l.textContent=inB?'· '+el.querySelector('.tn').textContent:'';if(inB)b.open=true;},0);document.querySelectorAll('.tc').forEach(c=>{c.classList.remove('sf','sr','sv','se','sy','sc');});cT=el.dataset.t;const m={falta:'sf',recuperacion:'sr',vagueo:'sv',engano:'se',corto:'sy',tarde:'sc',bono_espana:'sr',bono_cita:'sr',bono_aprobado:'sr',descanso:'sc'};el.classList.add(m[cT]||'sf');}
+function selT(el){document.querySelector('.tc-eng')?.classList.remove('armed');setTimeout(()=>{const b=document.getElementById('bonos'),inB=b&&b.contains(el);const l=document.getElementById('bonos-sel');if(l)l.textContent=inB?'· '+el.querySelector('.tn').textContent:'';if(inB)b.open=true;},0);document.querySelectorAll('.tc').forEach(c=>{c.classList.remove('sf','sr','sv','se','sy','sc');});cT=el.dataset.t;const m={falta:'sf',recuperacion:'sr',vagueo:'sv',engano:'se',corto:'sy',tarde:'sc',bono_espana:'sr',bono_cita:'sr',bono_aprobado:'sr',descanso:'sc',futbol:'sr'};el.classList.add(m[cT]||'sf');}
 function initT(){const e=document.querySelector('.tc[data-t="falta"]');if(e)selT(e);}
 function clearF(){setTimeout(drawChips,0);const f=document.getElementById('ff');if(f)f.value=tod();['fp','fn','fpass'].forEach(id=>{const e=document.getElementById(id);if(e)e.value='';});document.getElementById('ferr').classList.remove('on');initT();}
 function showE(m){const e=document.getElementById('ferr');e.innerHTML='<b>Atencion:</b> '+m;e.classList.add('on');}
-function doSave(){document.getElementById('ferr').classList.remove('on');const fecha=document.getElementById('ff').value,persona=document.getElementById('fp').value,admin=ADMIN,notas=document.getElementById('fn').value.trim(),pass=document.getElementById('fpass').value.trim(),tipo=cT;if(!fecha)return showE('Selecciona una fecha.');if(!persona)return showE('Quien es el culpable?');if(!pass)return showE('El Tribunal exige la contrasena.');if(pass!==PWD)return showE('Contrasena incorrecta.');const mes=fecha.slice(0,7);if(isDes(mes))return showE(fmtM(mes)+' es mes de descanso. El Tribunal no admite registros.');const puntos=tipo==='falta'?1:tipo==='recuperacion'?-1:tipo==='vagueo'?1:tipo==='engano'?2:tipo==='corto'?1:tipo==='tarde'?1:tipo==='bono_espana'?-1:tipo==='bono_cita'?-1:0;if(tipo==='bono_aprobado'&&!isAlex(persona))return showE('Ese bono es exclusivo del nene Alex.');if(tipo==='descanso'){const e=descErr(persona,fecha);if(e)return showE(e);}if(tipo==='bono_cita'){const wk=weekMovs(persona,fecha);if(wk.some(x=>x.tipo==='bono_cita'&&x.id!==S.editId))return showE(persona+' ya ha usado el Bono Cita esta semana.');if(wk.some(x=>x.tipo==='descanso'&&x.id!==S.editId))return showE(persona+' ha tenido día de descanso esta semana: no puede usar el Bono Cita.');}if(tipo==='bono_aprobado'&&!notas)return showE('Indica en Notas el informe de notas trimestral (ej. 1er trimestre, todo aprobado).');if(tipo==='bono_aprobado'&&perd(persona,mes))return showE(persona+' ya tiene el Bono Aprobado este mes.');if((tipo==='recuperacion'||tipo==='bono_espana'||tipo==='bono_cita')&&getPP(persona,mes)<=0)return showE(persona+' tiene 0 PP. No hay nada que restar.');achSnap(persona);const mov={id:uid(),fecha,persona,tipo,puntos,notas,admin,mes,creado_en:new Date().toISOString(),synced:false};S.movs.push(mov);ls();sendMov(mov);const was=S.editId;if(was){anulMov(was,true);S.editId='';editBan();}fxAfter=()=>{const b=[...document.querySelectorAll('.nb')].find(x=>x.getAttribute('onclick').includes("'hall'"));goTab('hall',b);window.scrollTo({top:0,behavior:'smooth'});};fxPoint(persona,tipo,puntos,mov,was?'EDITADO':'');achCheck(persona);clearF();renderQ();}
+function doSave(){document.getElementById('ferr').classList.remove('on');const fecha=document.getElementById('ff').value,persona=document.getElementById('fp').value,admin=ADMIN,notas=document.getElementById('fn').value.trim(),pass=document.getElementById('fpass').value.trim(),tipo=cT;if(!fecha)return showE('Selecciona una fecha.');if(!persona)return showE('Quien es el culpable?');if(!pass)return showE('El Tribunal exige la contrasena.');if(pass!==PWD)return showE('Contrasena incorrecta.');const mes=fecha.slice(0,7);if(isDes(mes))return showE(fmtM(mes)+' es mes de descanso. El Tribunal no admite registros.');const puntos=tipo==='falta'?1:tipo==='recuperacion'?-1:tipo==='vagueo'?1:tipo==='engano'?2:tipo==='corto'?1:tipo==='tarde'?1:tipo==='bono_espana'?-1:tipo==='bono_cita'?-1:0;if(tipo==='bono_aprobado'&&!isAlex(persona))return showE('Ese bono es exclusivo del nene Alex.');if(tipo==='descanso'){const e=descErr(persona,fecha);if(e)return showE(e);}if(tipo==='futbol'&&new Date(fecha+'T12:00:00').getDay()!==1)return showE('El lunes libre por fútbol solo se registra en lunes.');if(tipo==='bono_cita'){const wk=weekMovs(persona,fecha);if(wk.some(x=>x.tipo==='bono_cita'&&x.id!==S.editId))return showE(persona+' ya ha usado el Bono Cita esta semana.');if(wk.some(x=>x.tipo==='descanso'&&x.id!==S.editId))return showE(persona+' ha tenido día de descanso esta semana: no puede usar el Bono Cita.');}if(tipo==='bono_aprobado'&&!notas)return showE('Indica en Notas el informe de notas trimestral (ej. 1er trimestre, todo aprobado).');if(tipo==='bono_aprobado'&&perd(persona,mes))return showE(persona+' ya tiene el Bono Aprobado este mes.');if((tipo==='recuperacion'||tipo==='bono_espana'||tipo==='bono_cita')&&getPP(persona,mes)<=0)return showE(persona+' tiene 0 PP. No hay nada que restar.');achSnap(persona);const mov={id:uid(),fecha,persona,tipo,puntos,notas,admin,mes,creado_en:new Date().toISOString(),synced:false};S.movs.push(mov);ls();sendMov(mov);const was=S.editId;if(was){anulMov(was,true);S.editId='';editBan();}fxAfter=()=>{const b=[...document.querySelectorAll('.nb')].find(x=>x.getAttribute('onclick').includes("'hall'"));goTab('hall',b);window.scrollTo({top:0,behavior:'smooth'});};fxPoint(persona,tipo,puntos,mov,was?'EDITADO':'');achCheck(persona);clearF();renderQ();}
 let _tt;
 function toast(m,ok=true){const t=document.getElementById('toast');t.textContent=m;t.className='on'+(ok?' ok':'');clearTimeout(_tt);_tt=setTimeout(()=>t.classList.remove('on'),3000);}
 function renderQ(){
@@ -997,6 +1034,7 @@ function fxShow(cfg,per,mov){const f=document.getElementById('fx');
 function fxPoint(per,tipo,pts,mov,label){
   const cfg=tipo==='engano'?{c:'#cc44ff',big:'+2',lv:'COMBO · ENGAÑO AL JURADO',sub:'PERRERÍA AGRAVADA',s:'combo',shake:1}
     :tipo==='bono_aprobado'?{c:'#ffd60a',big:'0 PP',lv:'BONO APROBADO GENERAL',sub:'MES PERDONADO',s:'good'}
+    :tipo==='futbol'?{c:'#00e676',big:'⚽',lv:'LUNES LIBRE POR FÚTBOL',sub:'EL DOMINGO SE SUDÓ · 0 PP',s:'good'}
     :tipo==='descanso'?{c:'#18c8ff',big:'ZZZ',lv:'DÍA DE DESCANSO',sub:'DESCANSO GANADO · 0 PP',s:'good'}
     :pts<0?{c:'#00e676',big:'−1',lv:TL[tipo].toUpperCase(),sub:'¡SALVADO!',s:'good'}
     :{c:'#ff2d78',big:'+1',lv:TL[tipo].toUpperCase(),sub:'PUNTO DE PERRA',s:'bad',shake:1};
@@ -1040,11 +1078,12 @@ function pqDrawWheel(){const L=pqRetos(),n=L.length,a=2*Math.PI/n,R=100;let h=''
   h+='<circle r="103" fill="none" stroke="#fff" stroke-width="3"/>';
   for(let i=0;i<n;i++){const an=i*a-Math.PI/2;h+='<circle cx="'+(103*Math.cos(an)).toFixed(1)+'" cy="'+(103*Math.sin(an)).toFixed(1)+'" r="2.5" fill="#ffd60a"/>';}
   document.getElementById('pq-wheel').innerHTML=h;}
-function pqFill(){const P=pqPeople();pqP=pqP.map(x=>P.includes(x)?x:'');[1,2].forEach(k=>document.getElementById('pq-n'+k).textContent=pqP[k-1]||'???');['pq-s1','pq-s2'].forEach((id,k)=>{const e=document.getElementById(id);e.innerHTML='<option value="">elegir…</option>'+P.map(m=>'<option'+(pqP[k]===m?' selected':'')+'>'+m+'</option>').join('');});}
-function pqPick(k,v){pqP[k-1]=v;document.getElementById('pq-n'+k).textContent=v||'???';}
+function pqFill(){const P=pqPeople();pqP=pqP.map(x=>P.includes(x)?x:'');[1,2].forEach(k=>slotSet(k,pqP[k-1]));['pq-s1','pq-s2'].forEach((id,k)=>{const e=document.getElementById(id);e.innerHTML='<option value="">elegir…</option>'+P.map(m=>'<option'+(pqP[k]===m?' selected':'')+'>'+m+'</option>').join('');});}
+function slotSet(k,v){const el=document.getElementById('pq-n'+k),n=(v||'').length;el.innerHTML='<span></span>';el.firstChild.textContent=v||'???';el.style.fontSize=n>16?'14px':n>11?'16px':'20px';}
+function pqPick(k,v){pqP[k-1]=v;slotSet(k,v);}
 function pqRandom(){const P=pqPeople();if(P.length<2)return toast('Hacen falta al menos 2 participantes marcados',false);if(pqBusy)return;pqBusy=true;
   const sh=[...P].sort(()=>Math.random()-.5),fin=[sh[0],sh[1]];
-  [1,2].forEach(k=>{const el=document.getElementById('pq-n'+k);el.classList.add('roll');let d=40,tot=0;const step=()=>{el.textContent=P[Math.floor(Math.random()*P.length)];snd(SND.tick);tot+=d;d*=1.12;if(tot<1500+k*500)setTimeout(step,d);else{el.classList.remove('roll');pqPick(k,fin[k-1]);document.getElementById('pq-s'+k).value=fin[k-1];snd(SND.good);if(k===2)pqBusy=false;}};step();});}
+  [1,2].forEach(k=>{const el=document.getElementById('pq-n'+k);el.classList.add('roll');let d=40,tot=0;const step=()=>{slotSet(k,P[Math.floor(Math.random()*P.length)]);snd(SND.tick);tot+=d;d*=1.12;if(tot<1500+k*500)setTimeout(step,d);else{el.classList.remove('roll');pqPick(k,fin[k-1]);el.classList.remove('hit');void el.offsetWidth;el.classList.add('hit');document.getElementById('pq-s'+k).value=fin[k-1];snd(SND.good);if(k===2)pqBusy=false;}};step();});}
 function pqSpin(){if(pqBusy)return;if(!pqP[0]||!pqP[1])return toast('Primero elige a los dos luchadores',false);if(pqP[0]===pqP[1])return toast('No puede pelear contra sí mismo',false);
   pqBusy=true;const L=pqRetos(),n=L.length,a=360/n,i=Math.floor(Math.random()*n),jit=(Math.random()-.5)*a*.6,target=-(i+.5)*a+jit;
   const cur=((pqRot%360)+360)%360,need=(((target-cur)%360)+360)%360;pqRot+=360*6+need;
@@ -1106,18 +1145,62 @@ let achBefore=null;
 function achSnap(p){achBefore=new Set(medals(stats(p)));}
 function achCheck(p){if(!achBefore)return;const now=medals(stats(p)).filter(x=>!achBefore.has(x));achBefore=null;
   now.forEach(id=>{const a=ACH.find(x=>x[0]===id);fxQ.push(()=>{fxShow({c:'#ffd60a',big:'',lv:'🏅 LOGRO DESBLOQUEADO',sub:a[2].toUpperCase()+' · '+a[3],s:'ko'},p,null);document.getElementById('fx-big').innerHTML=a[1];});});}
-function openProf(p){const st=stats(p),lv=level(st),i=Math.max(0,S.members.indexOf(p)),ini=p.trim().split(/\s+/).map(w=>w[0]).join('').slice(0,2).toUpperCase(),md=new Set(medals(st));
+const ACHP={r2:['best',2],r4:['best',4],r8:['best',8],m1:['clean',1],m3:['clean',3],s3:['sabs',3],s10:['sabs',10],p1:['perras',1],p3:['perras',3],t3:['tardeMes',3],e1:['engano',1],g3:['piq',3],g10:['piq',10],b1:['espana',1],b2:['cita',3],b3:['aprob',1],h1:['hon',1]};
+// ---- Perfil: vista principal + pantallas de detalle con "volver" (también con el botón atrás del móvil) ----
+let PF={p:'',deep:false};
+const esc=t=>String(t??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const qn=p=>"'"+String(p).replace(/\\/g,'\\\\').replace(/'/g,"\\'")+"'";
+const fDay=f=>{try{return new Date(f+'T12:00:00').toLocaleDateString('es-ES',{weekday:'short',day:'numeric',month:'short',year:'numeric'});}catch(e){return f;}};
+function piqOf(p){return S.movs.filter(x=>x.tipo==='pique'&&(x.notas||'').split(' · ')[0].split(' vs ').includes(p)).map(x=>{const [vs,reto,res]=(x.notas||'').split(' · '),[a,b]=(vs||'').split(' vs '),opp=a===p?b:a,won=x.persona===p,draw=x.persona==='Empate';return{...x,opp,reto,won,draw};}).sort((a,b)=>String(b.creado_en).localeCompare(String(a.creado_en)));}
+function perraMonths(p){return allMonths().filter(m=>m<curM()).map(m=>{if(isDes(m))return null;const R=resolveM(getRes(m)),me=R.w.find(x=>x.persona===p);if(!me)return null;return{m,st:R.st,pp:me.pp,with:R.w.filter(x=>x.persona!==p).map(x=>x.persona)};}).filter(Boolean).reverse();}
+function openProf(p){PF.p=p;const box=document.querySelector('#prof .pf-box');box.classList.remove('deep');PF.deep=false;pfMain();document.getElementById('prof').style.display='flex';document.getElementById('prof').scrollTop=0;snd([[523,.05],[784,.08]]);}
+function pfMain(){const p=PF.p,st=stats(p),lv=level(st),i=Math.max(0,S.members.indexOf(p)),ini=p.trim().split(/\s+/).map(w=>w[0]).join('').slice(0,2).toUpperCase(),md=new Set(medals(st));
   const months=allMonths().slice(-8),mx=Math.max(1,...months.map(m=>isDes(m)?0:getPP(p,m)));
-  const mv=S.movs.filter(x=>x.persona===p&&x.tipo!=='diploma').sort((a,b)=>String(b.fecha).localeCompare(String(a.fecha))).slice(0,8);
-  document.getElementById('pf-body').innerHTML='<div class="pf-top"><div class="pf-av" style="background:'+AVC[i%AVC.length]+'">'+ini+'</div><div><div class="pf-nm">'+p+'</div><div class="pf-lv">'+lv.e+' NIVEL '+(lv.i+1)+' · '+lv.n.toUpperCase()+'</div></div></div>'
+  const pq=piqOf(p),bon=S.movs.filter(x=>x.persona===p&&(x.tipo.startsWith('bono_')||x.tipo==='descanso'||x.tipo==='futbol')).length;
+  const card=(k,v,l)=>'<div class="pf-s clk" onclick="pfOpen(\''+k+'\')"><b>'+v+'</b><span>'+l+'</span></div>';
+  document.getElementById('pf-title').innerHTML='&#x1F464; Perfil';
+  document.getElementById('pf-body').innerHTML='<div class="pf-top"><div class="pf-av" style="background:'+AVC[i%AVC.length]+'">'+ini+'</div><div><div class="pf-nm">'+esc(p)+'</div><div class="pf-lv">'+lv.e+' NIVEL '+(lv.i+1)+' · '+lv.n.toUpperCase()+'</div></div></div>'
     +'<div class="pf-xp"><i style="width:'+lv.pct+'%"></i></div><div class="pf-xpt">'+(lv.next!==null?st.clean+'/'+lv.next+' meses limpios para subir a '+lv.nn:'Nivel máximo alcanzado')+'</div>'
-    +'<div class="pf-st"><div class="pf-s"><b>'+st.streak+'</b><span>&#x1F525; Racha (sem.)</span></div><div class="pf-s"><b>'+st.best+'</b><span>Mejor racha</span></div><div class="pf-s"><b>'+st.perras+'</b><span>&#x1F480; Veces perra</span></div>'
-    +'<div class="pf-s"><b>'+st.plus+'</b><span>Faltas totales</span></div><div class="pf-s"><b>'+st.sabs+'</b><span>&#x1F4C5; Sábados</span></div><div class="pf-s"><b>'+st.piq+'</b><span>&#x1F94A; Piques</span></div></div>'
-    +'<div class="pf-h">PP por mes</div><div class="pf-ch">'+(months.length?months.map(m=>{const d=isDes(m),v=d?0:getPP(p,m),w=winnersOf(m).includes(p);return'<div class="pf-b'+(d?' des':w?' win':'')+'"><u>'+(d?'&#x1F3D6;':v)+'</u><i style="height:'+(d?6:Math.max(2,v/mx*80))+'px"></i><em>'+fmtM(m).slice(0,3)+'</em></div>';}).join(''):'<div style="color:var(--mu);font-size:12px">Sin datos todavía</div>')+'</div>'
-    +'<div class="pf-h">Logros · '+md.size+'/'+ACH.length+'</div><div class="pf-md">'+ACH.map(a=>'<div class="md '+(md.has(a[0])?'on':'off')+'"><b>'+a[1]+'</b><span>'+a[2]+'</span><small>'+a[3]+'</small></div>').join('')+'</div>'
-    +'<div class="pf-h">Últimos movimientos</div>'+(mv.length?mv.map(x=>'<div class="pf-mv">'+x.fecha+' · '+(TL[x.tipo]||x.tipo)+(x.puntos?' · '+(x.puntos>0?'+':'')+x.puntos+' PP':'')+'</div>').join(''):'<div class="pf-mv">Nada todavía</div>');
-  document.getElementById('prof').style.display='flex';snd([[523,.05],[784,.08]]);}
-function closeProf(){document.getElementById('prof').style.display='none';}
+    +'<div class="pf-st">'+card('racha',st.streak,'&#x1F525; Racha (sem.)')+card('racha',st.best,'Mejor racha')+card('perras',st.perras,'&#x1F480; Veces perra')
+    +card('faltas',st.plus,'Faltas')+card('sabs',st.sabs,'&#x1F4C5; Sábados')+card('piques',pq.filter(x=>x.won).length+'/'+pq.length,'&#x1F94A; Piques (V/T)')
+    +card('bonos',bon,'&#x1F39F;&#xFE0F; Bonos')+card('premios',st.hon,'&#x1F3C5; Premios')+card('meses',st.clean,'&#x1F9FC; Meses limpios')+'</div>'
+    +'<div class="pf-h">PP por mes</div><div class="pf-ch">'+(months.length?months.map(m=>{const d=isDes(m),v=d?0:getPP(p,m),w=winnersOf(m).includes(p);return'<div class="pf-b clk'+(d?' des':w?' win':'')+'" onclick="pfOpen(\'mes\',\''+m+'\')"><u>'+(d?'&#x1F3D6;':v)+'</u><i style="height:'+(d?6:Math.max(2,v/mx*80))+'px"></i><em>'+fmtM(m).slice(0,3)+'</em></div>';}).join(''):'<div style="color:var(--mu);font-size:12px">Sin datos todavía</div>')+'</div>'
+    +'<div class="pf-h">Logros · '+md.size+'/'+ACH.length+'</div><div class="pf-md">'+ACH.map(a=>'<div class="md clk '+(md.has(a[0])?'on':'off')+'" onclick="pfOpen(\'logro\',\''+a[0]+'\')"><b>'+a[1]+'</b><span>'+a[2]+'</span><small>'+a[3]+'</small></div>').join('')+'</div>'
+    +'<button class="btn bp pf-rep" onclick="pfOpen(\'reporte\')">&#x1F4C4; Generar reporte en PDF</button>';}
+const dtItem=(ic,title,sub,note,pp,cls,extra)=>'<div class="dt-it'+(cls?' '+cls:'')+'"><div class="dt-ic">'+ic+'</div><div class="dt-tx"><b>'+title+'</b>'+(sub?'<small>'+sub+'</small>':'')+(note?'<i>'+esc(note)+'</i>':'')+(extra||'')+'</div>'+(pp!==undefined&&pp!==null?'<div class="dt-pp '+(pp>0?'up':pp<0?'dn':'z')+'">'+(pp>0?'+':'')+pp+(typeof pp==='number'?' PP':'')+'</div>':'')+'</div>';
+function byMonth(list,fn){let out='',cur='';list.forEach(x=>{if(x.mes!==cur){cur=x.mes;out+='<div class="dt-mh">'+fmtM(cur)+'</div>';}out+=fn(x);});return out;}
+const movItem=x=>dtItem(TE[x.tipo]||'•',TL[x.tipo]||x.tipo,fDay(x.fecha),x.notas,x.puntos);
+function pfOpen(k,arg){const p=PF.p,st=stats(p),el=document.getElementById('pf-detail');let t='',h='';
+  const mv=S.movs.filter(x=>x.persona===p).sort((a,b)=>String(b.fecha).localeCompare(String(a.fecha)));
+  if(k==='faltas'){t='&#x1F480; Faltas';const l=mv.filter(x=>PLUS.has(x.tipo));const c={};l.forEach(x=>c[x.tipo]=(c[x.tipo]||0)+1);
+    h='<div class="dt-sum"><div class="dt-pill"><b>'+l.length+'</b>en total</div>'+Object.entries(c).map(([k2,n])=>'<div class="dt-pill"><b>'+n+'</b>'+TE[k2]+' '+TL[k2]+'</div>').join('')+'<div class="dt-pill"><b>'+l.reduce((a,x)=>a+x.puntos,0)+'</b>PP sumados</div></div>'+(l.length?byMonth(l,movItem):'<div class="dt-empty">Ni una falta. Sospechoso.</div>');}
+  else if(k==='sabs'){t='&#x1F4C5; Sábados salvadores';const l=mv.filter(x=>x.tipo==='recuperacion');h='<div class="dt-sum"><div class="dt-pill"><b>'+l.length+'</b>sábados</div><div class="dt-pill"><b>'+(-l.reduce((a,x)=>a+x.puntos,0))+'</b>PP restados</div></div>'+(l.length?byMonth(l,movItem):'<div class="dt-empty">Ningún sábado todavía.</div>');}
+  else if(k==='bonos'){t='&#x1F39F;&#xFE0F; Bonos y descansos';const l=mv.filter(x=>x.tipo.startsWith('bono_')||x.tipo==='descanso'||x.tipo==='futbol');h=l.length?byMonth(l,movItem):'<div class="dt-empty">No ha usado ningún bono.</div>';}
+  else if(k==='perras'){t='&#x1F480; Veces Perra del Mes';const l=perraMonths(p);h='<div class="dt-sum"><div class="dt-pill"><b>'+l.filter(x=>x.st!=='desierto').length+'</b>títulos</div><div class="dt-pill"><b>'+l.filter(x=>x.st==='shared').length+'</b>compartidos</div><div class="dt-pill"><b>'+l.filter(x=>x.st==='desierto').length+'</b>empates desiertos</div></div>'
+      +(l.length?l.map(x=>dtItem(x.st==='single'?'&#x1F480;':x.st==='shared'?'&#x1F91D;':'&#x26A0;&#xFE0F;',fmtM(x.m),x.st==='single'?'Perra del Mes en solitario':x.st==='shared'?'Compartida con '+esc(x.with.join(', ')):'Empate a '+(x.with.length+1)+' · título desierto','',x.pp,x.st==='desierto'?'':'lose','<button class="btn bg bs dt-btn" onclick="pfGoHall(\''+x.m+'\')">Ver en el Hall</button>')).join(''):'<div class="dt-empty">Nunca ha sido la perra. De momento.</div>');}
+  else if(k==='piques'){t='&#x1F94A; Piques';const l=piqOf(p),w=l.filter(x=>x.won).length,d=l.filter(x=>x.draw).length;
+    h='<div class="dt-sum"><div class="dt-pill"><b>'+w+'</b>victorias</div><div class="dt-pill"><b>'+(l.length-w-d)+'</b>derrotas</div><div class="dt-pill"><b>'+d+'</b>empates</div></div>'
+      +(l.length?l.map(x=>dtItem(x.won?'&#x1F3C6;':x.draw?'&#x1F91D;':'&#x1F635;',(x.won?'Victoria':x.draw?'Empate':'Derrota')+' vs '+esc(x.opp),fDay(x.fecha)+' · '+esc(x.reto||''),'',null,x.won?'win':x.draw?'':'lose')).join(''):'<div class="dt-empty">Aún no ha pisado la arena.</div>');}
+  else if(k==='premios'){t='&#x1F3C5; Premios honoríficos';const rv=revIds(),l=S.movs.filter(x=>isHon(x)&&x.persona===p&&!rv.has(x.id)).sort((a,b)=>String(b.fecha).localeCompare(String(a.fecha)));
+    h=l.length?l.map(x=>{const H=HON[honKey(x)];return dtItem(H.e,H.n,fDay(x.fecha),x.notas,null,'','<button class="btn bg bs dt-btn" onclick="viewHon(\''+x.id+'\')">Ver diploma</button>');}).join(''):'<div class="dt-empty">Sin condecoraciones.</div>';}
+  else if(k==='meses'||k==='racha'){t=k==='racha'?'&#x1F525; Rachas':'&#x1F9FC; Meses limpios';
+    const wk=[];const now=new Date(monKey(tod())+'T12:00:00');const dirty=new Set(mv.filter(x=>PLUS.has(x.tipo)&&x.fecha).map(x=>monKey(x.fecha)));
+    for(let i=15;i>=0;i--){const d=new Date(now);d.setDate(now.getDate()-7*i);const key=d.toISOString().slice(0,10);wk.push({key,des:isDes(key.slice(0,7)),bad:dirty.has(key),cur:i===0});}
+    const cm=allMonths().filter(m=>m<curM()&&!isDes(m));
+    h='<div class="dt-sum"><div class="dt-pill"><b>'+st.streak+'</b>racha actual</div><div class="dt-pill"><b>'+st.best+'</b>mejor racha</div><div class="dt-pill"><b>'+st.clean+'</b>meses limpios</div></div>'
+      +'<div class="dt-mh">Últimas 16 semanas</div><div class="wk-grid">'+wk.map(w=>'<div class="wk '+(w.des?'des':w.bad?'bad':w.cur?'':'ok')+'" title="Semana del '+w.key+'">'+(w.des?'&#x1F3D6;':w.bad?'&#x1F480;':w.cur?'&#x23F3;':'&#x2714;&#xFE0F;')+'</div>').join('')+'</div>'
+      +'<div class="dt-mh">Meses</div>'+(cm.length?cm.slice().reverse().map(m=>{const v=getPP(p,m);return dtItem(v<=0?'&#x1F9FC;':'&#x1F4A9;',fmtM(m),v<=0?'Mes limpio':'Con puntos','',v,v<=0?'win':'');}).join(''):'<div class="dt-empty">Aún no hay meses cerrados.</div>');}
+  else if(k==='mes'){const m=arg;t='&#x1F4C6; '+fmtM(m);const l=mv.filter(x=>x.mes===m&&x.tipo!=='diploma');const R=isDes(m)?null:resolveM(getRes(m)),me=R&&R.w.find(x=>x.persona===p);
+    h='<div class="dt-sum"><div class="dt-pill"><b>'+(isDes(m)?'&#x1F3D6;':getPP(p,m))+'</b>'+(isDes(m)?'mes desierto':'PP')+'</div>'+(me&&R.st!=='desierto'?'<div class="dt-pill"><b>&#x1F480;</b>'+(R.st==='shared'?'perra compartida':'Perra del Mes')+'</div>':'')+'</div>'+(l.length?l.map(movItem).join(''):'<div class="dt-empty">Nada registrado este mes.</div>')+'<button class="btn bg bs dt-btn" onclick="pfGoHall(\''+m+'\')">Ver el mes en el Hall</button>';}
+  else if(k==='logro'){const a=ACH.find(x=>x[0]===arg),got=a[4](st),pr=ACHP[a[0]],v=pr?Math.min(st[pr[0]],pr[1]):0;t='&#x1F3C5; Logro';
+    h='<div class="md-big"><b style="'+(got?'':'filter:grayscale(1);opacity:.4')+'">'+a[1]+'</b><h3>'+a[2]+'</h3><p>'+a[3]+'</p></div>'+(pr?'<div class="md-prog"><i style="width:'+Math.round(v/pr[1]*100)+'%"></i></div><div class="pf-xpt" style="text-align:center">'+(got?'&#x2705; Desbloqueado':'Progreso: '+v+' / '+pr[1])+'</div>':'');}
+  else if(k==='reporte'){t='&#x1F4C4; Reporte';h=repForm();}
+  document.getElementById('pf-title').innerHTML=t;el.innerHTML=h;document.getElementById('pf-back-t').textContent=PF.p.split(' ')[0];
+  const box=document.querySelector('#prof .pf-box');if(!PF.deep){PF.deep=true;try{history.pushState({pf:1},'');}catch(e){}}box.classList.add('deep');document.getElementById('prof').scrollTop=0;snd([[660,.03]]);}
+function pfBack(fromPop){const box=document.querySelector('#prof .pf-box');if(!PF.deep)return;PF.deep=false;box.classList.remove('deep');document.getElementById('pf-title').innerHTML='&#x1F464; Perfil';if(!fromPop)try{history.back();}catch(e){}}
+window.addEventListener('popstate',()=>{if(PF.deep&&document.getElementById('prof').style.display==='flex')pfBack(true);});
+function closeProf(){if(PF.deep){PF.deep=false;try{history.back();}catch(e){}}document.querySelector('#prof .pf-box').classList.remove('deep');document.getElementById('prof').style.display='none';}
+function pfGoHall(m){closeProf();const b=[...document.querySelectorAll('.nb')].find(x=>x.getAttribute('onclick').includes("'hall'"));goTab('hall',b);hallMes=m;renderH();window.scrollTo({top:0});}
 const lvTag=p=>{const l=level(stats(p));return'<span class="lvb" title="'+l.n+'">'+l.e+' Nv'+(l.i+1)+'</span>';};
 // ---- Compartir por WhatsApp (imagen + texto) ----
 async function shareCanvas(c,name,text){const blob=await new Promise(r=>c.toBlob(r,'image/png'));const file=new File([blob],name,{type:'image/png'});
@@ -1146,11 +1229,54 @@ async function instApp(){if(instEvt){instEvt.prompt();await instEvt.userChoice.c
   document.getElementById('inst-modal').style.display='flex';}
 if('serviceWorker' in navigator&&location.protocol==='https:')navigator.serviceWorker.register('sw.js').catch(()=>{});
 // ---- Auto-actualización: si hay versión nueva publicada, recarga saltándose la caché ----
-const APP_V='20261124232943';
+const APP_V='20261126185027';
 async function checkV(){if(location.protocol!=='https:')return;try{const r=await fetch('version.json?_='+Date.now(),{cache:'no-store'});const j=await r.json();
   if(j.v&&j.v!==APP_V){const k='th_upd_'+j.v;if(sessionStorage.getItem(k))return;sessionStorage.setItem(k,'1');toast('🔄 Nueva versión, actualizando…');setTimeout(()=>location.replace(location.pathname+'?v='+j.v),800);}}catch(e){}}
 checkV();document.addEventListener('visibilitychange',()=>{if(!document.hidden)checkV();});
 setTimeout(instUI,0);
+// ---- Reporte en PDF (por persona, periodo y secciones a elegir) ----
+let RP={per:'todo',y:'',m:'',from:'',to:'',sec:{res:1,mes:1,mov:1,bon:1,perra:1,piq:1,logros:1,premios:1}};
+const RSEC=[['res','Resumen'],['mes','PP por mes'],['mov','Faltas y sábados'],['bon','Bonos y descansos'],['perra','Perra del Mes'],['piq','Piques'],['logros','Logros'],['premios','Premios honoríficos']];
+function repForm(){const ms=allMonths(),ys=[...new Set(ms.map(m=>m.slice(0,4)))];if(!RP.y)RP.y=ys[ys.length-1]||tod().slice(0,4);if(!RP.m)RP.m=curM();
+  const chip=(v,l)=>'<button class="rp-chip'+(RP.per===v?' on':'')+'" onclick="RP.per=\''+v+'\';pfOpen(\'reporte\')">'+l+'</button>';
+  return'<div class="dt-mh" style="margin-top:0">Periodo</div><div class="rp-chips">'+chip('todo','Todo')+chip('anio','Año')+chip('mes','Mes')+chip('rango','Fechas')+'</div>'
+    +(RP.per==='anio'?'<div class="rp-row"><select onchange="RP.y=this.value">'+(ys.length?ys:[RP.y]).map(y=>'<option'+(y===RP.y?' selected':'')+'>'+y+'</option>').join('')+'</select></div>':'')
+    +(RP.per==='mes'?'<div class="rp-row"><select onchange="RP.m=this.value">'+(ms.length?ms:[curM()]).slice().reverse().map(m=>'<option value="'+m+'"'+(m===RP.m?' selected':'')+'>'+fmtM(m)+'</option>').join('')+'</select></div>':'')
+    +(RP.per==='rango'?'<div class="rp-row"><input type="date" value="'+RP.from+'" onchange="RP.from=this.value"><input type="date" value="'+RP.to+'" onchange="RP.to=this.value"></div>':'')
+    +'<div class="dt-mh">Qué incluir</div><div class="rp-ck">'+RSEC.map(([k,l])=>'<label><input type="checkbox"'+(RP.sec[k]?' checked':'')+' onchange="RP.sec.'+k+'=this.checked?1:0">'+l+'</label>').join('')+'</div>'
+    +'<button class="btn bp" style="width:100%;padding:14px" onclick="genRep()">&#x2B07;&#xFE0F; Generar y compartir PDF</button><div class="pf-xpt" style="margin-top:8px;text-align:center">Se descarga o se abre el menú de compartir para mandarlo al grupo.</div>';}
+function repRange(){if(RP.per==='anio')return[RP.y+'-01-01',RP.y+'-12-31',RP.y];if(RP.per==='mes'){const [y,m]=RP.m.split('-').map(Number);return[RP.m+'-01',RP.m+'-'+String(new Date(y,m,0).getDate()).padStart(2,'0'),fmtM(RP.m)];}
+  if(RP.per==='rango'){const f=RP.from||'0000-01-01',t=RP.to||'9999-12-31';return[f,t,(RP.from?fDay(RP.from):'inicio')+' → '+(RP.to?fDay(RP.to):'hoy')];}return['0000-01-01','9999-12-31','Toda la historia'];}
+function loadJsPDF(){return window.jspdf?Promise.resolve():new Promise((ok,ko)=>{const sc=document.createElement('script');sc.src='https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js';sc.onload=ok;sc.onerror=ko;document.head.appendChild(sc);});}
+function repHTML(){const p=PF.p,[f,t,lbl]=repRange(),inR=x=>x.fecha>=f&&x.fecha<=t,st=stats(p),lv=level(st);
+  const mv=S.movs.filter(x=>x.persona===p&&inR(x)).sort((a,b)=>String(a.fecha).localeCompare(String(b.fecha)));
+  const months=allMonths().filter(m=>m+'-31'>=f&&m+'-01'<=t);const pm=perraMonths(p).filter(x=>months.includes(x.m));const pq=piqOf(p).filter(inR);
+  const plus=mv.filter(x=>PLUS.has(x.tipo)),sab=mv.filter(x=>x.tipo==='recuperacion'),bon=mv.filter(x=>x.tipo.startsWith('bono_')||x.tipo==='descanso'||x.tipo==='futbol');
+  const rv=revIds(),hon=S.movs.filter(x=>isHon(x)&&x.persona===p&&!rv.has(x.id)&&inR(x));
+  const T=(rows,head)=>rows.length?'<table><tr>'+head.map(h=>'<th>'+h+'</th>').join('')+'</tr>'+rows.join('')+'</table>':'<p style="color:#999;font-size:12px">Nada en este periodo.</p>';
+  const mrow=x=>'<tr><td>'+fDay(x.fecha)+'</td><td>'+(TL[x.tipo]||x.tipo)+'</td><td>'+(x.puntos>0?'+':'')+x.puntos+'</td><td>'+esc(x.notas||'')+'</td></tr>';
+  let h='<div class="rp-k">TRIBUNAL DEL HIERRO · REPORTE OFICIAL</div><h1>&#x1F415; '+esc(p)+'</h1><div class="rp-sub">Periodo: <b>'+lbl+'</b> · Nivel '+(lv.i+1)+' ('+lv.n+') · Generado el '+new Date().toLocaleDateString('es-ES',{day:'numeric',month:'long',year:'numeric'})+'</div>';
+  if(RP.sec.res)h+='<h2>Resumen</h2><div class="rp-g"><div class="rp-b"><b>'+mv.filter(x=>x.tipo!=='pique').reduce((a,x)=>a+x.puntos,0)+'</b><span>PP netos</span></div><div class="rp-b"><b>'+plus.length+'</b><span>Faltas</span></div><div class="rp-b"><b>'+sab.length+'</b><span>Sábados</span></div><div class="rp-b"><b>'+pm.filter(x=>x.st!=='desierto').length+'</b><span>Veces perra</span></div>'
+    +'<div class="rp-b"><b>'+bon.length+'</b><span>Bonos/descansos</span></div><div class="rp-b"><b>'+pq.filter(x=>x.won).length+'/'+pq.length+'</b><span>Piques ganados</span></div><div class="rp-b"><b>'+st.streak+'</b><span>Racha actual</span></div><div class="rp-b"><b>'+st.best+'</b><span>Mejor racha</span></div></div>';
+  if(RP.sec.mes)h+='<h2>PP por mes</h2>'+T(months.map(m=>{const d=isDes(m),pr=pm.find(x=>x.m===m);return'<tr><td>'+fmtM(m)+'</td><td>'+(d?'Desierto':getPP(p,m))+'</td><td>'+mv.filter(x=>x.mes===m&&PLUS.has(x.tipo)).length+'</td><td>'+mv.filter(x=>x.mes===m&&x.tipo==='recuperacion').length+'</td><td>'+(pr?(pr.st==='single'?'Perra del Mes':pr.st==='shared'?'Perra compartida':'Empate desierto'):'—')+'</td></tr>';}),['Mes','PP','Faltas','Sábados','Resultado']);
+  if(RP.sec.mov)h+='<h2>Faltas y sábados</h2>'+T([...plus,...sab].sort((a,b)=>a.fecha.localeCompare(b.fecha)).map(mrow),['Fecha','Tipo','PP','Notas']);
+  if(RP.sec.bon)h+='<h2>Bonos y descansos</h2>'+T(bon.map(mrow),['Fecha','Tipo','PP','Notas']);
+  if(RP.sec.perra)h+='<h2>Perra del Mes</h2>'+T(pm.map(x=>'<tr><td>'+fmtM(x.m)+'</td><td>'+(x.st==='single'?'En solitario':x.st==='shared'?'Compartida con '+esc(x.with.join(', ')):'Empate desierto')+'</td><td>'+x.pp+' PP</td></tr>'),['Mes','Resultado','PP']);
+  if(RP.sec.piq)h+='<h2>Piques</h2>'+T(pq.map(x=>'<tr><td>'+fDay(x.fecha)+'</td><td>'+esc(x.opp)+'</td><td>'+esc(x.reto||'')+'</td><td>'+(x.won?'Victoria':x.draw?'Empate':'Derrota')+'</td></tr>'),['Fecha','Rival','Reto','Resultado']);
+  if(RP.sec.logros){const md=new Set(medals(st));h+='<h2>Logros ('+md.size+'/'+ACH.length+')</h2>'+T(ACH.filter(a=>md.has(a[0])).map(a=>'<tr><td>'+a[1]+' '+a[2]+'</td><td>'+a[3]+'</td></tr>'),['Logro','Cómo se consigue']);}
+  if(RP.sec.premios)h+='<h2>Premios honoríficos</h2>'+T(hon.map(x=>'<tr><td>'+fDay(x.fecha)+'</td><td>'+HON[honKey(x)].n+'</td><td>'+esc(x.notas)+'</td></tr>'),['Fecha','Premio','Motivo']);
+  return h+'<div class="rp-f">🐕 PERRA DEL GIMNASIO · Documento oficial del Tribunal del Hierro · 🏋️</div>';}
+async function genRep(){if(!Object.values(RP.sec).some(Boolean))return toast('Marca al menos una sección',false);toast('📄 Generando reporte...');
+  try{await loadJsPDF();const el=document.getElementById('rep');el.innerHTML=repHTML();await sleep(60);
+    const c=await html2canvas(el,{scale:2,backgroundColor:'#ffffff',width:794,windowWidth:794,useCORS:true,onclone:d=>{d.getElementById('rep').style.left='0';}});
+    const {jsPDF}=window.jspdf,pdf=new jsPDF({unit:'mm',format:'a4'}),pw=210,ph=297,pxPerMm=c.width/pw,pageH=Math.floor(ph*pxPerMm);
+    for(let y=0,i=0;y<c.height;y+=pageH,i++){const sl=document.createElement('canvas');sl.width=c.width;sl.height=Math.min(pageH,c.height-y);sl.getContext('2d').drawImage(c,0,y,c.width,sl.height,0,0,c.width,sl.height);
+      if(i)pdf.addPage();pdf.addImage(sl.toDataURL('image/jpeg',.92),'JPEG',0,0,pw,sl.height/pxPerMm);}
+    const [,,lbl]=repRange(),name='reporte-'+PF.p.toLowerCase().replace(/\s+/g,'-')+'-'+lbl.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')+'.pdf';
+    const blob=pdf.output('blob'),file=new File([blob],name,{type:'application/pdf'}),text='📄 Reporte oficial del Tribunal del Hierro: '+PF.p+' ('+lbl+')';
+    if(navigator.canShare&&navigator.canShare({files:[file]})){try{await navigator.share({files:[file],text});return;}catch(e){if(e.name==='AbortError')return;}}
+    const a=document.createElement('a');a.download=name;a.href=URL.createObjectURL(blob);a.click();toast('PDF descargado');}
+  catch(e){console.error(e);toast('No se pudo generar el PDF',false);}}
 function hstr(t){let h=2166136261;for(let i=0;i<t.length;i++){h^=t.charCodeAt(i);h=Math.imul(h,16777619);}return h>>>0;}
 function dipSalt(m){const ms=S.movs.filter(x=>x.tipo==='diploma'&&x.mes===m).sort((a,b)=>String(a.creado_en).localeCompare(String(b.creado_en)));return ms.length?ms[ms.length-1].notas:'';}
 const dipTheme=(m,salt)=>hstr('tema|'+m+'|'+salt)%THEMES.length;
