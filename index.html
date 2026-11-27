@@ -241,7 +241,7 @@ tbody tr:last-child td{border-bottom:none}tbody tr:hover td{background:var(--s2)
 .vs-fight{font-family:'Press Start 2P',monospace;font-size:clamp(30px,10vw,60px);color:var(--yellow);text-shadow:4px 4px 0 #c00;animation:fxpop .5s 1.2s both}
 .vs-btns{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;animation:fxup .4s 1.6s both}
 .vs-ko{display:none;position:absolute;inset:0;align-items:center;justify-content:center;flex-direction:column;background:rgba(0,0,0,.92);font-family:'Press Start 2P',monospace;color:var(--yellow);text-align:center;gap:18px;cursor:pointer}
-.vs-ko.on{display:flex}.vs-ko .k1{font-size:clamp(40px,14vw,90px);text-shadow:5px 5px 0 #c00;animation:fxpop .55s cubic-bezier(.2,1.6,.4,1)}.vs-ko .k2{font-family:'Righteous',sans-serif;font-size:clamp(22px,7vw,40px);color:#fff}
+.vs-ko.on{display:flex}.ko-btns{display:flex;flex-direction:column;gap:10px;margin-top:10px;width:min(320px,86vw)}.ko-btns .btn{font-family:'Nunito',sans-serif;font-size:14px;letter-spacing:0;width:100%}.vs-ko .k1{font-size:clamp(40px,14vw,90px);text-shadow:5px 5px 0 #c00;animation:fxpop .55s cubic-bezier(.2,1.6,.4,1)}.vs-ko .k2{font-family:'Righteous',sans-serif;font-size:clamp(22px,7vw,40px);color:#fff}
 @media(prefers-reduced-motion:reduce){.fx-burst,.pq-slot.roll{animation:none}#pq-wheel{transition-duration:1s}}
 #pqc-new{letter-spacing:normal!important;width:auto!important}
 .pq-cnt{font-family:'DM Mono',monospace;font-size:10px;color:var(--mu)}
@@ -1093,15 +1093,19 @@ function pqSpin(){if(pqBusy)return;if(!pqP[0]||!pqP[1])return toast('Primero eli
 function pqVS(){const v=document.getElementById('vs');document.getElementById('vs-1').textContent=pqP[0];document.getElementById('vs-2').textContent=pqP[1];document.getElementById('vs-ch').textContent='RETO: '+pqReto.toUpperCase();
   document.getElementById('vs-w1').textContent='🏆 Gana '+pqP[0];document.getElementById('vs-w2').textContent='🏆 Gana '+pqP[1];
   document.getElementById('vs-ko').classList.remove('on');v.classList.remove('on');void v.offsetWidth;v.classList.add('on');snd(SND.vs);}
-function pqClose(){document.getElementById('vs').classList.remove('on');}
+function pqClose(){pqRes=null;document.getElementById('vs').classList.remove('on');}
 function pqWin(k){const ko=document.getElementById('vs-ko'),w=k?pqP[k-1]:'',l=k?pqP[2-k]:'';
   ko.innerHTML=k?'<div class="k1">K.O.!</div><div class="k2">'+w+' gana</div><div style="font-size:10px">'+pqReto.toUpperCase()+'</div>':'<div class="k1">DRAW</div><div class="k2">Empate técnico</div>';
-  ko.classList.add('on');ko.onclick=pqClose;snd(SND.ko);
-  const mov={id:uid(),fecha:tod(),persona:w||'Empate',tipo:'pique',puntos:0,notas:pqP[0]+' vs '+pqP[1]+' · '+pqReto+' · '+(k?'gana '+w:'empate'),admin:'Arena',mes:tod().slice(0,7),creado_en:new Date().toISOString(),synced:false};
-  S.movs.push(mov);ls();sendMov(mov);
-  renderPq();setTimeout(pqClose,3500);}
+  ko.innerHTML+='<div class="ko-btns"><button class="btn bp" onclick="event.stopPropagation();pqValidar()">&#x1F510; Validar con PIN y guardar en perfiles</button><button class="btn bg" onclick="event.stopPropagation();pqClose()">Solo jugar (no se guarda)</button></div>';
+  ko.classList.add('on');ko.onclick=null;snd(SND.ko);
+  pqRes={w:w||'Empate',notas:pqP[0]+' vs '+pqP[1]+' · '+pqReto+' · '+(k?'gana '+w:'empate')};}
+// Los piques solo cuentan (perfil, salón, logros) si se validan con el PIN al acabar
+let pqRes=null;
+function pqValidar(){if(!pqRes)return;askPin(()=>{const r=pqRes;pqRes=null;
+  const mov={id:uid(),fecha:tod(),persona:r.w,tipo:'pique',puntos:0,notas:r.notas,admin:'Validado',mes:tod().slice(0,7),creado_en:new Date().toISOString(),synced:false};
+  S.movs.push(mov);ls();sendMov(mov);pqClose();renderPq();toast('🥊 Pique validado y guardado');snd(SND.good);});}
 function renderPq(){pqFill();if(!document.getElementById('pq-wheel').innerHTML)pqDrawWheel();document.getElementById('pq-cnt-r').textContent=pqRetos().length+'/'+pqAllR().length;document.getElementById('pq-cnt-p').textContent=pqPeople().length+'/'+pqAllP().length;
-  const ps=S.movs.filter(x=>x.tipo==='pique').sort((a,b)=>String(b.creado_en).localeCompare(String(a.creado_en)));
+  const ps=S.movs.filter(isPq).sort((a,b)=>String(b.creado_en).localeCompare(String(a.creado_en)));
   const wins={};ps.forEach(x=>{if(x.persona!=='Empate')wins[x.persona]=(wins[x.persona]||0)+1;});
   const rk=Object.entries(wins).sort((a,b)=>b[1]-a[1]);
   document.getElementById('pq-rank').innerHTML=rk.length?rk.map(([p,n],i)=>'<div class="pq-rk clk" onclick="openProf(\''+p.replace(/'/g,"\\'")+'\')">'+(i===0?'&#x1F451; ':'')+p+'<b>'+n+'</b></div>').join(''):'<div class="pq-h">Aún no hay piques. Que empiece la pelea.</div>';
@@ -1113,6 +1117,7 @@ function drawChips(){const box=document.getElementById('fp-chips'),sel=document.
     return'<button type="button" class="pchip'+(p===cur?' on':'')+'" onclick="pickP('+i+')"><span class="pav" style="background:'+AVC[i%AVC.length]+'">'+ini+'</span><span class="pnm">'+p+'</span><span class="ppp">'+pp+' PP</span></button>';}).join(''):'<div style="font-size:12px;color:var(--mu)">Cargando miembros…</div>';}
 function pickP(i){const sel=document.getElementById('fp'),p=S.members[i];sel.value=sel.value===p?'':p;drawChips();snd([[660,.04]]);}
 // ---- Estadísticas, rachas, niveles y logros (se calculan de los movimientos; no se guardan) ----
+const isPq=x=>x.tipo==='pique'&&x.admin!=='Arena'; // 'Arena' = piques antiguos sin validar
 const PLUS=new Set(['falta','vagueo','corto','tarde','engano']);
 const monKey=d=>{const x=new Date(d+'T12:00:00');const w=(x.getDay()+6)%7;x.setDate(x.getDate()-w);return x.toISOString().slice(0,10);};
 function allMonths(){const ms=S.movs.filter(x=>/^\d{4}-\d{2}$/.test(x.mes)&&(PLUS.has(x.tipo)||x.tipo==='recuperacion')).map(x=>x.mes).sort();if(!ms.length)return[];const out=[];let [y,m]=ms[0].split('-').map(Number);const end=curM();
@@ -1127,7 +1132,7 @@ function stats(p){const mv=S.movs.filter(x=>x.persona===p),months=allMonths(),pa
   if(fs){const dirty=new Set(mv.filter(x=>PLUS.has(x.tipo)&&x.fecha).map(x=>monKey(x.fecha)));
     const d=new Date(monKey(fs)+'T12:00:00'),now=new Date(monKey(tod())+'T12:00:00');let run=0;
     for(;d<now;d.setDate(d.getDate()+7)){const k=d.toISOString().slice(0,10);if(isDes(k.slice(0,7)))continue;if(dirty.has(k))run=0;else{run++;best=Math.max(best,run);}}streak=run;}
-  const piq=S.movs.filter(x=>x.tipo==='pique'&&x.persona===p).length,rv=revIds(),hon=S.movs.filter(x=>isHon(x)&&x.persona===p&&!rv.has(x.id)).length;
+  const piq=S.movs.filter(x=>isPq(x)&&x.persona===p).length,rv=revIds(),hon=S.movs.filter(x=>isHon(x)&&x.persona===p&&!rv.has(x.id)).length;
   return{p,faltas:cnt('falta'),plus:mv.filter(x=>PLUS.has(x.tipo)).length,ppTot:mv.reduce((a,x)=>a+x.puntos,0),sabs:cnt('recuperacion'),tarde:cnt('tarde'),tardeMes:byMonth('tarde'),engano:cnt('engano'),espana:cnt('bono_espana'),cita:cnt('bono_cita'),aprob:cnt('bono_aprobado'),clean,perras,streak,best,piq,hon,months:past.length};}
 const LEVELS=[[0,'Perrito','&#x1F436;'],[1,'Perro','&#x1F415;'],[3,'Lobo','&#x1F43A;'],[6,'Bestia del Hierro','&#x1F98D;'],[10,'Leyenda','&#x1F981;']];
 function level(st){let i=0;LEVELS.forEach((l,k)=>{if(st.clean>=l[0])i=k;});const cur=LEVELS[i],nx=LEVELS[i+1];return{i,n:cur[1],e:cur[2],cur:cur[0],next:nx?nx[0]:null,nn:nx?nx[1]:null,pct:nx?Math.round((st.clean-cur[0])/(nx[0]-cur[0])*100):100};}
@@ -1151,7 +1156,7 @@ let PF={p:'',deep:false};
 const esc=t=>String(t??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const qn=p=>"'"+String(p).replace(/\\/g,'\\\\').replace(/'/g,"\\'")+"'";
 const fDay=f=>{try{return new Date(f+'T12:00:00').toLocaleDateString('es-ES',{weekday:'short',day:'numeric',month:'short',year:'numeric'});}catch(e){return f;}};
-function piqOf(p){return S.movs.filter(x=>x.tipo==='pique'&&(x.notas||'').split(' · ')[0].split(' vs ').includes(p)).map(x=>{const [vs,reto,res]=(x.notas||'').split(' · '),[a,b]=(vs||'').split(' vs '),opp=a===p?b:a,won=x.persona===p,draw=x.persona==='Empate';return{...x,opp,reto,won,draw};}).sort((a,b)=>String(b.creado_en).localeCompare(String(a.creado_en)));}
+function piqOf(p){return S.movs.filter(x=>isPq(x)&&(x.notas||'').split(' · ')[0].split(' vs ').includes(p)).map(x=>{const [vs,reto,res]=(x.notas||'').split(' · '),[a,b]=(vs||'').split(' vs '),opp=a===p?b:a,won=x.persona===p,draw=x.persona==='Empate';return{...x,opp,reto,won,draw};}).sort((a,b)=>String(b.creado_en).localeCompare(String(a.creado_en)));}
 function perraMonths(p){return allMonths().filter(m=>m<curM()).map(m=>{if(isDes(m))return null;const R=resolveM(getRes(m)),me=R.w.find(x=>x.persona===p);if(!me)return null;return{m,st:R.st,pp:me.pp,with:R.w.filter(x=>x.persona!==p).map(x=>x.persona)};}).filter(Boolean).reverse();}
 function openProf(p){PF.p=p;const box=document.querySelector('#prof .pf-box');box.classList.remove('deep');PF.deep=false;pfMain();document.getElementById('prof').style.display='flex';document.getElementById('prof').scrollTop=0;snd([[523,.05],[784,.08]]);}
 function pfMain(){const p=PF.p,st=stats(p),lv=level(st),i=Math.max(0,S.members.indexOf(p)),ini=p.trim().split(/\s+/).map(w=>w[0]).join('').slice(0,2).toUpperCase(),md=new Set(medals(st));
@@ -1229,7 +1234,7 @@ async function instApp(){if(instEvt){instEvt.prompt();await instEvt.userChoice.c
   document.getElementById('inst-modal').style.display='flex';}
 if('serviceWorker' in navigator&&location.protocol==='https:')navigator.serviceWorker.register('sw.js').catch(()=>{});
 // ---- Auto-actualización: si hay versión nueva publicada, recarga saltándose la caché ----
-const APP_V='20261126185027';
+const APP_V='20261127192409';
 async function checkV(){if(location.protocol!=='https:')return;try{const r=await fetch('version.json?_='+Date.now(),{cache:'no-store'});const j=await r.json();
   if(j.v&&j.v!==APP_V){const k='th_upd_'+j.v;if(sessionStorage.getItem(k))return;sessionStorage.setItem(k,'1');toast('🔄 Nueva versión, actualizando…');setTimeout(()=>location.replace(location.pathname+'?v='+j.v),800);}}catch(e){}}
 checkV();document.addEventListener('visibilitychange',()=>{if(!document.hidden)checkV();});
